@@ -5,6 +5,9 @@ CTE is a Collaborative Text Editor with changes history support.
 ## Main flow
 ![Main flow](https://i.imgur.com/1IZlXtt.png)
 
+## Progress
+Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
+
 ## MVP
 ### Technologies
 #### Per feature ([more likely] / [possible options])
