@@ -15,6 +15,7 @@
       "@src/*": ["src/*"],
       "@config/*": ["src/config/*"],
       "@data/*": ["src/data/*"],
+      "@core/*": ["src/core/*"],
       "@shared/*": ["../cte-shared/*"] 
     },
   },

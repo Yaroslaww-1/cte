@@ -1,14 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as dotenv from 'dotenv';
-dotenv.config();
-import { BackendApplicationConfig } from '@config/backend-application.config';
-import { RootModule } from './http/modules/root.module';
+import { IBackendApplicationConfig } from '@config/backend-application.config';
+import { RootModule } from './root.module';
+import { ConfigService } from '@nestjs/config';
 
 export class BackendApplication {
-  private readonly host: string = BackendApplicationConfig.HOST;
-  private readonly port = BackendApplicationConfig.PORT;
 
   public static new(): BackendApplication {
     return new BackendApplication();
@@ -19,6 +16,9 @@ export class BackendApplication {
       bodyParser: true,
     });
 
+    const configService = app.get(ConfigService);
+    const config = configService.get<IBackendApplicationConfig>('BACKEND_APPLICATION');
+
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,
@@ -27,8 +27,8 @@ export class BackendApplication {
     );
     app.setGlobalPrefix('api');
 
-    await app.listen(this.port, this.host);
+    await app.listen(config.PORT, config.HOST);
 
-    Logger.log(`Server started on host: ${this.host}; port: ${this.port};`, BackendApplication.name);
+    Logger.log(`Server started on host: ${config.HOST}; port: ${config.PORT};`, BackendApplication.name);
   }
 }

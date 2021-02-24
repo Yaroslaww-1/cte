@@ -6,7 +6,7 @@ import { UserEntity } from './user.entity';
 export class UserRepository implements IFindAll<UserEntity> {
   async findAll(): Promise<UserEntity[]> {
     return [
-      new UserEntity({ id: 0, name: 'Kappa' }),
+      new UserEntity({ id: 1, name: 'Kappa' }),
     ];
   }
 }
