@@ -5,8 +5,36 @@ CTE is a Collaborative Text Editor with changes history support.
 Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 
 ## MVP (the end of March (lab3 - lab4))
-### Main flow
-![Main flow](https://user-images.githubusercontent.com/40521835/109047657-d008ff80-76de-11eb-89a1-23968d973268.png)
+### Main flow & Mesurable goals
+1. User logs in by entering his email and password. If user is new to editor, he is able to sign up:
+- by email & password or by Google (MVP+)
+- then user must enter nickname and bio
+2. User is also able to: (MVP+)
+- reset password by entering email
+- user can reset his password by visiting link from reset-password letter and entering new password on the Reset password page
+3. After logging in for the first time user is promted that he must confirm his email
+- user is redirected to the profile page
+- user can confirm his email by visiting link from confirm-email letter
+4. After confirming his email he is able to:
+- see a list of user documents
+- see a list of bookmarked documents
+- button to create new document
+5. Each document has a
+- title
+- last edit time
+and a set of available actions:
+- bookmark
+- go to Document editing page
+- share a link to Document editing page
+6. On the Document editing page user is able to:
+- edit text (as a textarea, no additional elements like MD formatting). When user is writing or editing document the other users are able to see cursor – position of checking that is synchronized
+- go to the history page
+7. On the History page user is able to: (MVP+)
+- see the changes history (like github's pull request diff preview)
+
+### Algorithm
+![Algorithm](https://user-images.githubusercontent.com/40521835/109118151-a0dca780-774b-11eb-9e68-cd4cac53377e.png)
+
 ### Technologies
 #### Per feature ([more likely] / [possible options])
 - Authorization - session key with cookies / jwt
