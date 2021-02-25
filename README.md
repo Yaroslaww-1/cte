@@ -9,9 +9,12 @@ Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 1. User logs in by entering his email and password. If user is new to editor, he is able to sign up:
 - by email & password or by Google (MVP+)
 - then user must enter nickname and bio
-2. User is also able to: (MVP+)
-- reset password by entering email
-- user can reset his password by visiting link from reset-password letter and entering new password on the Reset password page
+2. If user uses own email/password then user is also able to reset password: (MVP+)
+- user enters Reset password screen
+- user enters his email
+- if user with entered email is found than link is generated and send to the user email (link is only valid for this user)
+- user visits the link
+- user enters new password on the Reset password page
 3. If user uses own email/password then after logging in for the first time user is promted that he must confirm his email
 - user is redirected to the profile page
 - user can confirm his email by visiting link from confirm-email letter
@@ -25,7 +28,10 @@ Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 and a set of available actions:
 - bookmark
 - go to Document editing page
-- share a link to Document editing page
+- share a link to Document editing page 
+    - for editing
+    - or for viewing
+    - Document's editing is not available if user not authirezed. If he visits editing link than he is promted to login to edit Document
 6. On the Document editing page user is able to:
 - edit text (as a textarea, no additional elements like MD formatting). When user is writing or editing document the other users are able to see cursor – position of checking that is synchronized
 - go to the history page
