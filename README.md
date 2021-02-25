@@ -26,7 +26,7 @@ Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 - title
 - last edit time
 and a set of available actions:
-- bookmark
+- bookmark (save Document in bookmarks block)
 - go to Document editing page
 - share a link to Document editing page 
     - for editing
@@ -37,6 +37,7 @@ and a set of available actions:
 - go to the history page
 7. On the History page user is able to:
 - see the changes history (like github's pull request diff preview)
+- divide changes by users
 
 ### Algorithm
 ![Algorithm](https://user-images.githubusercontent.com/40521835/109118151-a0dca780-774b-11eb-9e68-cd4cac53377e.png)
