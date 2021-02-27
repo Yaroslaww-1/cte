@@ -1,0 +1,53 @@
+version: '3.6'
+
+services:
+  db:
+    container_name: cte_db
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_DB_NAME}
+    volumes:
+      - postgres:/var/lib/postgresql
+    ports:
+      - "9432:5432"
+    networks:
+      - cte_network
+    restart: always
+
+
+  backend:
+    container_name: cte_backend
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports: 
+      - "5001:5001"
+    depends_on: 
+      - 'db'
+    env_file:
+      - backend/.env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+    networks: 
+      - cte_network
+    restart: always
+  
+
+  client:
+    container_name: cte_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    env_file:
+      - frontend/.env
+
+networks:
+  cte_network:
+    driver: bridge
+
+volumes:
+  postgres:
