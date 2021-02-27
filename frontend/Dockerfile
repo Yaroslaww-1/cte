@@ -10,7 +10,7 @@ RUN apk --no-cache add --virtual native-deps \
   npm install --quiet && \
   apk del native-deps
 
-RUN npm run build
+RUN npm run build:prod
 
 FROM nginx:1.19-alpine
 
