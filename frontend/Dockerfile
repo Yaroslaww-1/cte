@@ -10,13 +10,11 @@ RUN npm install
 
 RUN npm run build
 
-RUN ls -al
-
 FROM nginx:1.19-alpine
 
-COPY --from=builder ./dist /usr/share/nginx/html
+COPY --from=builder /usr/src/app/frontend/dist /usr/share/nginx/html
 
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /usr/src/app/frontend/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

@@ -35,7 +35,7 @@ services:
     restart: always
   
 
-  client:
+  frontend:
     container_name: cte_frontend
     build:
       context: .
