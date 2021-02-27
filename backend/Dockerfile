@@ -8,8 +8,10 @@ COPY ./cte-shared ./cte-shared
 COPY ./tsconfig.base.json ./
 COPY ./eslintrc.base.js ./
 
-WORKDIR /usr/src/app/backend
+WORKDIR /usr/src/app/cte-shared
+RUN npm install
 
+WORKDIR /usr/src/app/backend
 RUN npm install
 
 RUN npm run build
