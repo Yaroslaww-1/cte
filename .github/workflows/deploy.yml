@@ -1,0 +1,38 @@
+name: build
+
+on:
+  push:
+    branches: 
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_DB_NAME: ${{ secrets.DATABASE_DB_NAME }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
+      BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish cte-backend image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: Yaroslaww-1/cte/cte-backend
+        registry: docker.pkg.github.com
+        username: ${{ secrets.GITHUB_USERNAME }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: ./backend/Dockerfile
+        tags: latest
+    - name: Publish cte-frontend image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: Yaroslaww-1/cte/cte-frontend
+        registry: docker.pkg.github.com
+        username: ${{ secrets.GITHUB_USERNAME }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: ./frontend/Dockerfile
+        tags: latest

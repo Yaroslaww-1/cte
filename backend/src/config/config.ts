@@ -7,6 +7,6 @@ export default () => ({
     HOST: process.env.HOST || 'localhost',
   } as IBackendApplicationConfig,
   DATABASE: {
-    CONNECTION_URL: process.env.DATABASE_CONNECTION_URL,
+    CONNECTION_URL: process.env.DATABASE_URL,
   } as IDatabaseConfig,
 });
