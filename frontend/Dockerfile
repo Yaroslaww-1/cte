@@ -2,13 +2,13 @@ FROM node:12-alpine as builder
 
 WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+COPY ./frontend ./frontend
+
+WORKDIR /usr/src/app/frontend
 
 RUN ls -al
 
 RUN npm install
-
-RUN npm run build
 
 FROM nginx:1.19-alpine
 

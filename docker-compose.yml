@@ -38,8 +38,8 @@ services:
   client:
     container_name: cte_frontend
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./frontend/Dockerfile
     ports:
       - "3000:80"
 
