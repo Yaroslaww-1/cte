@@ -1,16 +1,12 @@
-FROM node:15-alpine as builder
+FROM node:12-alpine as builder
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN apk --no-cache add --virtual native-deps \
-  g++ gcc libgcc libstdc++ linux-headers make python && \
-  npm install --quiet node-gyp -g &&\
-  npm install --quiet && \
-  apk del native-deps
+RUN npm install
 
-RUN npm run build:prod
+RUN npm run build
 
 FROM nginx:1.19-alpine
 
