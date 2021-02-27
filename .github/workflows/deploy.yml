@@ -23,7 +23,7 @@ jobs:
       with:
         name: Yaroslaww-1/cte/cte-backend
         registry: docker.pkg.github.com
-        username: ${{ secrets.GITHUB_USERNAME }}
+        username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: ./backend/Dockerfile
         tags: latest
@@ -32,7 +32,7 @@ jobs:
       with:
         name: Yaroslaww-1/cte/cte-frontend
         registry: docker.pkg.github.com
-        username: ${{ secrets.GITHUB_USERNAME }}
+        username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: ./frontend/Dockerfile
         tags: latest
