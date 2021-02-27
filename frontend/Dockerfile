@@ -2,7 +2,9 @@ FROM node:12-alpine as builder
 
 WORKDIR /usr/src/app
 
-COPY ./ ./ 
+COPY . /usr/src/app
+
+RUN ls -al
 
 RUN npm install
 
