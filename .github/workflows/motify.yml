@@ -13,6 +13,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-      message: |
-        PauseChamp! Pull request is created! :eyes:
-        Url: https://github.com/Yaroslaww-1/cte/pull/${{ github.event.number }}
+        message: |
+          PauseChamp! Pull request is created! :eyes:
+          Url: https://github.com/Yaroslaww-1/cte/pull/${{ github.event.number }}
