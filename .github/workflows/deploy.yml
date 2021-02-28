@@ -18,29 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Publish cte-backend image
-      uses: elgohr/Publish-Docker-Github-Action@master
+    - uses: whoan/docker-build-with-cache-action@v5
       with:
-        name: Yaroslaww-1/cte/cte-backend
-        registry: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+        image_name: Yaroslaww-1/cte/cte-backend
+        registry: docker.pkg.github.com
         dockerfile: ./backend/Dockerfile
-        tags: latest
+        image_tag: latest
 
   build-frontend:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Publish cte-frontend image
-      uses: elgohr/Publish-Docker-Github-Action@master
+    - uses: whoan/docker-build-with-cache-action@v5
       with:
-        name: Yaroslaww-1/cte/cte-frontend
-        registry: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+        image_name: Yaroslaww-1/cte/cte-frontend
+        registry: docker.pkg.github.com
         dockerfile: ./frontend/Dockerfile
-        tags: latest
+        image_tag: latest
 
   deploy:
     needs: [build-backend, build-frontend]
