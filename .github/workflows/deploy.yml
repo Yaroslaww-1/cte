@@ -27,7 +27,7 @@ jobs:
         port: ${{ secrets.DEPLOYMENT_PORT }}
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
         source: "docker-compose.prod.yml"
-        target: "docker-compose.prod.yml"
+        target: "app"
     - name: Deploy package to digitalocean
       uses: appleboy/ssh-action@master
       env:
@@ -41,5 +41,6 @@ jobs:
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
         envs: DATABASE_USER, DATABASE_PASSWORD, DATABASE_DB_NAME, DATABASE_URL, BACKEND_HOST, BACKEND_PORT
         script: |
+          cd app
           docker-compose down
           docker-compose -f docker-compose.prod.yml up -d --build
