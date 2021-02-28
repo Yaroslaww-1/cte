@@ -17,6 +17,7 @@ jobs:
       BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
 
     steps:
+    - uses: actions/checkout@v2
     - name: Deploy package to digitalocean
       uses: appleboy/ssh-action@master
       env:
