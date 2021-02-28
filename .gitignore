@@ -34,4 +34,8 @@ coverage/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Keys
+cte-develop
+cte-develop.pub
+
 .env

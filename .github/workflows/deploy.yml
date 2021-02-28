@@ -17,22 +17,18 @@ jobs:
       BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish cte-frontend image
-      uses: elgohr/Publish-Docker-Github-Action@master
+    - name: Deploy package to digitalocean
+      uses: appleboy/ssh-action@master
+      env:
+          GITHUB_USERNAME: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Yaroslaww-1/cte/cte-frontend
-        registry: docker.pkg.github.com
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: ./frontend/Dockerfile
-        tags: latest
-    - name: Publish cte-backend image
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: Yaroslaww-1/cte/cte-backend
-        registry: docker.pkg.github.com
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: ./backend/Dockerfile
-        tags: latest
+        host: ${{ secrets.DEPLOYMENT_HOST }}
+        username: ${{ secrets.DEPLOYMENT_USERNAME }}
+        key: ${{ secrets.DEPLOYMENT_KEY }}
+        port: ${{ secrets.DEPLOYMENT_PORT }}
+        passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
+        envs: DATABASE_USER, DATABASE_PASSWORD, DATABASE_DB_NAME, DATABASE_URL, BACKEND_HOST, BACKEND_PORT
+        script: |
+          docker-compose down
+          docker-compose -f docker-compose.prod.yml up -d --build
