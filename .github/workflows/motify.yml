@@ -1,4 +1,4 @@
-name: build
+name: notify
 
 on:
   pull_request:
