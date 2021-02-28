@@ -80,3 +80,12 @@ jobs:
           cd app
           docker-compose down
           docker-compose -f docker-compose.prod.yml up -d --build
+
+  notify:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
