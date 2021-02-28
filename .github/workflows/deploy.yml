@@ -39,12 +39,12 @@ jobs:
         key: ${{ secrets.DEPLOYMENT_KEY }}
         port: ${{ secrets.DEPLOYMENT_PORT }}
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
-        envs: DATABASE_USER, DATABASE_PASSWORD, DATABASE_DB_NAME, DATABASE_URL, BACKEND_HOST, BACKEND_PORT
+        envs: DATABASE_USER,DATABASE_PASSWORD,DATABASE_DB_NAME,DATABASE_URL,BACKEND_HOST,BACKEND_PORT,GITHUB_USERNAME,GITHUB_TOKEN
         script: |
           export GITHUB_USERNAME=$GITHUB_USERNAME
           export GITHUB_TOKEN=$GITHUB_TOKEN
           echo "I am $GITHUB_USERNAME, $GITHUB_TOKEN"
-          docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
+          echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           export DATABASE_USER=$DATABASE_USER
           export DATABASE_PASSWORD=$DATABASE_DB_NAME
           export DATABASE_URL=$DATABASE_URL
