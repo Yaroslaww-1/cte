@@ -18,6 +18,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Publish cte-backend image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: Yaroslaww-1/cte/cte-backend
+        registry: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: ./backend/Dockerfile
+        tags: latest
+    - name: Publish cte-frontend image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: Yaroslaww-1/cte/cte-frontend
+        registry: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: ./frontend/Dockerfile
+        tags: latest
     - name: Copy docker-compose.prod.yml to digitalocean
       uses: appleboy/scp-action@master
       with:
@@ -43,7 +61,6 @@ jobs:
         script: |
           export GITHUB_USERNAME=$GITHUB_USERNAME
           export GITHUB_TOKEN=$GITHUB_TOKEN
-          echo "I am $GITHUB_USERNAME, $GITHUB_TOKEN"
           echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           export DATABASE_USER=$DATABASE_USER
           export DATABASE_PASSWORD=$DATABASE_DB_NAME
