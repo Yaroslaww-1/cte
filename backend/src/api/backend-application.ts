@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
 import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 export class BackendApplication {
 
@@ -26,6 +27,8 @@ export class BackendApplication {
       }),
     );
     app.setGlobalPrefix('api');
+
+    app.useWebSocketAdapter(new WsAdapter(app));
 
     await app.listen(config.PORT, config.HOST);
 

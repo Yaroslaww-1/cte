@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HttpRootModule } from './http/modules/http-root.module';
 import configuration from '../config/config';
+import { WSRootModule } from './ws/modules/ws-root.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import configuration from '../config/config';
       isGlobal: true,
     }),
     HttpRootModule,
+    WSRootModule,
   ],
 })
 export class RootModule {}
