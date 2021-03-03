@@ -8,10 +8,8 @@ export class UserRepository implements IFindAll<UserEntity> {
   private readonly knex = new KnexService().getKnex();
   async findAll(): Promise<UserEntity[]> {
     const usersTable = await this.knex.select('*').from('users');
-    const users: UserEntity[] = [];
-    for (let i = 0; i < usersTable.length; i++) {
-      users.push(new UserEntity({ id: usersTable[i].id, name: usersTable[i].name }));
-    }
-    return users;
+    return usersTable.map(
+      (user: { id: number; name: string; }) => new UserEntity({ id: user.id, name: user.name })
+    );
   }
 }
