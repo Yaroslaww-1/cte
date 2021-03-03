@@ -1,0 +1,30 @@
+{
+  "name": "cte",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "postinstall": "husky install",
+    "frontend": "cd frontend && npm run lint",
+    "backend": "cd frontend-admin && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yaroslaww-1/cte.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yaroslaww-1/cte/issues"
+  },
+  "homepage": "https://github.com/Yaroslaww-1/cte#readme",
+  "devDependencies": {
+    "husky": "^5.1.3",
+    "npm-run-all": "^4.1.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all backend frontend"
+    }
+  }
+}
