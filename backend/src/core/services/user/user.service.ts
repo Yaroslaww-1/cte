@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '@data/user/user.repository';
-import { UserDto } from '@shared/dto';
+import { CreateUserDto, UserDto } from '@shared/dto';
 import { mapUserEntityToUserDto } from './user.mappings';
+import { CreateUserEntity } from '@data/user/create-user.entity';
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,12 @@ export class UserService {
   }
 
   async getUserById(id: number): Promise<UserDto[]> {
-    const users = await this.userRepository.findOne(id);
-    return users.map(mapUserEntityToUserDto);
+    const user = await this.userRepository.findOne(id);
+    return user.map(mapUserEntityToUserDto);
+  }
+
+  async createNewUser(createUserDto: CreateUserDto): Promise<UserDto[]> {
+    const user = await this.userRepository.createOne(new CreateUserEntity({ name: createUserDto.name }));
+    return user.map(mapUserEntityToUserDto);
   }
 }

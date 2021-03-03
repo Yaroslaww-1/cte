@@ -3,6 +3,7 @@ import { IFindAll } from '@shared/abstraction';
 import { UserEntity } from './user.entity';
 import { KnexService } from '@data/knex.service';
 import { User } from '@data/user/user.interface';
+import { CreateUserEntity } from '@data/user/create-user.entity';
 
 @Injectable()
 export class UserRepository implements IFindAll<UserEntity> {
@@ -17,6 +18,16 @@ export class UserRepository implements IFindAll<UserEntity> {
 
   async findOne(id: number): Promise<UserEntity[]> {
     const usersTable = await this.knex<User>('users').select('*').where('id', id);
+    return usersTable.map(
+      user => new UserEntity({ id: user.id, name: user.name })
+    );
+  }
+
+  async createOne(createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
+    const newUserId = await this.knex<User>('users')
+      .insert({ name: createUserEntity.name }).returning('id');
+    const usersTable = await this.knex<User>('users')
+      .select('*').where('id', newUserId[0]);
     return usersTable.map(
       user => new UserEntity({ id: user.id, name: user.name })
     );
