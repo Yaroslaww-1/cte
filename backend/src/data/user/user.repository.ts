@@ -32,4 +32,8 @@ export class UserRepository implements IFindAll<UserEntity> {
       user => new UserEntity({ id: user.id, name: user.name })
     );
   }
+
+  async deleteOne(id: number) {
+    await this.knex<User>('users').where('id', id).del();
+  }
 }

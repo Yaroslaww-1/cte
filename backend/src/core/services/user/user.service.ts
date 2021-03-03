@@ -22,4 +22,8 @@ export class UserService {
     const user = await this.userRepository.createOne(new CreateUserEntity({ name: createUserDto.name }));
     return user.map(mapUserEntityToUserDto);
   }
+
+  async deleteUserById(id: number) {
+    await this.userRepository.deleteOne(id);
+  }
 }
