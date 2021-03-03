@@ -26,4 +26,9 @@ export class UserService {
   async deleteUserById(id: number) {
     await this.userRepository.deleteOne(id);
   }
+
+  async updateUserById(id: number, createUserDto: CreateUserDto): Promise<UserDto[]> {
+    const user = await this.userRepository.updateOne(id, new CreateUserEntity({ name: createUserDto.name }));
+    return user.map(mapUserEntityToUserDto);
+  }
 }

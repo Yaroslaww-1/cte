@@ -10,14 +10,17 @@ export class UserRepository implements IFindAll<UserEntity> {
   private readonly knex = new KnexService().getKnex();
 
   async findAll(): Promise<UserEntity[]> {
-    const usersTable = await this.knex<User>('users').select('*');
+    const usersTable = await this.knex<User>('users')
+      .select('*');
     return usersTable.map(
       user => new UserEntity({ id: user.id, name: user.name })
     );
   }
 
   async findOne(id: number): Promise<UserEntity[]> {
-    const usersTable = await this.knex<User>('users').select('*').where('id', id);
+    const usersTable = await this.knex<User>('users')
+      .select('*')
+      .where('id', id);
     return usersTable.map(
       user => new UserEntity({ id: user.id, name: user.name })
     );
@@ -25,15 +28,31 @@ export class UserRepository implements IFindAll<UserEntity> {
 
   async createOne(createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
     const newUserId = await this.knex<User>('users')
-      .insert({ name: createUserEntity.name }).returning('id');
+      .insert({ name: createUserEntity.name })
+      .returning('id');
     const usersTable = await this.knex<User>('users')
-      .select('*').where('id', newUserId[0]);
+      .select('*')
+      .where('id', newUserId[0]);
     return usersTable.map(
       user => new UserEntity({ id: user.id, name: user.name })
     );
   }
 
   async deleteOne(id: number) {
-    await this.knex<User>('users').where('id', id).del();
+    await this.knex<User>('users')
+      .where('id', id)
+      .del();
+  }
+
+  async updateOne(id: number, createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
+    await this.knex<User>('users')
+      .where({ id: id })
+      .update({ name: createUserEntity.name });
+    const usersTable = await this.knex<User>('users')
+      .select('*')
+      .where('id', id);
+    return usersTable.map(
+      user => new UserEntity({ id: user.id, name: user.name })
+    );
   }
 }
