@@ -1,7 +1,8 @@
 {
   "eslint.workingDirectories": [
-    "./client",
-    "./server",
+    "./backend",
+    "./frontend",
+    "./cte-shared"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
@@ -9,10 +10,5 @@
   "eslint.validate": [
     "typescript",
     "typescriptreact"
-  ],
-  "cSpell.words": [
-    "dtos",
-    "nestjs",
-    "typeorm"
   ]
 }
