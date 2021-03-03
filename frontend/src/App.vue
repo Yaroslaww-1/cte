@@ -2,8 +2,9 @@
   <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
+    <!-- Moved here to fix eslint warning -->
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
 <style lang="scss">

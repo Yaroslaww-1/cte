@@ -11,4 +11,9 @@
       "@shared/*": ["../cte-shared/*"] 
     },
   },
+  "exclude": [
+    "**/*.d.ts",
+    "node_modules",
+    "dist",
+  ]
 }
