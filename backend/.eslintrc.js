@@ -6,6 +6,7 @@ module.exports = {
     sourceType: 'module',
   },
   extends: [
+    'plugin:@typescript-eslint/recommended',
     '../eslintrc.base.js'
   ],
 };

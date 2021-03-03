@@ -4,9 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "postinstall": "husky install",
-    "frontend": "cd frontend && npm run lint",
-    "backend": "cd backend && npm run lint"
+    "postinstall": "husky install"
   },
   "repository": {
     "type": "git",
@@ -29,9 +27,16 @@
     }
   },
   "lint-staged": {
-		"*.{js,ts}": [
-			"eslint --fix",
-			"git add"
-		]
-	}
+    "frontend/*.{js,ts}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "backend/*.{js,ts}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "eslint": "^7.21.0"
+  }
 }
