@@ -7,7 +7,7 @@ const repositories = [UserRepository];
 const services = [UserService];
 
 @Module({
-  controllers: [UserController],
-  providers: [...repositories, ...services],
+	controllers: [UserController],
+	providers: [...repositories, ...services],
 })
 export class UserModule {}

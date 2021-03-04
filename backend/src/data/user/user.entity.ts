@@ -3,13 +3,13 @@ import { IsNumber, IsString } from 'class-validator';
 
 @Expose()
 export class UserEntity {
-  @IsNumber()
-  readonly id: number;
+	@IsNumber()
+	readonly id: number;
 
-  @IsString()
-  readonly name: string;
+	@IsString()
+	readonly name: string;
 
-  constructor(props: UserEntity) {
-    Object.assign(this, props);
-  }
+	constructor(props: UserEntity) {
+		Object.assign(this, props);
+	}
 }

@@ -1,4 +1,4 @@
 export interface IBackendApplicationConfig {
-  HOST: string,
-  PORT: number,
+	HOST: string;
+	PORT: number;
 }

@@ -4,11 +4,11 @@ import { UserService } from '@core/services/user/user.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+	constructor(private readonly userService: UserService) {}
 
-  @Get()
-  async getUsers(): Promise<UserDto[]> {
-    const users = await this.userService.getUsers();
-    return users;
-  }
+	@Get()
+	async getUsers(): Promise<UserDto[]> {
+		const users = await this.userService.getUsers();
+		return users;
+	}
 }
