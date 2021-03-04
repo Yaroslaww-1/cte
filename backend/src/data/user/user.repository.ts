@@ -27,13 +27,10 @@ export class UserRepository implements IFindAll<UserEntity> {
   }
 
   async createOne(createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
-    const newUserId = await this.knex<User>('users')
+    const newUser = await this.knex<User>('users')
       .insert({ name: createUserEntity.name })
-      .returning('id');
-    const usersTable = await this.knex<User>('users')
-      .select('*')
-      .where('id', newUserId[0]);
-    return usersTable.map(
+      .returning('*');
+    return newUser.map(
       user => new UserEntity({ id: user.id, name: user.name })
     );
   }
