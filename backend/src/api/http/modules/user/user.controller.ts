@@ -8,7 +8,6 @@ export class UserController {
 
 	@Get()
 	async getUsers(): Promise<UserDto[]> {
-		const users = await this.userService.getUsers();
-		return users;
+		return await this.userService.getUsers();
 	}
 }

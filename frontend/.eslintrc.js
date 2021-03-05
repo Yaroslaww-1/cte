@@ -11,6 +11,6 @@ module.exports = {
     'plugin:vue/vue3-essential',
     '@vue/standard',
     '@vue/typescript/recommended',
-    '../eslintrc.base.js'
+    '../.eslintrc.js'
   ]
 }

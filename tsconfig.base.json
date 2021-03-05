@@ -9,6 +9,7 @@
     "target": "es2017",
     "sourceMap": true,
     "incremental": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "strict": true
   }
 }

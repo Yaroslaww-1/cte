@@ -8,12 +8,14 @@ COPY ./cte-shared ./cte-shared
 COPY ./tsconfig.base.json ./
 COPY ./eslintrc.base.js ./
 COPY ./vetur.config.js ./
+COPY ./.prettierrc ./
+RUN npm ci
 
 WORKDIR /usr/src/app/cte-shared
-RUN npm install
+RUN npm ci
 
 WORKDIR /usr/src/app/frontend
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 FROM nginx:1.19-alpine

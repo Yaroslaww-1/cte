@@ -17,7 +17,8 @@ export class BackendApplication {
 		});
 
 		const configService = app.get(ConfigService);
-		const config = configService.get<IBackendApplicationConfig>('BACKEND_APPLICATION');
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const config = configService.get<IBackendApplicationConfig>('BACKEND_APPLICATION')!;
 
 		app.useGlobalPipes(
 			new ValidationPipe({
