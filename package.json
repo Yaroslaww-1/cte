@@ -52,8 +52,5 @@
       "yarn lint",
       "git add"
     ]
-  },
-  "resolutions": {
-    "backend": "portal:/home/yaroslav/Programming/web/cte/backend"
   }
 }
