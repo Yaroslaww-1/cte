@@ -23,8 +23,7 @@
     "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix"
   },
   "dependencies": {
-    "class-transformer": "^0.4.0",
-    "class-validator": "^0.13.1"
+    "typescript": "^4.2.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.16.1",
@@ -41,8 +40,7 @@
     "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
-    "sonarlint": "^1.1.0",
-    "typescript": "^4.2.2"
+    "sonarlint": "^1.1.0"
   },
   "husky": {
     "hooks": {
@@ -51,8 +49,11 @@
   },
   "lint-staged": {
     "**/*.{js,ts,vue}": [
-      "npm run lint",
+      "yarn lint",
       "git add"
     ]
+  },
+  "resolutions": {
+    "backend": "portal:/home/yaroslav/Programming/web/cte/backend"
   }
 }

@@ -4,10 +4,10 @@ import { IsNumber, IsString } from 'class-validator';
 @Expose()
 export class UserEntity {
 	@IsNumber()
-	readonly id: number;
+	readonly id!: number;
 
 	@IsString()
-	readonly name: string;
+	readonly name!: string;
 
 	constructor(props: UserEntity) {
 		Object.assign(this, props);

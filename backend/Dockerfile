@@ -2,22 +2,36 @@ FROM node:15-alpine
 
 WORKDIR /usr/src/app
 
-COPY ./backend ./backend
-COPY ./cte-shared ./cte-shared
+# Copy yarn
+COPY .yarnrc.yml .
+COPY .yarn/plugins .yarn/plugins
+COPY .yarn/releases .yarn/releases
 
-COPY ./tsconfig.base.json ./
-COPY ./eslintrc.base.js ./
-COPY ./.prettierrc ./
-RUN npm ci
+# Copy configs' base files required for this image
+COPY tsconfig.base.json .
 
-WORKDIR /usr/src/app/cte-shared
-RUN npm ci
+# Copy package.json files
+COPY package.json .
+COPY yarn.lock .
+COPY ./backend/package.json ./backend/
+COPY ./cte-shared/package.json ./cte-shared/
 
+# Install dependencies (node_modules)
+RUN mkdir node_modules/
+# Manually link workspaces
+RUN ln -nsf ./backend node_modules/backend
+RUN ln -nsf ./cte-shared node_modules/cte-shared
+RUN yarn workspaces focus --production --all
+
+# Copy source code
+COPY ./backend/ ./backend/
+COPY ./cte-shared/ ./cte-shared/
+
+# Build image
 WORKDIR /usr/src/app/backend
-RUN npm ci
 
-RUN npm run build
+RUN yarn build
 
 EXPOSE 5001
 
-CMD ["npm", "run", "start:prod"]
+CMD ["yarn", "start:prod"]
