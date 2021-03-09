@@ -1,12 +1,6 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as Knex from 'knex';
-import { ConfigModule } from '@nestjs/config';
 
-@Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env.example',
-  })],
-})
 @Injectable()
 export class KnexService {
   private knexConnection = Knex(({

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IFindAll } from '@shared/abstraction';
 import { UserEntity } from './user.entity';
-import { KnexService } from '@data/knex.service';
+import { KnexService } from '@data/knex/knex.service';
 import { User } from '@data/user/user.interface';
 import { CreateUserEntity } from '@data/user/create-user.entity';
 
