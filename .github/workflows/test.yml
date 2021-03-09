@@ -4,11 +4,19 @@ on:
   pull_request:
 
 jobs:
+  setup-node-modules:
+    steps:
+    - uses: actions/cache@v2
+      with:
+        path: 'node_modules'
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
+    - name: install dependencies
+      run: yarn install
+
   test:
+    needs: setup-node-modules
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: install dependencies
-      run: yarn install
     - name: test
       run: yarn test:backend
