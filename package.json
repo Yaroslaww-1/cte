@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\"",
-    "lint:fix": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix"
+    "lint:fix": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix",
+    "test:backend": "cd backend && yarn test:unit"
   },
   "dependencies": {
     "typescript": "^4.2.2"
