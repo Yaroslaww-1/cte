@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - develop
-      - feature/ci-cd
 
 env:
   DATABASE_USER: ${{ secrets.DATABASE_USER }}
@@ -82,7 +81,7 @@ jobs:
           docker-compose -f docker-compose.prod.yml up -d --build
 
   notify:
-    needs: [deploy]
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - uses: appleboy/telegram-action@master

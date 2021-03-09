@@ -2,8 +2,6 @@ name: notify
 
 on:
   pull_request:
-    branches: 
-      - develop
 
 jobs:
   notify:
