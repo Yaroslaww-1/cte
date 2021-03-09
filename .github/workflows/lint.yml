@@ -12,5 +12,3 @@ jobs:
       run: yarn install
     - name: lint
       run: yarn lint
-    - name: test
-      run: echo "Hello world"
