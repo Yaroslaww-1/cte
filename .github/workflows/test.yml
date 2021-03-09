@@ -5,6 +5,7 @@ on:
 
 jobs:
   setup-node-modules:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/cache@v2
       with:
