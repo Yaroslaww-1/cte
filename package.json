@@ -20,7 +20,7 @@
     "backend"
   ],
   "scripts": {
-    "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix"
+    "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\""
   },
   "dependencies": {
     "typescript": "^4.2.2"
