@@ -3,7 +3,7 @@ import { IFindAll } from '@shared/abstraction';
 import { UserEntity } from './user.entity';
 import { KnexService } from '@data/knex/knex.service';
 import { User } from '@data/user/user.interface';
-import { CreateUserEntity } from '@data/user/create-user.entity';
+import { CreateUserDto } from '@shared/dto';
 
 @Injectable()
 export class UserRepository implements IFindAll<UserEntity> {
@@ -26,9 +26,9 @@ export class UserRepository implements IFindAll<UserEntity> {
     );
   }
 
-  async createOne(createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
+  async createOne(createUserDto: CreateUserDto): Promise<UserEntity[]> {
     const newUser = await this.knex<User>('users')
-      .insert({ name: createUserEntity.name })
+      .insert({ name: createUserDto.name })
       .returning('*');
     return newUser.map(
       user => new UserEntity({ id: user.id, name: user.name })
@@ -41,10 +41,10 @@ export class UserRepository implements IFindAll<UserEntity> {
       .del();
   }
 
-  async updateOne(id: number, createUserEntity: CreateUserEntity): Promise<UserEntity[]> {
+  async updateOne(id: number, createUserDto: CreateUserDto): Promise<UserEntity[]> {
     await this.knex<User>('users')
       .where({ id: id })
-      .update({ name: createUserEntity.name });
+      .update({ name: createUserDto.name });
     const usersTable = await this.knex<User>('users')
       .select('*')
       .where('id', id);
