@@ -2,8 +2,7 @@ name: notify
 
 on:
   pull_request:
-    branches: 
-      - develop
+    types: [opened, reopened]
 
 jobs:
   notify:

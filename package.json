@@ -20,7 +20,9 @@
     "backend"
   ],
   "scripts": {
-    "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix"
+    "lint": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\"",
+    "lint:fix": "./node_modules/.bin/eslint \"**/*.{js,ts,vue}\" --fix",
+    "test:backend": "cd backend && yarn test:unit"
   },
   "dependencies": {
     "typescript": "^4.2.2"
@@ -49,7 +51,7 @@
   },
   "lint-staged": {
     "**/*.{js,ts,vue}": [
-      "yarn lint",
+      "yarn lint:fix",
       "git add"
     ]
   }
