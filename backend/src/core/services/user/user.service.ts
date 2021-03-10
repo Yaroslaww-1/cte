@@ -12,22 +12,22 @@ export class UserService {
     return users.map(mapUserEntityToUserDto);
   }
 
-  async getUserById(id: number): Promise<UserDto[]> {
+  async getUserById(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
-    return user.map(mapUserEntityToUserDto);
+    return mapUserEntityToUserDto(user);
   }
 
-  async createNewUser(createUserDto: CreateUserDto): Promise<UserDto[]> {
+  async createNewUser(createUserDto: CreateUserDto): Promise<UserDto> {
     const user = await this.userRepository.createOne(createUserDto);
-    return user.map(mapUserEntityToUserDto);
+    return mapUserEntityToUserDto(user);
   }
 
   async deleteUserById(id: number) {
     await this.userRepository.deleteOne(id);
   }
 
-  async updateUserById(id: number, createUserDto: CreateUserDto): Promise<UserDto[]> {
+  async updateUserById(id: number, createUserDto: CreateUserDto): Promise<UserDto> {
     const user = await this.userRepository.updateOne(id, createUserDto);
-    return user.map(mapUserEntityToUserDto);
+    return mapUserEntityToUserDto(user);
   }
 }

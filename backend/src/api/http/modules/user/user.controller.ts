@@ -13,12 +13,12 @@ export class UserController {
   }
 
   @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<UserDto[]> {
+  async getUserById(@Param('id') id: string): Promise<UserDto> {
     return await this.userService.getUserById(Number(id));
   }
 
   @Post()
-  async createNewUser(@Body() createUserDto: CreateUserDto): Promise<UserDto[]> {
+  async createNewUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     return await this.userService.createNewUser(createUserDto);
   }
 
@@ -28,7 +28,7 @@ export class UserController {
   }
 
   @Put(':id')
-  async updateUserById(@Param('id') id: string, @Body() createUserDto: CreateUserDto): Promise<UserDto[]> {
+  async updateUserById(@Param('id') id: string, @Body() createUserDto: CreateUserDto): Promise<UserDto> {
     return await this.userService.updateUserById(Number(id), createUserDto);
   }
 }
