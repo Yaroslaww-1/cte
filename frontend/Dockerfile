@@ -8,12 +8,10 @@ COPY .yarn/plugins .yarn/plugins
 COPY .yarn/releases .yarn/releases
 
 # Copy configs' base files required for this image
-COPY tsconfig.base.json .
-COPY vetur.config.js .
+COPY tsconfig.base.json vetur.config.js ./
 
 # Copy package.json files
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 COPY ./frontend/package.json ./frontend/
 COPY ./cte-shared/package.json ./cte-shared/
 

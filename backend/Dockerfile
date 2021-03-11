@@ -11,8 +11,7 @@ COPY .yarn/releases .yarn/releases
 COPY tsconfig.base.json .
 
 # Copy package.json files
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 COPY ./backend/package.json ./backend/
 COPY ./cte-shared/package.json ./cte-shared/
 
