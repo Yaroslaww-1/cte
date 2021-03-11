@@ -11,7 +11,7 @@ export class UserRepository implements IFindAll<IUserModel>, IFindOne<IUserModel
 
   async findAll(): Promise<IUserModel[]> {
     const usersTable = await this.knex<IUserModel>('users')
-      .select('*');
+      .select('id', 'name');
     return usersTable.map(
       user => <IUserModel>{ id: user.id, name: user.name }
     );
@@ -19,7 +19,7 @@ export class UserRepository implements IFindAll<IUserModel>, IFindOne<IUserModel
 
   async findOne(id: number): Promise<IUserModel> {
     const usersTable = await this.knex<IUserModel>('users')
-      .select('*')
+      .select('id', 'name')
       .where('id', id);
     return <IUserModel>{ id: usersTable[0].id, name: usersTable[0].name };
   }
@@ -42,7 +42,7 @@ export class UserRepository implements IFindAll<IUserModel>, IFindOne<IUserModel
       .where({ id: id })
       .update({ name: createUserDto.name });
     const usersTable = await this.knex<IUserModel>('users')
-      .select('*')
+      .select('id', 'name')
       .where('id', id);
     return <IUserModel>{ id: usersTable[0].id, name: usersTable[0].name };
   }
