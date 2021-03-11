@@ -1,4 +1,4 @@
 import { UserDto } from '@shared/dto';
-import { UserEntity } from '@data/user/user.entity';
+import { IUserModel } from '@src/data/user/user.interface';
 
-export const mapUserEntityToUserDto = (userEntity: UserEntity) => new UserDto(userEntity);
+export const mapUserEntityToUserDto = (userModel: IUserModel) => new UserDto(userModel);

@@ -1,50 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { IDeleteOne, IFindAll, IFindOne, IUpdateOne, ICreateOne } from '@shared/abstraction';
-import { UserEntity } from './user.entity';
 import { KnexService } from '@data/knex/knex.service';
-import { User } from '@data/user/user.interface';
+import { IUserModel } from '@data/user/user.interface';
 import { CreateUserDto } from '@shared/dto';
 
 @Injectable()
-export class UserRepository implements IFindAll<UserEntity>, IFindOne<UserEntity>, ICreateOne<UserEntity>,
- IDeleteOne, IUpdateOne<UserEntity, UserEntity> {
+export class UserRepository implements IFindAll<IUserModel>, IFindOne<IUserModel>, ICreateOne<IUserModel>,
+ IDeleteOne, IUpdateOne<IUserModel, IUserModel> {
   private readonly knex = new KnexService().getKnex();
 
-  async findAll(): Promise<UserEntity[]> {
-    const usersTable = await this.knex<User>('users')
+  async findAll(): Promise<IUserModel[]> {
+    const usersTable = await this.knex<IUserModel>('users')
       .select('*');
     return usersTable.map(
-      user => new UserEntity({ id: user.id, name: user.name })
+      user => <IUserModel>{ id: user.id, name: user.name }
     );
   }
 
-  async findOne(id: number): Promise<UserEntity> {
-    const usersTable = await this.knex<User>('users')
+  async findOne(id: number): Promise<IUserModel> {
+    const usersTable = await this.knex<IUserModel>('users')
       .select('*')
       .where('id', id);
-    return new UserEntity({ id: usersTable[0].id, name: usersTable[0].name });
+    return <IUserModel>{ id: usersTable[0].id, name: usersTable[0].name };
   }
 
-  async createOne(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const newUser = await this.knex<User>('users')
+  async createOne(createUserDto: CreateUserDto): Promise<IUserModel> {
+    const newUser = await this.knex<IUserModel>('users')
       .insert({ name: createUserDto.name })
       .returning('*');
-    return new UserEntity({ id: newUser[0].id, name: newUser[0].name });
+    return <IUserModel>{ id: newUser[0].id, name: newUser[0].name };
   }
 
   async deleteOne(id: number) {
-    await this.knex<User>('users')
+    await this.knex<IUserModel>('users')
       .where('id', id)
       .del();
   }
 
-  async updateOne(id: number, createUserDto: CreateUserDto): Promise<UserEntity> {
-    await this.knex<User>('users')
+  async updateOne(id: number, createUserDto: CreateUserDto): Promise<IUserModel> {
+    await this.knex<IUserModel>('users')
       .where({ id: id })
       .update({ name: createUserDto.name });
-    const usersTable = await this.knex<User>('users')
+    const usersTable = await this.knex<IUserModel>('users')
       .select('*')
       .where('id', id);
-    return new UserEntity({ id: usersTable[0].id, name: usersTable[0].name });
+    return <IUserModel>{ id: usersTable[0].id, name: usersTable[0].name };
   }
 }
