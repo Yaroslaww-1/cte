@@ -27,3 +27,4 @@ services:
 networks:
   cte_network:
     driver: bridge
+    
