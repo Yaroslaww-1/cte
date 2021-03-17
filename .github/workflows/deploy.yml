@@ -34,6 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: load node_modules
+      uses: actions/cache@v2
+      with:
+        path: 'node_modules'
+        key: node_modules-${{ hashFiles('yarn.lock') }}
     - name: run migrations
       run: DATABASE_URL=${{ secrets.DATABASE_URL }} cd backend && yarn db:migrate
 
