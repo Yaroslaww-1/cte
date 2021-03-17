@@ -31,8 +31,6 @@ WORKDIR /usr/src/app/backend
 
 RUN yarn build
 
-RUN yarn db:migrate
-
 EXPOSE 5001
 
 CMD ["yarn", "start:prod"]
