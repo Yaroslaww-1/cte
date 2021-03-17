@@ -32,11 +32,10 @@ jobs:
   run-migrations:
     needs: setup-node-modules
     runs-on: ubuntu-latest
-    envs: DATABASE_URL
     steps:
     - uses: actions/checkout@v2
     - name: run migrations
-      run: DATABASE_URL=$DATABASE_URL cd backend && yarn db:migrate
+      run: DATABASE_URL=${{ secrets.DATABASE_URL }} cd backend && yarn db:migrate
 
   build-backend:
     runs-on: ubuntu-latest
