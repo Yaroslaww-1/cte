@@ -26,6 +26,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./backend/Dockerfile
         image_tag: latest
+        build_extra_args: "--network=host"
 
   build-frontend:
     runs-on: ubuntu-latest

@@ -6,7 +6,11 @@ export interface IFindOne<E> {
 	findOne(id: number): Promise<E>;
 }
 
-export interface IUpdateOne<E, U> {
+export interface ICreateOne<U, E> {
+	createOne(updatingDto: U): Promise<E>;
+}
+
+export interface IUpdateOne<U, E> {
 	updateOne(id: number, updatingDto: U): Promise<E>;
 }
 

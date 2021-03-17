@@ -3,12 +3,15 @@
 import { IBackendApplicationConfig } from './backend-application.config';
 import { IDatabaseConfig } from './database.config';
 
-export default () => ({
-	BACKEND_APPLICATION: {
+export const BACKEND_APPLICATION_CONFIG = 'BACKEND_APPLICATION';
+export const DATABASE_CONFIG = 'DATABASE';
+
+export const configFactory = () => ({
+	[BACKEND_APPLICATION_CONFIG]: {
 		PORT: parseInt(process.env.PORT || '', 10) || 5001,
 		HOST: process.env.HOST || 'localhost',
 	} as IBackendApplicationConfig,
-	DATABASE: {
+	[DATABASE_CONFIG]: {
 		CONNECTION_URL: process.env.DATABASE_URL,
 	} as IDatabaseConfig,
 });

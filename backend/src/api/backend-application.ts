@@ -5,6 +5,7 @@ import { IBackendApplicationConfig } from '@config/backend-application.config';
 import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
 import { WsAdapter } from '@nestjs/platform-ws';
+import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 
 export class BackendApplication {
 	public static new(): BackendApplication {
@@ -18,7 +19,7 @@ export class BackendApplication {
 
 		const configService = app.get(ConfigService);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const config = configService.get<IBackendApplicationConfig>('BACKEND_APPLICATION')!;
+		const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
 
 		app.useGlobalPipes(
 			new ValidationPipe({

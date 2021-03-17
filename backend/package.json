@@ -14,7 +14,11 @@
     "start:prod": "node dist/backend/src/main",
     "test:unit": "jest --config ./test/unit/jest.unit.json --verbose --maxWorkers=2",
     "test:unit:watch": "jest --config ./test/unit/jest.unit.json --watch",
-    "test:unit:cov": "jest --config ./test/unit/jest.unit.json --coverage"
+    "test:unit:cov": "jest --config ./test/unit/jest.unit.json --coverage",
+    "db:migrate": "knex migrate:latest --knexfile ./src/data/knexfile.ts",
+    "db:migrate:create": "npx knex migrate:make --knexfile ./src/data/knexfile.ts -x ts",
+    "db:migrate:win": "npx knex migrate:latest --knexfile .\\src\\data\\knexfile.ts -x ts",
+    "db:migrate:create:win": "npx knex migrate:make --knexfile .\\src\\data\\knexfile.ts -x ts"
   },
   "dependencies": {
     "@nestjs/cli": "^7.5.1",
@@ -27,9 +31,12 @@
     "@nestjs/websockets": "^7.6.13",
     "@types/node": "^14.14.6",
     "@types/ws": "^7.4.0",
+    "knex": "^0.21.18",
+    "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "ts-node": "^9.1.1"
   },
   "devDependencies": {
     "@nestjs/testing": "^7.5.1",
@@ -39,7 +46,6 @@
     "jest": "^26.6.3",
     "supertest": "^6.0.0",
     "ts-jest": "^26.4.3",
-    "ts-loader": "^8.0.8",
-    "ts-node": "^9.0.0"
+    "ts-loader": "^8.0.8"
   }
 }
