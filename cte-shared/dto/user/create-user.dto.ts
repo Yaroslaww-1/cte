@@ -3,10 +3,10 @@ import { IsString } from 'class-validator';
 
 @Expose()
 export class CreateUserDto {
-  @IsString()
-  readonly name: string;
+	@IsString()
+	readonly name!: string;
 
-  constructor(props: CreateUserDto) {
-    Object.assign(this, props);
-  }
+	constructor(props: CreateUserDto) {
+		Object.assign(this, props);
+	}
 }

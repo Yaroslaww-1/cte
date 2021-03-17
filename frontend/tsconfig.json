@@ -1,24 +1,13 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "types": [
       "webpack-env"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@src/*": ["src/*"],
+      "@shared/*": ["../cte-shared/*"] 
     },
     "lib": [
       "esnext",
@@ -27,14 +16,8 @@
       "scripthost"
     ]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
   ]
 }

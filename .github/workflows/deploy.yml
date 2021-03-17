@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - develop
-      - feature/ci-cd
 
 env:
   DATABASE_USER: ${{ secrets.DATABASE_USER }}
@@ -27,6 +26,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./backend/Dockerfile
         image_tag: latest
+        build_extra_args: "--network=host"
 
   build-frontend:
     runs-on: ubuntu-latest
@@ -82,7 +82,8 @@ jobs:
           docker-compose -f docker-compose.prod.yml up -d --build
 
   notify:
-    needs: [deploy]
+    needs: [build-backend, build-frontend, deploy]
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - uses: appleboy/telegram-action@master

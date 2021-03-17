@@ -2,8 +2,7 @@ name: notify
 
 on:
   pull_request:
-    branches: 
-      - develop
+    types: [opened, reopened]
 
 jobs:
   notify:
@@ -16,3 +15,4 @@ jobs:
         message: |
           PauseChamp! Pull request is created! :eyes:
           Url: https://github.com/Yaroslaww-1/cte/pull/${{ github.event.number }}
+          

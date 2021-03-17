@@ -9,6 +9,14 @@
       "@data/*": ["src/data/*"],
       "@core/*": ["src/core/*"],
       "@shared/*": ["../cte-shared/*"] 
-    },
+    }
   },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
 }
