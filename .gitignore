@@ -1,8 +1,8 @@
 # compiled output
-/dist
-/build
-/node_modules
-/.unit-test
+dist/
+build/
+node_modules/
+.unit-test/
 # Logs
 logs
 *.log
@@ -15,11 +15,11 @@ lerna-debug.log*
 .DS_Store
 
 # Tests
-/coverage
-/.nyc_output
+coverage/
+.nyc_output.
 
 # IDEs and editors
-/.idea
+.idea/
 .project
 .classpath
 .c9/
@@ -34,4 +34,18 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Keys
+cte-develop
+cte-develop.pub
+
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
+# TypeScript incremental compilation cache
+*.tsbuildinfo
+
 .env
+.husky/

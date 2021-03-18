@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "types": [
+      "webpack-env"
+    ],
+    "paths": {
+      "@src/*": ["src/*"],
+      "@shared/*": ["../cte-shared/*"] 
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
+}

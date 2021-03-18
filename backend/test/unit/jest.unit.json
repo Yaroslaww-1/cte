@@ -1,0 +1,31 @@
+{
+  "moduleFileExtensions": [
+    "ts",
+    "js"
+  ],
+  "rootDir": ".",
+  "verbose": true,
+  "testEnvironment": "node",
+  "testRegex": "test/unit/.*.spec.ts",
+  "coverageReporters": [
+    "json-summary",
+    "text",
+    "lcov"
+  ],
+  "coverageDirectory": ".unit-test",
+  "collectCoverageFrom": [
+    "../../src/api/**/*.ts",
+    "../../src/core/**/*.ts"
+  ],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@src/(.*)$": "<rootDir>/../../src/$1",
+    "@test/(.*)$": "<rootDir>/../../test/$1"
+  },
+  "setupFiles": [],
+  "reporters": [
+    "default"
+  ]
+}
