@@ -2,16 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MAILER_CONFIG } from '@src/config/config';
 import { IMailerConfig } from '@src/config/mailer.config';
+import { MessageConfig } from './message-config';
 import * as nodemailer from 'nodemailer';
 import * as pug from 'pug';
-
-type MessageConfig = {
-	templatePath: string;
-	letterSubject: string;
-	payload: {
-		confirmationLink: string;
-	};
-};
 
 @Injectable()
 export class MailerAdapter {
