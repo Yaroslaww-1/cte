@@ -2,32 +2,58 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IDeleteOne, IFindAll, IFindOne, IUpdateOne, ICreateOne } from '@shared/abstraction';
 import { IUserModel } from '@src/data/repositories/user/user.model';
 import { CreateUserDto, UpdateUserDto } from '@shared/dto';
-import Knex from 'knex';
+import Knex, { QueryBuilder } from 'knex';
 import { KNEX_CONNECTION } from '@src/data/knex-connection';
+
+type IUserFilter = Partial<IUserModel>;
 
 @Injectable()
 export class UserRepository
 	implements
-		IFindAll<IUserModel>,
-		IFindOne<IUserModel>,
+		IFindAll<IUserModel, IUserFilter>,
+		IFindOne<IUserModel, IUserFilter>,
 		ICreateOne<CreateUserDto, IUserModel>,
 		IDeleteOne,
 		IUpdateOne<UpdateUserDto, IUserModel> {
 	constructor(@Inject(KNEX_CONNECTION) private readonly knex: Knex) {}
 
-	async findAll(): Promise<IUserModel[]> {
-		const usersTable = await this.knex<IUserModel>('users').select('id', 'name');
-		return usersTable.map(user => <IUserModel>{ id: user.id, name: user.name });
+	private updateWhereWithFilters(
+		{ id, name, email }: IUserFilter,
+		qb: QueryBuilder<IUserModel>
+	): QueryBuilder<IUserModel> {
+		if (id) {
+			qb.where('id', id);
+		}
+
+		if (name) {
+			qb.where('name', name);
+		}
+
+		if (email) {
+			qb.where('email', email);
+		}
+
+		return qb;
 	}
 
-	async findOne(id: number): Promise<IUserModel> {
-		const usersTable = await this.knex<IUserModel>('users').select('id', 'name').where('id', id);
-		return <IUserModel>{ id: usersTable[0].id, name: usersTable[0].name };
+	async findAll(filter: IUserFilter): Promise<IUserModel[]> {
+		return await this.knex<IUserModel>('users')
+			.select('*')
+			.where(qb => this.updateWhereWithFilters(filter, qb));
+	}
+
+	async findOne(filter: IUserFilter): Promise<IUserModel | undefined> {
+		return await this.knex<IUserModel>('users')
+			.select('*')
+			.where(qb => this.updateWhereWithFilters(filter, qb))
+			.first();
 	}
 
 	async createOne(createUserDto: CreateUserDto): Promise<IUserModel> {
-		const newUser = await this.knex<IUserModel>('users').insert({ name: createUserDto.name }).returning('*');
-		return <IUserModel>{ id: newUser[0].id, name: newUser[0].name };
+		const [newUser] = await this.knex<IUserModel>('users')
+			.insert({ name: createUserDto.name, email: createUserDto.email })
+			.returning('*');
+		return newUser;
 	}
 
 	async deleteOne(id: number): Promise<void> {
@@ -36,7 +62,7 @@ export class UserRepository
 
 	async updateOne(id: number, updateUserDto: UpdateUserDto): Promise<IUserModel> {
 		return await this.knex<IUserModel>('users')
-			.where({ id: id })
+			.where({ id })
 			.update({ name: updateUserDto.name })
 			.returning(['id', 'name']);
 	}

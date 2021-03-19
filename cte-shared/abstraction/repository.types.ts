@@ -1,9 +1,9 @@
-export interface IFindAll<E> {
-	findAll(): Promise<E[]>;
+export interface IFindAll<E, F> {
+	findAll(filter: F): Promise<E[]>;
 }
 
-export interface IFindOne<E> {
-	findOne(id: number): Promise<E>;
+export interface IFindOne<E, F> {
+	findOne(filter: F): Promise<E | undefined>;
 }
 
 export interface ICreateOne<U, E> {
