@@ -5,6 +5,14 @@ import { IMailerConfig } from '@src/config/mailer.config';
 import * as nodemailer from 'nodemailer';
 import * as pug from 'pug';
 
+type MessageConfig = {
+	templatePath: string;
+	letterSubject: string;
+	payload: {
+		confirmationLink: string;
+	};
+};
+
 @Injectable()
 export class MailerAdapter {
 	private transporter;
@@ -24,14 +32,12 @@ export class MailerAdapter {
 		});
 	}
 
-	async sendConfirmEmailLetter(recipient: string, link: string): Promise<void> {
-		const message = pug.renderFile('./templates/confirmEmail.pug', {
-			confirmationLink: link,
-		});
+	async sendMail(recipient: string, messageConfig: MessageConfig): Promise<void> {
+		const message = pug.renderFile(messageConfig.templatePath, messageConfig.payload);
 		this.transporter.sendMail({
 			from: this.sender,
 			to: recipient,
-			subject: 'Please confirm your email address',
+			subject: messageConfig.letterSubject,
 			html: message,
 		});
 	}
