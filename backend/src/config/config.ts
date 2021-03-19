@@ -18,8 +18,8 @@ export const configFactory = () => ({
 	} as IDatabaseConfig,
 	[MAILER_CONFIG]: {
 		MAILER_HOST: process.env.MAILER_HOST,
-    	MAILER_PORT: parseInt(process.env.MAILER_PORT || '', 10),
-    	EMAIL_ADDRESS: process.env.EMAIL_ADDRESS,
-    	EMAIL_PASS: process.env.EMAIL_PASS,
+		MAILER_PORT: parseInt(process.env.MAILER_PORT || '', 10),
+		EMAIL_ADDRESS: process.env.EMAIL_ADDRESS,
+		EMAIL_PASS: process.env.EMAIL_PASS,
 	} as IMailerConfig,
 });
