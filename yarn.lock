@@ -3419,7 +3419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:6.12.6, ajv@npm:^6.1.0, ajv@npm:^6.10.0, ajv@npm:^6.10.2, ajv@npm:^6.12.2, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:^6.12.5":
+"ajv@npm:6.12.6, ajv@npm:^6.1.0, ajv@npm:^6.10.0, ajv@npm:^6.10.2, ajv@npm:^6.12.2, ajv@npm:^6.12.3, ajv@npm:^6.12.4, ajv@npm:^6.12.5, ajv@npm:^6.12.6":
   version: 6.12.6
   resolution: "ajv@npm:6.12.6"
   dependencies:
@@ -4046,6 +4046,7 @@ __metadata:
     "@types/ws": ^7.4.0
     jest: ^26.6.3
     knex: ^0.21.18
+    objection: ^2.2.15
     pg: ^8.5.1
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
@@ -5868,6 +5869,13 @@ __metadata:
     whatwg-mimetype: ^2.3.0
     whatwg-url: ^8.0.0
   checksum: 42239927c6a202e2d02b7f41c94ca53e3cea036898b97b8bf6120ed1b25e0dd11c48ec7aa5c84cf807c2cb9f3a637df9fb50f3ca25a52863186a4ac46254726b
+  languageName: node
+  linkType: hard
+
+"db-errors@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "db-errors@npm:0.2.3"
+  checksum: 547ff636c5750c76f2a519d49b48e3eaebd3e8fa731f181da9f6499df99a57474cde34a8501a9426bc67060a59cc02af806074196603c709004b11d4b478072c
   languageName: node
   linkType: hard
 
@@ -11819,6 +11827,18 @@ fsevents@^1.2.7:
     es-abstract: ^1.18.0-next.2
     has: ^1.0.3
   checksum: 31111fe8b8dfe7c3326ae8729eae542dc32d5705339b9b63d89d4a2f766641bfe8989744bd4771c65a7ca0dff281800e99640262c2e82daa97079143a86b3e0b
+  languageName: node
+  linkType: hard
+
+"objection@npm:^2.2.15":
+  version: 2.2.15
+  resolution: "objection@npm:2.2.15"
+  dependencies:
+    ajv: ^6.12.6
+    db-errors: ^0.2.3
+  peerDependencies:
+    knex: <0.95.0
+  checksum: b31be4c8db04db4d451ab58e3f3a078e34448ecf378b0a8be977d2f3d4fd1bc3d3163115c5f8a3cc5bc48fa9b61d372756110523b023a17a08838011b853b9dd
   languageName: node
   linkType: hard
 

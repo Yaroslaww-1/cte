@@ -1,12 +1,12 @@
 import Knex from 'knex';
-import { KnexService } from './knex.service';
+import { DatabaseService } from './database.service';
 
 export const KNEX_CONNECTION = 'KNEX_CONNECTION';
 
 export const knexConnectionFactory = {
 	provide: KNEX_CONNECTION,
-	useFactory: async (knexService: KnexService): Promise<Knex> => {
-		return knexService.getKnex();
+	useFactory: async (databaseService: DatabaseService): Promise<Knex> => {
+		return databaseService.getKnex();
 	},
-	inject: [KnexService],
+	inject: [DatabaseService],
 };

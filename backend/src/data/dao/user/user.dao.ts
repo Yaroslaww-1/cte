@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IDeleteOne, IFindAll, IFindOne, IUpdateOne, ICreateOne } from '@shared/abstraction';
-import { IUserModel } from '@src/data/repositories/user/user.model';
+import { IUserModel } from '@src/data/dao/user/user.model';
 import { CreateUserDto, UpdateUserDto } from '@shared/dto';
 import Knex, { QueryBuilder } from 'knex';
 import { KNEX_CONNECTION } from '@src/data/knex-connection';

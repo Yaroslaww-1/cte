@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DATABASE_CONFIG } from '@src/config/config';
 import { IDatabaseConfig } from '@src/config/database.config';
+import { Model } from 'objection';
 import * as Knex from 'knex';
 
 @Injectable()
-export class KnexService {
+export class DatabaseService {
 	private knexConnection: Knex;
 
 	constructor(private configService: ConfigService) {
@@ -13,6 +14,8 @@ export class KnexService {
 			client: 'pg',
 			connection: this.configService.get<IDatabaseConfig>(DATABASE_CONFIG)?.CONNECTION_URL,
 		});
+
+		Model.knex(this.knexConnection);
 	}
 
 	getKnex(): Knex {

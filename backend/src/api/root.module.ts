@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { HttpRootModule } from './http/modules/http-root.module';
 import { configFactory } from '../config/config';
 import { WSRootModule } from './ws/modules/ws-root.module';
-import { KnexModule } from '@src/data/knex.module';
+import { DatabaseModule } from '@src/data/database.module';
 
 @Module({
 	imports: [
@@ -12,7 +12,7 @@ import { KnexModule } from '@src/data/knex.module';
 			load: [configFactory],
 			isGlobal: true,
 		}),
-		KnexModule,
+		DatabaseModule,
 		HttpRootModule,
 		WSRootModule,
 	],

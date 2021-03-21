@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '@src/data/repositories/user/user.repository';
+import { UserRepository } from '@src/data/dao/user/user.dao';
 import { CreateUserDto, UserDto } from '@shared/dto';
 import { mapUserEntityToUserDto } from './user.mappings';
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
