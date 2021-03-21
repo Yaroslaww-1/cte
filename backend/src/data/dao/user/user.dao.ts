@@ -3,7 +3,8 @@ import { IUserModel, UserModel } from '@src/data/dao/user/user.model';
 import { CreateUserDto, UpdateUserDto } from '@shared/dto';
 import { QueryBuilder, ModelClass } from 'objection';
 
-type IUserFilter = Partial<IUserModel>;
+// TODO: Reverse dependency
+export type IUserFilter = Partial<IUserModel>;
 
 @Injectable()
 export class UserDao {

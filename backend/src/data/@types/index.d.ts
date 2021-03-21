@@ -1,6 +1,7 @@
 import { IUserModel } from '../dao/user/user.model';
 import * as Knex from 'knex';
 import { IDocumentModel } from '../dao/document/document.model';
+import { IRefreshSessionModel } from '../dao/refresh-session/refresh-session.model';
 
 declare module 'knex/types/tables' {
 	interface ITables {
@@ -14,6 +15,12 @@ declare module 'knex/types/tables' {
 			IDocumentModel,
 			Partial<Omit<IDocumentModel, 'id'>>,
 			Partial<Omit<IDocumentModel, 'id'>>
+		>;
+
+		refresh_sessions_composite: Knex.CompositeTableType<
+			IRefreshSessionModel,
+			Partial<Omit<IRefreshSessionModel, 'id'>>,
+			Partial<Omit<IRefreshSessionModel, 'id'>>
 		>;
 	}
 }

@@ -1,17 +1,22 @@
 import { IUserModel, UserModel } from '../user/user.model';
 import { Model, RelationMappings } from 'objection';
 
-interface IDocumentModel {
+interface IRefreshSessionModel {
 	id: number;
-	title: string;
+	refreshToken: string;
+	userAgent: string;
+	fingerprint: string;
+	ip: string;
+	expiresIn: number;
+
 	userId: number;
 	user: IUserModel;
 }
 
-interface DocumentModel extends IDocumentModel {}
-class DocumentModel extends Model {
+interface RefreshSessionModel extends IRefreshSessionModel {}
+class RefreshSessionModel extends Model {
 	static get tableName(): string {
-		return 'documents';
+		return 'refresh_sessions';
 	}
 
 	static get relationMappings(): RelationMappings {
@@ -20,7 +25,7 @@ class DocumentModel extends Model {
 				relation: Model.BelongsToOneRelation,
 				modelClass: UserModel,
 				join: {
-					from: 'documents.userId',
+					from: 'refresh_sessions.userId',
 					to: 'users.id',
 				},
 			},
@@ -28,4 +33,4 @@ class DocumentModel extends Model {
 	}
 }
 
-export { DocumentModel, IDocumentModel };
+export { RefreshSessionModel, IRefreshSessionModel };

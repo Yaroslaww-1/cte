@@ -5,6 +5,7 @@ interface IUserModel {
 	id: number;
 	name: string;
 	email: string;
+	passwordHash: string;
 }
 
 interface UserModel extends IUserModel {}
@@ -20,7 +21,7 @@ class UserModel extends Model {
 				modelClass: DocumentModel,
 				join: {
 					from: 'users.id',
-					to: 'documents.user_id',
+					to: 'documents.userId',
 				},
 			},
 		};

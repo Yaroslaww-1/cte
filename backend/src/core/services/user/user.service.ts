@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserDao } from '@src/data/dao/user/user.dao';
+import { UserDao, IUserFilter } from '@src/data/dao/user/user.dao';
 import { CreateUserDto, UserDto } from '@shared/dto';
 import { mapUserEntityToUserDto } from './user.mappings';
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
@@ -13,8 +13,9 @@ export class UserService {
 		return users.map(mapUserEntityToUserDto);
 	}
 
-	async getUserById(id: number): Promise<UserDto> {
-		const user = await this.userDao.findOne({ id });
+	// TODO: Reverse dependency of IUserFilter
+	async getUser(filter: IUserFilter): Promise<UserDto> {
+		const user = await this.userDao.findOne(filter);
 		if (!user) {
 			throw new NotFoundException('user');
 		}
