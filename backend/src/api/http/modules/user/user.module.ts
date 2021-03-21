@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { UserRepository } from '@src/data/dao/user/user.dao';
+import { UserDao } from '@src/data/dao/user/user.dao';
 import { UserService } from '@core/services/user/user.service';
 
-const repositories = [UserRepository];
+const daos = [UserDao];
 const services = [UserService];
 
 @Module({
 	controllers: [UserController],
-	providers: [...repositories, ...services],
+	providers: [...daos, ...services],
 })
 export class UserModule {}
