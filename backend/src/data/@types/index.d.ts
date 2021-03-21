@@ -1,5 +1,6 @@
-import { IUserModel } from '../repositories/user/user.model';
+import { IUserModel } from '../dao/user/user.model';
 import * as Knex from 'knex';
+import { IDocumentModel } from '../dao/document/document.model';
 
 declare module 'knex/types/tables' {
 	interface ITables {
@@ -7,6 +8,12 @@ declare module 'knex/types/tables' {
 			IUserModel,
 			Pick<IUserModel, 'name' | 'email'>,
 			Partial<Omit<IUserModel, 'id'>>
+		>;
+
+		documents_composite: Knex.CompositeTableType<
+			IDocumentModel,
+			Partial<Omit<IDocumentModel, 'id'>>,
+			Partial<Omit<IDocumentModel, 'id'>>
 		>;
 	}
 }
