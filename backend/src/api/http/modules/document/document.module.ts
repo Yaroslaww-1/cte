@@ -7,7 +7,7 @@ const daos = [DocumentDao];
 const services = [DocumentService];
 
 @Module({
-	controllers: [DocumentController],
-	providers: [...daos, ...services],
+  controllers: [DocumentController],
+  providers: [...daos, ...services],
 })
 export class DocumentModule {}

@@ -1,3 +1,3 @@
 export interface IJwtConfig {
-	SECRET: string;
+  SECRET: string;
 }

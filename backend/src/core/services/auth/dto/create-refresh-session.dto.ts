@@ -1,27 +1,27 @@
 import { IsString, IsUUID, IsIP, IsNumber } from 'class-validator';
 
 class CreateRefreshSessionDto {
-	@IsUUID(4)
-	readonly refreshToken!: string;
+  @IsUUID(4)
+  readonly refreshToken!: string;
 
-	@IsString()
-	readonly userId!: number;
+  @IsString()
+  readonly userId!: number;
 
-	@IsString()
-	readonly fingerprint!: string;
+  @IsString()
+  readonly fingerprint!: string;
 
-	@IsIP()
-	readonly ip!: string;
+  @IsIP()
+  readonly ip!: string;
 
-	@IsNumber()
-	readonly expiresIn!: number;
+  @IsNumber()
+  readonly expiresIn!: number;
 
-	@IsString()
-	readonly userAgent: string | undefined;
+  @IsString()
+  readonly userAgent: string | undefined;
 
-	constructor(props: CreateRefreshSessionDto) {
-		Object.assign(this, props);
-	}
+  constructor(props: CreateRefreshSessionDto) {
+    Object.assign(this, props);
+  }
 }
 
 export { CreateRefreshSessionDto };

@@ -10,63 +10,51 @@ import { RefreshSessionEntity } from './entities/refresh-session.entity';
 import { checkPassword } from './helpers/check-password.helper';
 import { AccessTokenService } from './services/access-token.service';
 import { RefreshSessionService } from './services/refresh-session.service';
-import { CookieEntity, CookieOptions } from '@src/api/common/entities/cookie.entity';
-import { LoginResponse } from './types/login.response';
+import { LoginSuccessResponse } from './types/login-success.response';
 
 @Injectable()
 export class LoginService {
-	constructor(
-		private readonly userService: UserService,
-		private readonly refreshSessionService: RefreshSessionService,
-		private readonly accessTokenService: AccessTokenService
-	) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly refreshSessionService: RefreshSessionService,
+    private readonly accessTokenService: AccessTokenService
+  ) {}
 
-	async login(loginDto: LoginDto, loginRequestParamsDto: LoginRequestParamsDto): Promise<LoginResponse> {
-		const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
-		const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
+  async login(loginDto: LoginDto, loginRequestParamsDto: LoginRequestParamsDto): Promise<LoginSuccessResponse> {
+    const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
+    const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
 
-		const user = await this.userService.getUser({ email: loginDto.email });
-		if (!user) {
-			throw new NotFoundException('user');
-		}
+    const user = await this.userService.getUser({ email: loginDto.email });
+    if (!user) {
+      throw new NotFoundException('user');
+    }
 
-		try {
-			await checkPassword(loginDto.password, user.passwordHash);
-		} catch (e) {
-			if (e instanceof InvalidPasswordException) {
-				throw new InvalidCredentialsException();
-			}
-			throw e;
-		}
+    try {
+      await checkPassword(loginDto.password, user.passwordHash);
+    } catch (e) {
+      if (e instanceof InvalidPasswordException) {
+        throw new InvalidCredentialsException();
+      }
+      throw e;
+    }
 
-		const newRefreshSession = new RefreshSessionEntity({
-			userId: user.id,
-			ip: loginRequestParamsDto.ip,
-			userAgent: loginRequestParamsDto.userAgent,
-			fingerprint: loginDto.fingerprint,
-			expiresIn: refTokenExpiresInMilliseconds,
-		});
+    const newRefreshSession = new RefreshSessionEntity({
+      userId: user.id,
+      ip: loginRequestParamsDto.ip,
+      userAgent: loginRequestParamsDto.userAgent,
+      fingerprint: loginDto.fingerprint,
+      expiresIn: refTokenExpiresInMilliseconds,
+    });
 
-		await this.refreshSessionService.createRefreshSession(newRefreshSession);
+    await this.refreshSessionService.createRefreshSession(newRefreshSession);
 
-		const accessToken = await this.accessTokenService.makeAccessToken(user);
-		const refreshToken = newRefreshSession.refreshToken;
+    const accessToken = await this.accessTokenService.makeAccessToken(user);
+    const refreshToken = newRefreshSession.refreshToken;
 
-		return new LoginResponse({
-			accessToken,
-			refreshToken,
-			cookies: [
-				new CookieEntity({
-					name: 'refreshToken',
-					value: newRefreshSession.refreshToken,
-					options: new CookieOptions({
-						domain: 'localhost',
-						path: '/auth',
-						maxAge: refTokenExpiresInSeconds,
-						secure: false,
-					}),
-				}),
-			],
-		});
-	}
+    return new LoginSuccessResponse({
+      accessToken,
+      refreshToken,
+      refTokenExpiresInSeconds,
+    });
+  }
 }

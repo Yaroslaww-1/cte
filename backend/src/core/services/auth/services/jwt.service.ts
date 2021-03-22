@@ -6,21 +6,21 @@ import { jwtVerify, jwtSign, JwtPayloadType, JwtSignOptions } from '@src/core/li
 
 @Injectable()
 export class JwtService {
-	private SECRET: string;
+  private SECRET: string;
 
-	constructor(private configService: ConfigService) {
-		const SECRET = configService.get<IJwtConfig>(JWT_CONFIG)?.SECRET;
-		if (!SECRET) {
-			throw new Error('Jwt secret is not set!');
-		}
-		this.SECRET = SECRET;
-	}
+  constructor(private configService: ConfigService) {
+    const SECRET = configService.get<IJwtConfig>(JWT_CONFIG)?.SECRET;
+    if (!SECRET) {
+      throw new Error('Jwt secret is not set!');
+    }
+    this.SECRET = SECRET;
+  }
 
-	async verify(token: string): Promise<boolean> {
-		return await jwtVerify(this.SECRET)(token);
-	}
+  async verify(token: string): Promise<boolean> {
+    return await jwtVerify(this.SECRET)(token);
+  }
 
-	async sign(payload: JwtPayloadType, options: JwtSignOptions): Promise<string> {
-		return await jwtSign(this.SECRET)(payload, options);
-	}
+  async sign(payload: JwtPayloadType, options: JwtSignOptions): Promise<string> {
+    return await jwtSign(this.SECRET)(payload, options);
+  }
 }

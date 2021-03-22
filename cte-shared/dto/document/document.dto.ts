@@ -4,16 +4,16 @@ import { UserDto } from '../user';
 
 @Expose()
 export class DocumentDto {
-	@IsNumber()
-	readonly id!: number;
+  @IsNumber()
+  readonly id!: number;
 
-	@IsString()
-	readonly title!: string;
+  @IsString()
+  readonly title!: string;
 
-	@IsObject()
-	readonly user!: UserDto;
+  @IsObject()
+  readonly user!: UserDto;
 
-	constructor(props: DocumentDto) {
-		Object.assign(this, props);
-	}
+  constructor(props: DocumentDto) {
+    Object.assign(this, props);
+  }
 }

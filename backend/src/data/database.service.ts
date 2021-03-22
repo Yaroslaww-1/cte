@@ -7,19 +7,19 @@ import * as Knex from 'knex';
 
 @Injectable()
 export class DatabaseService {
-	private knexConnection: Knex;
+  private knexConnection: Knex;
 
-	constructor(private configService: ConfigService) {
-		this.knexConnection = Knex({
-			client: 'pg',
-			connection: this.configService.get<IDatabaseConfig>(DATABASE_CONFIG)?.CONNECTION_URL,
-			...knexSnakeCaseMappers(),
-		});
+  constructor(private configService: ConfigService) {
+    this.knexConnection = Knex({
+      client: 'pg',
+      connection: this.configService.get<IDatabaseConfig>(DATABASE_CONFIG)?.CONNECTION_URL,
+      ...knexSnakeCaseMappers(),
+    });
 
-		Model.knex(this.knexConnection);
-	}
+    Model.knex(this.knexConnection);
+  }
 
-	getKnex(): Knex {
-		return this.knexConnection;
-	}
+  getKnex(): Knex {
+    return this.knexConnection;
+  }
 }
