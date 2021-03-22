@@ -7,7 +7,8 @@ const daos = [UserDao];
 const services = [UserService];
 
 @Module({
-	controllers: [UserController],
-	providers: [...daos, ...services],
+  controllers: [UserController],
+  providers: [...daos, ...services],
+  exports: [...daos, ...services],
 })
 export class UserModule {}
