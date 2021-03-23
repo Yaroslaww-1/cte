@@ -1,12 +1,13 @@
 import { Controller, Post, Body, Req, Res } from '@nestjs/common';
-import { LoginDto, LoginSuccessDto } from '@shared/dto';
+import { LoginDto, LoginSuccessDto, LogoutDto, LogoutSuccessDto } from '@shared/dto';
 import { LoginRequestParamsDto } from '@src/core/services/auth/dto/login-request-params.dto';
 import { LoginService } from '@src/core/services/auth/login.service';
+import { LogoutService } from '@src/core/services/auth/logout.service';
 import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly loginService: LoginService) {}
+  constructor(private readonly loginService: LoginService, private readonly logoutService: LogoutService) {}
 
   @Post('login')
   async login(
@@ -29,5 +30,10 @@ export class AuthController {
       accessToken: loginSuccessResponse.accessToken,
       refreshToken: loginSuccessResponse.refreshToken,
     });
+  }
+
+  @Post('logout')
+  async logout(@Body() logoutDto: LogoutDto): Promise<LogoutSuccessDto> {
+    return await this.logoutService.logout(logoutDto);
   }
 }

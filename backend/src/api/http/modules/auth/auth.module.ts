@@ -6,9 +6,10 @@ import { AccessTokenService } from '@src/core/services/auth/services/access-toke
 import { RefreshSessionService } from '@src/core/services/auth/services/refresh-session.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
+import { LogoutService } from '@src/core/services/auth/logout.service';
 
 const daos = [RefreshSessionDao];
-const services = [JwtService, RefreshSessionService, AccessTokenService, LoginService];
+const services = [JwtService, RefreshSessionService, AccessTokenService, LoginService, LogoutService];
 
 @Module({
   imports: [UserModule],
