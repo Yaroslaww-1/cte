@@ -116,7 +116,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          Pog! Build is finished! Status is ${{ fromJSON('["failure", "success"]')[(${{ needs.deploy.outcome }} == 'failure' || (${{ needs.deploy.outcome }} == 'failure')]}}
+          Pog! Build is finished! Status is ${{ fromJSON('["failure", "success"]')[(${{ needs.deploy.outcome }} == 'failure' || ${{ needs.deploy.outcome }} == 'failure')]}}
 
   notify-error-if-first-layer-fails:
     needs: [build-backend, build-frontend, setup-node-modules]
