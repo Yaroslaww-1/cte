@@ -107,8 +107,20 @@ jobs:
           docker-compose -f docker-compose.prod.yml up -d --build
 
   notify:
-    needs: [build-backend, build-frontend, deploy]
+    needs: [deploy, run-migrations]
     if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Pog! Build is finished! Status is ${{ job.status }}
+
+  notify-error-if-first-layer-fails:
+    needs: [build-backend, build-frontend, setup-node-modules]
+    if: failure()
     runs-on: ubuntu-latest
     steps:
     - uses: appleboy/telegram-action@master
