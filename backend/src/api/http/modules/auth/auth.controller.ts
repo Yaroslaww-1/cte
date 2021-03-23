@@ -33,7 +33,8 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@Body() logoutDto: LogoutDto): Promise<LogoutSuccessDto> {
-    return await this.logoutService.logout(logoutDto);
+  async logout(@Body() logoutDto: LogoutDto, @Req() request: Request): Promise<LogoutSuccessDto> {
+    const refreshToken = logoutDto.refreshToken || request.cookies.refreshToken;
+    return await this.logoutService.logout(refreshToken);
   }
 }
