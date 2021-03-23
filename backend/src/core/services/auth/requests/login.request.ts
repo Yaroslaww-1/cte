@@ -1,15 +1,17 @@
+import { LoginDto } from '@shared/dto';
 import { IsString, IsIP } from 'class-validator';
 
-class LoginRequestParamsDto {
+class LoginRequest extends LoginDto {
   @IsIP()
   readonly ip!: string;
 
   @IsString()
   readonly userAgent: string | undefined;
 
-  constructor(props: LoginRequestParamsDto) {
+  constructor(props: LoginRequest) {
+    super(props);
     Object.assign(this, props);
   }
 }
 
-export { LoginRequestParamsDto };
+export { LoginRequest };

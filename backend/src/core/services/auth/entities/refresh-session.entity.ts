@@ -18,7 +18,7 @@ class RefreshSessionEntity {
   readonly expiresIn!: number;
 
   @IsString()
-  readonly userAgent: string | undefined;
+  readonly userAgent?: string;
 
   constructor(props: Omit<RefreshSessionEntity, 'refreshToken'>) {
     Object.assign(this, {
