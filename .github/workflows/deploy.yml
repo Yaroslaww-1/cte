@@ -128,4 +128,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          Pog! Build is finished! Status is ${{ job.status }}
+          Pog! Build is finished! Status is failure
