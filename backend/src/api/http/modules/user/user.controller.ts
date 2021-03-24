@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Delete, Put, Param, Body } from '@nestjs/common';
-import { UserDto } from '@shared/dto';
+import { Controller, Get, Post, Delete, Param, Body, Patch } from '@nestjs/common';
+import { EmailConfirmDto, EmailConfirmSuccessDto, UpdateUserDto, UserDto } from '@shared/dto';
 import { UserService } from '@core/services/user/user.service';
 import { CreateUserDto } from '@shared/dto';
+import { EmailConfirmService } from '@src/core/services/user/services/email-confirm.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly emailConfirmService: EmailConfirmService) {}
 
   @Get()
   async getUsers(): Promise<UserDto[]> {
@@ -23,12 +24,17 @@ export class UserController {
   }
 
   @Delete(':id')
-  async deleteUserById(@Param('id') id: string): Promise<void> {
-    return await this.userService.deleteUserById(Number(id));
+  async deleteUserById(@Param('id') id: number): Promise<void> {
+    return await this.userService.deleteUserById(id);
   }
 
-  @Put(':id')
-  async updateUserById(@Param('id') id: string, @Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    return await this.userService.updateUserById(Number(id), createUserDto);
+  @Patch(':id')
+  async updateUserById(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
+    return await this.userService.updateUserById(id, updateUserDto);
+  }
+
+  @Post('email-confirm')
+  async confirmEmail(@Body() emailConfirmDto: EmailConfirmDto): Promise<EmailConfirmSuccessDto> {
+    return await this.emailConfirmService.confirmEmail(emailConfirmDto);
   }
 }

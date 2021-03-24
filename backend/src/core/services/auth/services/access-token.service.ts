@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserDto } from '@shared/dto';
 import { ACCESS_TOKEN_EXPIRES_IN_MILLISECONDS, ACCESS_TOKEN_TYPE } from '../constants';
-import { JwtService } from './jwt.service';
+import { JwtService } from '../../shared/jwt.service';
 
 @Injectable()
 export class AccessTokenService {

@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserModel, UserModel } from '@src/data/dao/user/user.model';
-import { CreateUserDto, UpdateUserDto } from '@shared/dto';
 import { QueryBuilder, ModelClass } from 'objection';
 
 // TODO: Reverse dependency
@@ -44,15 +43,16 @@ export class UserDao {
       .first();
   }
 
-  async createOne(createUserDto: CreateUserDto): Promise<IUserModel> {
-    return await this.userModel.query().insert(createUserDto).returning('*');
+  // TODO: investigate if Omit is the correct way to do it
+  async createOne(createUser: Omit<IUserModel, 'id'>): Promise<IUserModel> {
+    return await this.userModel.query().insert(createUser).returning('*');
   }
 
   async deleteOne(id: number): Promise<void> {
     await this.userModel.query().where('id', id);
   }
 
-  async updateOne(id: number, updateUserDto: UpdateUserDto): Promise<IUserModel> {
-    return await this.userModel.query().where({ id }).update(updateUserDto).returning('*').first();
+  async updateOne(id: number, updateUser: Partial<IUserModel>): Promise<IUserModel> {
+    return await this.userModel.query().where({ id }).update(updateUser).returning('*').first();
   }
 }

@@ -6,6 +6,7 @@ interface IUserModel {
   name: string;
   email: string;
   passwordHash: string;
+  emailConfirmToken?: string;
 }
 
 interface UserModel extends IUserModel {}

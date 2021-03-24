@@ -14,6 +14,7 @@ export const configFactory = () => ({
   [BACKEND_APPLICATION_CONFIG]: {
     PORT: parseInt(process.env.PORT || '', 10) || 5001,
     HOST: process.env.HOST || 'localhost',
+    FRONTEND_APP_URL: process.env.FRONTEND_APP_URL,
   } as IBackendApplicationConfig,
   [DATABASE_CONFIG]: {
     CONNECTION_URL: process.env.DATABASE_URL,

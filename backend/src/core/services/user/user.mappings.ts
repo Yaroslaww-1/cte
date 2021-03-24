@@ -1,4 +1,9 @@
 import { UserDto } from '@shared/dto';
 import { IUserModel } from '@src/data/dao/user/user.model';
+import { UserEntity } from './entities/user.entity';
 
-export const mapUserEntityToUserDto = (userModel: IUserModel): UserDto => new UserDto(userModel);
+const mapUserEntityToUserDto = (userEntity: UserEntity): UserDto => new UserDto(userEntity);
+
+const mapUserModelToUserEntity = (userModel: IUserModel): UserEntity => new UserEntity(userModel);
+
+export { mapUserEntityToUserDto, mapUserModelToUserEntity };

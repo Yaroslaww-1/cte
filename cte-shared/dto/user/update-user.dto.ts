@@ -4,10 +4,10 @@ import { IsString } from 'class-validator';
 @Expose()
 export class UpdateUserDto {
   @IsString()
-  readonly name!: string;
+  readonly name?: string;
 
   @IsString()
-  readonly email!: string;
+  readonly email?: string;
 
   constructor(props: UpdateUserDto) {
     Object.assign(this, props);

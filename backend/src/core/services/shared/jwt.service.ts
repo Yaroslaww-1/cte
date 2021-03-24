@@ -16,8 +16,8 @@ export class JwtService {
     this.SECRET = SECRET;
   }
 
-  async verify(token: string): Promise<boolean> {
-    return await jwtVerify(this.SECRET)(token);
+  async verify<T>(token: string): Promise<T> {
+    return await jwtVerify(this.SECRET)<T>(token);
   }
 
   async sign(payload: JwtPayloadType, options: JwtSignOptions): Promise<string> {

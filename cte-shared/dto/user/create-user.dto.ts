@@ -9,6 +9,9 @@ export class CreateUserDto {
   @IsString()
   readonly email!: string;
 
+  @IsString()
+  readonly password!: string;
+
   constructor(props: CreateUserDto) {
     Object.assign(this, props);
   }

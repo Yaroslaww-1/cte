@@ -12,9 +12,6 @@ export class UserDto {
   @IsString()
   readonly email!: string;
 
-  @IsString()
-  readonly passwordHash!: string;
-
   constructor(props: UserDto) {
     Object.assign(this, props);
   }

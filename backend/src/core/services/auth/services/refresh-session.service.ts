@@ -12,10 +12,10 @@ export class RefreshSessionService {
   async createRefreshSession(refreshSession: RefreshSessionEntity): Promise<void> {
     const isValidSessionsCount = await this.isValidSessionsCount(refreshSession.userId);
     if (isValidSessionsCount) {
-      await this.refreshSessionDao.createOne(new RefreshSessionEntity(refreshSession));
+      await this.refreshSessionDao.createOne(refreshSession);
     } else {
       await this.deleteAllUserRefreshSessions(refreshSession.userId);
-      await this.refreshSessionDao.createOne(new RefreshSessionEntity(refreshSession));
+      await this.refreshSessionDao.createOne(refreshSession);
     }
   }
 

@@ -4,7 +4,7 @@ import { Model, RelationMappings } from 'objection';
 interface IRefreshSessionModel {
   id: number;
   refreshToken: string;
-  userAgent: string;
+  userAgent?: string;
   fingerprint: string;
   ip: string;
   expiresIn: number;
