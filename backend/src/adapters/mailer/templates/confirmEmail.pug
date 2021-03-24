@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        style
+            include ./styles/confirmEmail.css
+    body
+        center
+            table.name
+                tbody
+                    tr 
+                        td
+                            img.logo(src="https://i.postimg.cc/Hn6PzTf9/cte.png" alt="cte")
+                        td Collaborative Text Editor
+            div.textUp Thanks for signing up.
+            div.textPlain Please confirm your email address to get full access to Collaborative Text Editor.
+            button.btn
+                a.textLink(href = `${confirmationLink}`) Confirm your email
