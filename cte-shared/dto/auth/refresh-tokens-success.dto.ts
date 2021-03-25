@@ -7,7 +7,7 @@ export class RefreshTokensSuccessDto {
   readonly accessToken!: string;
 
   @IsString()
-  readonly refreshToken!: string;
+  readonly refreshTokenId!: string;
 
   constructor(props: RefreshTokensSuccessDto) {
     Object.assign(this, props);

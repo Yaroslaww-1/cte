@@ -19,14 +19,14 @@ export class RefreshTokensService {
   ) {}
 
   async refreshTokens(refreshTokensRequest: RefreshTokensRequest): Promise<RefreshTokensSuccessResponse> {
-    const { refreshToken, fingerprint, ip, userAgent } = refreshTokensRequest;
+    const { refreshTokenId, fingerprint, ip, userAgent } = refreshTokensRequest;
 
     const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
     const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
 
-    const oldRefreshSession = await this.refreshSessionDao.findOne({ refreshToken });
+    const oldRefreshSession = await this.refreshSessionDao.findOne({ refreshTokenId });
     if (oldRefreshSession) {
-      await this.refreshSessionDao.deleteAll({ refreshToken });
+      await this.refreshSessionDao.deleteAll({ refreshTokenId });
     } else {
       throw new NotFoundException('Refresh session with given refreshToken');
     }
@@ -52,7 +52,7 @@ export class RefreshTokensService {
 
     return new RefreshTokensSuccessResponse({
       accessToken,
-      refreshToken: newRefreshSession.refreshToken,
+      refreshTokenId: newRefreshSession.refreshTokenId,
       refTokenExpiresInSeconds,
     });
   }

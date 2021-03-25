@@ -2,7 +2,7 @@ import { IsString, IsIP, IsUUID } from 'class-validator';
 
 class RefreshTokensRequest {
   @IsUUID(4)
-  readonly refreshToken!: string;
+  readonly refreshTokenId!: string;
 
   @IsString()
   readonly fingerprint!: string;

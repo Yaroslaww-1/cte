@@ -7,7 +7,7 @@ export class RefreshTokensDto {
   readonly fingerprint!: string;
 
   @IsString()
-  readonly refreshToken?: string;
+  readonly refreshTokenId?: string;
 
   constructor(props: RefreshTokensDto) {
     Object.assign(this, props);

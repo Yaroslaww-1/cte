@@ -3,7 +3,7 @@ import { IsString, IsUUID, IsIP, IsNumber, validateSync } from 'class-validator'
 
 class RefreshSessionEntity {
   @IsUUID(4)
-  readonly refreshToken!: string;
+  readonly refreshTokenId!: string;
 
   @IsNumber()
   readonly userId!: number;
@@ -20,10 +20,10 @@ class RefreshSessionEntity {
   @IsString()
   readonly userAgent?: string;
 
-  constructor(props: Omit<RefreshSessionEntity, 'refreshToken'>) {
+  constructor(props: Omit<RefreshSessionEntity, 'refreshTokenId'>) {
     Object.assign(this, {
       ...props,
-      refreshToken: uuidv4(),
+      refreshTokenId: uuidv4(),
     });
     validateSync(this);
   }

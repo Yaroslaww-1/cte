@@ -3,8 +3,8 @@ import { IRefreshSessionModel, RefreshSessionModel } from './refresh-session.mod
 import { ModelClass, QueryBuilder } from 'objection';
 
 type IRefreshSessionFilter = {
+  refreshTokenId?: string;
   userId?: number;
-  refreshToken?: string;
 };
 
 @Injectable()
@@ -12,15 +12,15 @@ export class RefreshSessionDao {
   constructor(@Inject(RefreshSessionModel) private readonly refreshSessionModel: ModelClass<RefreshSessionModel>) {}
 
   private updateWhereWithFilters(
-    { userId, refreshToken }: IRefreshSessionFilter,
+    { userId, refreshTokenId }: IRefreshSessionFilter,
     qb: QueryBuilder<RefreshSessionModel, unknown>
   ): QueryBuilder<RefreshSessionModel, unknown> {
     if (userId) {
       qb.where('userId', userId);
     }
 
-    if (refreshToken) {
-      qb.where('refreshToken', refreshToken);
+    if (refreshTokenId) {
+      qb.where('refreshTokenId', refreshTokenId);
     }
 
     return qb;

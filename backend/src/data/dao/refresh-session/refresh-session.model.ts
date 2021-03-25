@@ -3,7 +3,7 @@ import { Model, RelationMappings } from 'objection';
 
 interface IRefreshSessionModel {
   id: number;
-  refreshToken: string;
+  refreshTokenId: string;
   userAgent?: string;
   fingerprint: string;
   ip: string;

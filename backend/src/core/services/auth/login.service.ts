@@ -48,11 +48,11 @@ export class LoginService {
     await this.refreshSessionService.createRefreshSession(newRefreshSession);
 
     const accessToken = await this.accessTokenService.makeAccessToken(user);
-    const refreshToken = newRefreshSession.refreshToken;
+    const refreshTokenId = newRefreshSession.refreshTokenId;
 
     return new LoginSuccessResponse({
       accessToken,
-      refreshToken,
+      refreshTokenId,
       refTokenExpiresInSeconds,
     });
   }

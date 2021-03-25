@@ -5,7 +5,7 @@ class LoginSuccessDto {
   readonly accessToken!: string;
 
   @IsString()
-  readonly refreshToken!: string;
+  readonly refreshTokenId!: string;
 
   constructor(props: LoginSuccessDto) {
     Object.assign(this, props);

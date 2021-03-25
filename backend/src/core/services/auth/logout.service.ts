@@ -7,12 +7,12 @@ import { RefreshSessionDao } from '@src/data/dao/refresh-session/refresh-session
 export class LogoutService {
   constructor(private readonly refreshSessionDao: RefreshSessionDao) {}
 
-  async logout(refreshToken: string): Promise<LogoutSuccessDto> {
-    if (!refreshToken) {
-      throw new InvalidParamsException('Refresh token not provided');
+  async logout(refreshTokenId: string): Promise<LogoutSuccessDto> {
+    if (!refreshTokenId) {
+      throw new InvalidParamsException('Refresh token id not provided');
     }
 
-    await this.refreshSessionDao.deleteAll({ refreshToken });
+    await this.refreshSessionDao.deleteAll({ refreshTokenId });
 
     // TODO: fix no typings support here
     return new LogoutSuccessDto({ message: 'User is logged out from current session.' });

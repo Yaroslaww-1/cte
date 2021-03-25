@@ -13,13 +13,17 @@ import { LoginService } from '@src/core/services/auth/login.service';
 import { LogoutService } from '@src/core/services/auth/logout.service';
 import { RefreshTokensService } from '@src/core/services/auth/refresh-token.service';
 import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { IBackendApplicationConfig } from '@src/config/backend-application.config';
+import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly loginService: LoginService,
     private readonly logoutService: LogoutService,
-    private readonly refreshTokensService: RefreshTokensService
+    private readonly refreshTokensService: RefreshTokensService,
+    private readonly configService: ConfigService
   ) {}
 
   @Post('login')
@@ -32,8 +36,9 @@ export class AuthController {
     const ip = request.ip;
 
     const loginSuccessResponse = await this.loginService.login(new LoginRequest({ ...loginDto, userAgent, ip }));
-    response.cookie('refreshToken', loginSuccessResponse.refreshToken, {
-      domain: 'localhost',
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
+      domain,
       path: '/auth',
       maxAge: loginSuccessResponse.refTokenExpiresInSeconds,
       secure: false, // temp: should be deleted
@@ -41,7 +46,7 @@ export class AuthController {
 
     return new LoginSuccessDto({
       accessToken: loginSuccessResponse.accessToken,
-      refreshToken: loginSuccessResponse.refreshToken,
+      refreshTokenId: loginSuccessResponse.refreshTokenId,
     });
   }
 
@@ -57,7 +62,7 @@ export class AuthController {
     @Req() request: Request,
     @Res() response: Response
   ): Promise<RefreshTokensSuccessDto> {
-    const refreshToken = refreshTokensDto.refreshToken || request.cookies.refreshToken;
+    const refreshTokenId = refreshTokensDto.refreshTokenId || request.cookies.refreshTokenId;
     const userAgent = request.headers['user-agent'];
     const ip = request.ip;
 
@@ -66,11 +71,12 @@ export class AuthController {
         userAgent,
         ip,
         fingerprint: refreshTokensDto.fingerprint,
-        refreshToken,
+        refreshTokenId,
       })
     );
-    response.cookie('refreshToken', refreshTokensResponse.refreshToken, {
-      domain: 'localhost',
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    response.cookie('refreshTokenId', refreshTokensResponse.refreshTokenId, {
+      domain,
       path: '/auth',
       maxAge: refreshTokensResponse.refTokenExpiresInSeconds,
       secure: false, // temp: should be deleted
@@ -78,7 +84,7 @@ export class AuthController {
 
     return new RefreshTokensSuccessDto({
       accessToken: refreshTokensResponse.accessToken,
-      refreshToken: refreshTokensResponse.refreshToken,
+      refreshTokenId: refreshTokensResponse.refreshTokenId,
     });
   }
 }

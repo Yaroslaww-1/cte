@@ -5,7 +5,7 @@ class RefreshTokensSuccessResponse {
   readonly accessToken!: string;
 
   @IsString()
-  readonly refreshToken!: string;
+  readonly refreshTokenId!: string;
 
   @IsNumber()
   readonly refTokenExpiresInSeconds!: number;
