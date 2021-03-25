@@ -3,7 +3,6 @@ module.exports = {
   plugins: [
     'eslint-plugin-prettier',
     '@typescript-eslint/eslint-plugin',
-    'prettier',
     'sonarjs'
   ],
   extends: [
