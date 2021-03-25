@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, UseGuards } from '@nestjs/common';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import {
   LoginDto,
   LoginSuccessDto,
@@ -18,6 +19,7 @@ import { IBackendApplicationConfig } from '@src/config/backend-application.confi
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 
 @Controller('auth')
+@UseGuards(ThrottlerGuard)
 export class AuthController {
   constructor(
     private readonly loginService: LoginService,
