@@ -13,7 +13,7 @@
         </section>
         <menu v-if="!fixed">
           <slot name="actions">
-            <base-button @click="tryClose">Close</base-button>
+            <LinkButton @click="tryClose">Close</LinkButton>
           </slot>
         </menu>
       </dialog>
@@ -22,9 +22,9 @@
 </template>
 
 <script lang="ts">
-import BaseButton from './BaseButton.vue';
+import LinkButton from '../buttons/link-button.vue';
 export default {
-  components: { BaseButton },
+  components: { LinkButton },
   props: {
     show: {
       type: Boolean,
