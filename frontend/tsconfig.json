@@ -7,7 +7,9 @@
     ],
     "paths": {
       "@src/*": ["src/*"],
-      "@shared/*": ["../cte-shared/*"] 
+      "@api/*": ["src/api/services/*"],
+      "@shared/*": ["../cte-shared/*"],
+      "@shared-frontend/*": ["src/shared-frontend/*"],
     },
     "lib": [
       "esnext",
