@@ -9,17 +9,15 @@ import * as pug from 'pug';
 @Injectable()
 export class MailerAdapter {
   private transporter;
-  private sender;
 
   constructor(private configService: ConfigService) {
-    this.sender = this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_ADDRESS;
     this.transporter = nodemailer.createTransport({
       host: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.MAILER_HOST,
       port: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.MAILER_PORT,
       secure: false,
       requireTLS: true,
       auth: {
-        user: this.sender,
+        user: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_ADDRESS,
         pass: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_PASS,
       },
     });
@@ -28,7 +26,7 @@ export class MailerAdapter {
   async sendMail(recipient: string, messageConfig: MessageConfig): Promise<void> {
     const message = pug.renderFile(messageConfig.templatePath, messageConfig.payload);
     this.transporter.sendMail({
-      from: this.sender,
+      from: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_ADDRESS,
       to: recipient,
       subject: messageConfig.letterSubject,
       html: message,
