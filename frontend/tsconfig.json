@@ -10,6 +10,8 @@
       "@api/*": ["src/api/services/*"],
       "@shared/*": ["../cte-shared/*"],
       "@shared-frontend/*": ["src/shared-frontend/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
     },
     "lib": [
       "esnext",
@@ -18,6 +20,9 @@
       "scripthost"
     ]
   },
+  "include": [
+    "src/*"
+  ],
   "exclude": [
     "node_modules",
     "dist",

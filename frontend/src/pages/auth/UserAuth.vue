@@ -40,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import BaseCard from '../components/BaseCard.vue';
-import BaseButton from '../components/BaseButton.vue';
-import BaseDialog from '../components/BaseDialog.vue';
-import TheHeader from './TheHeader.vue';
+import BaseCard from '@components/BaseCard.vue';
+import BaseButton from '@components/BaseButton.vue';
+import BaseDialog from '@components/BaseDialog.vue';
+import TheHeader from '@components/navbar/navbar.vue';
 export default {
   components: {
     BaseCard,
@@ -51,7 +51,8 @@ export default {
     BaseDialog,
     TheHeader,
   },
-  data(): unknown {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data(): any {
     return {
       email: '',
       password: '',

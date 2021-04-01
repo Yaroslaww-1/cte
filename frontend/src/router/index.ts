@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
-import UserAuth from '../components/UserAuth.vue';
-import TheHome from '../components/TheHome.vue';
+import UserAuth from '@pages/auth/UserAuth.vue';
+import Home from '@components/home.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/home',
-    component: TheHome,
+    component: Home,
   },
   {
     path: '/',
