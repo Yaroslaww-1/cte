@@ -7917,6 +7917,8 @@ __metadata:
     vue: ^3.0.0
     vue-class-component: ^8.0.0-0
     vue-router: ^4.0.0-0
+    vuex: ^4.0.0
+    vuex-module-decorators: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -17060,6 +17062,25 @@ typescript@^4.2.2:
     "@vue/runtime-dom": 3.0.7
     "@vue/shared": 3.0.7
   checksum: fff6b23dc3f24cf7d51810779b3b4e81f227c00fd0b67bffee409687ad9f8ab824de4b0f940e986840e75938fce334b26a3f59b0ff3409fb7748c448b3792cb0
+  languageName: node
+  linkType: hard
+
+"vuex-module-decorators@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "vuex-module-decorators@npm:1.0.1"
+  peerDependencies:
+    vue: ">=2"
+    vuex: 3
+  checksum: b37554d8f9e1fe97afb92194b3c70e8e3613c19bf6c0887b93d2eb27786927e638fc7e71f87ea832a7d9507e6c60e8170d5ca931ca4dc51fda44e8011645e481
+  languageName: node
+  linkType: hard
+
+"vuex@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "vuex@npm:4.0.0"
+  peerDependencies:
+    vue: ^3.0.2
+  checksum: 7420b32b75cb605a355df1d73de737362207ae86f24d1163a6a96d358da5d2094fd92edd5023da048af636cb59d1b506c7d4d1436a8a4951841230659a5c4e55
   languageName: node
   linkType: hard
 
