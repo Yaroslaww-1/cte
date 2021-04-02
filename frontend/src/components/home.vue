@@ -1,14 +1,14 @@
 <template>
   <div>
-    <the-header></the-header>
+    <Navbar />
     <h1>Welcome to CTE</h1>
   </div>
 </template>
 
 <script lang="ts">
-import TheHeader from './TheHeader.vue';
+import Navbar from '@components/navbar/navbar.vue';
 export default {
-  components: { TheHeader },
+  components: { Navbar },
 };
 </script>
 
