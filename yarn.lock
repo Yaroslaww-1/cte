@@ -7819,6 +7819,7 @@ __metadata:
     eslint-plugin-vue: ^7.0.0-0
     node-sass: ^4.12.0
     sass-loader: ^8.0.2
+    ts-debounce: ^3.0.0
     vue: ^3.0.0
     vue-class-component: ^8.0.0-0
     vue-router: ^4.0.0-0
@@ -16012,6 +16013,13 @@ fsevents@^1.2.7:
   version: 1.0.1
   resolution: "tryer@npm:1.0.1"
   checksum: 0d0fa95e8a3b518d5dc51442cf9dc185ebbc534173c4bf74c3fd4e118489b6a2f00765040c893d37dcabbe5dd401ddf5729cdba9857a50e2aabc614f42702341
+  languageName: node
+  linkType: hard
+
+"ts-debounce@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "ts-debounce@npm:3.0.0"
+  checksum: e95e80621010646bc598f3f74e05379bea0c85ffbfcce85cf54df25594d21b1c34dffcaaddb8e6ade52830590a46db12d452e252ac774748e12b9a104041b3aa
   languageName: node
   linkType: hard
 
