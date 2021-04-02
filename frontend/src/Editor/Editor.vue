@@ -8,7 +8,7 @@
 			:action="module.action"
 		/>
 	</div>
-	<div id="editor" contenteditable spellcheck="false" @input="this.$options.methods.update">Enter text here...</div>
+	<div id="editor" contenteditable spellcheck="false" @input="this.update">Enter text here...</div>
 </template>
 
 <script lang="ts">
@@ -22,19 +22,19 @@ import italic from './modules/italic';
 	components: {
 		Button,
 	},
-	methods: {
-		execute(command: string, arg?: string): void {
-			const editor = document.getElementById('editor');
-			if (editor !== null) editor.focus();
-			document.execCommand(command, false, arg || '');
-		},
-		update: debounce(function (event) {
-			console.log(event.target.innerHTML);
-		}, 500),
-	},
 })
 export default class Editor extends Vue {
 	modules = [bold, italic];
+
+	execute(command: string, arg?: string): void {
+		const editor = document.getElementById('editor');
+		if (editor !== null) editor.focus();
+		document.execCommand(command, false, arg || '');
+	}
+
+	update = debounce(event => {
+		console.log(event.target.innerHTML);
+	}, 500);
 }
 </script>
 

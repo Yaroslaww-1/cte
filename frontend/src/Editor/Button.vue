@@ -1,6 +1,6 @@
 <template>
 	<button
-		@click="if (this.$parent !== null) this.$parent.$options.methods.execute(action);"
+		@click="if (this.$parent !== null) this.$parent.execute(action);"
 		:title="this.description"
 		v-html="icon"
 		class="btn"
