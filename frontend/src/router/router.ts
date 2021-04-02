@@ -1,20 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
-import UserAuth from '@pages/auth/UserAuth.vue';
-import Home from '@components/home.vue';
+import LoginPage from '@pages/auth/login-page.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/auth',
-    component: UserAuth,
-  },
-  {
-    path: '/home',
-    component: Home,
-  },
-  {
-    path: '/',
-    redirect: '/home',
+    path: '/login',
+    component: LoginPage,
   },
 ];
 
