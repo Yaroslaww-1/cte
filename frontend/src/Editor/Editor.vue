@@ -8,11 +8,12 @@
 			:action="module.action"
 		/>
 	</div>
-	<div id="editor" contenteditable spellcheck="false">Enter text here...</div>
+	<div id="editor" contenteditable spellcheck="false" @input="this.$options.methods.update">Enter text here...</div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { debounce } from 'ts-debounce';
 import Button from '@src/Editor/Button.vue';
 import bold from './modules/bold';
 import italic from './modules/italic';
@@ -27,6 +28,9 @@ import italic from './modules/italic';
 			if (editor !== null) editor.focus();
 			document.execCommand(command, false, arg || '');
 		},
+		update: debounce(function (event) {
+			console.log(event.target.innerHTML);
+		}, 500),
 	},
 })
 export default class Editor extends Vue {
