@@ -6,13 +6,13 @@
 </template>
 
 <script lang="ts">
-import TheHeader from './TheHeader.vue';
+import TheHeader from './navbar/navbar.vue';
 export default {
   components: { TheHeader },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 h1 {
   text-align: center;
   margin-top: 1rem;

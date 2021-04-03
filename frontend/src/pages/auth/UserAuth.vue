@@ -40,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import BaseCard from '@components/BaseCard.vue';
-import BaseButton from '@components/BaseButton.vue';
-import BaseDialog from '@components/BaseDialog.vue';
-import TheHeader from '@components/navbar/navbar.vue';
+import BaseCard from '../../components/cards/card.vue';
+import BaseButton from '../../components/buttons/link-button.vue';
+import BaseDialog from '../../components/dialogs/dialog.vue';
+import TheHeader from '../../components/navbar/navbar.vue';
 export default {
   components: {
     BaseCard,
@@ -127,34 +127,35 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 form {
   margin: 1rem;
   padding: 1rem;
 }
+
 .form-control {
   margin: 0.5rem 0;
 }
+
 label {
   font-weight: bold;
   margin-bottom: 0.5rem;
   margin-top: 0.7rem;
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.1rem;;
 }
-input,
-textarea {
+
+input {
   display: block;
   width: 100%;
   height: 2.5rem;
   font: inherit;
   border: 1px solid #ccc;
   padding: 0.15rem;
-}
-input:focus,
-textarea:focus {
-  border-color: #3d3d3d;
-  background-color: #faf6ff;
-  outline: none;
+  &:focus {
+    border-color: #3d3d3d;
+    background-color: #faf6ff;
+    outline: none;
+  }
 }
 </style>

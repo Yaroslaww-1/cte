@@ -52,20 +52,25 @@ export default {
 };
 </script>
 
-<style scoped>
-.backdrop {
+<style lang="scss" scoped>
+@mixin fixedPosition($top, $left) {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: $top;
+  left: $left;
+}
+@mixin animationParams($opacity, $scale) {
+  opacity: $opacity;
+  transform: scale($scale);
+}
+.backdrop {
+  @include fixedPosition(0, 0);
   height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
 }
 dialog {
-  position: fixed;
-  top: 20vh;
-  left: 10%;
+  @include fixedPosition(20vh, 10%);
   width: 80%;
   z-index: 100;
   border-radius: 12px;
@@ -75,15 +80,19 @@ dialog {
   margin: 0;
   overflow: hidden;
   background-color: white;
+  @media (min-width: 768px) {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
 }
 header {
   background-color: #7a7a7a;
   color: white;
   width: 100%;
   padding: 1rem;
-}
-header h2 {
-  margin: 0;
+  h2 {
+    margin: 0;
+  }
 }
 section {
   padding: 1rem;
@@ -97,8 +106,7 @@ menu {
 }
 .dialog-enter-from,
 .dialog-leave-to {
-  opacity: 0;
-  transform: scale(0.8);
+  @include animationParams(0, 0.8);
 }
 .dialog-enter-active {
   transition: all 0.3s ease-out;
@@ -108,13 +116,6 @@ menu {
 }
 .dialog-enter-to,
 .dialog-leave-from {
-  opacity: 1;
-  transform: scale(1);
-}
-@media (min-width: 768px) {
-  dialog {
-    left: calc(50% - 20rem);
-    width: 40rem;
-  }
+  @include animationParams(1, 1);
 }
 </style>

@@ -29,7 +29,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 button,
 a {
   text-decoration: none;
@@ -43,23 +43,19 @@ a {
   margin-right: 0.5rem;
   display: inline-block;
   outline: none;
+  &:hover,
+  &:active {
+    background-color: #535353;
+    border-color: #535353;
+  }
 }
-a:hover,
-a:active,
-button:hover,
-button:active {
-  background-color: #535353;
-  border-color: #535353;
-}
+
 .flat {
   background-color: transparent;
   color: #696969;
   border: none;
+  &:hover,
+  &:active {
+    background-color: #e8e8e8;
+  }
 }
-.flat:hover,
-.flat:active,
-.outline:hover,
-.outline:active {
-  background-color: #e8e8e8;
-}
-</style>
