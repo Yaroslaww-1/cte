@@ -16,7 +16,7 @@ export class LoginService {
   constructor(
     private readonly userDao: UserDao,
     private readonly refreshSessionService: RefreshSessionService,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
   ) {}
 
   async login(loginRequest: LoginRequest): Promise<LoginSuccessResponse> {

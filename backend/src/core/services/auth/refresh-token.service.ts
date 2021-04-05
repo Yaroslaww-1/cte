@@ -15,7 +15,7 @@ export class RefreshTokensService {
     private readonly refreshSessionDao: RefreshSessionDao,
     private readonly refreshSessionService: RefreshSessionService,
     private readonly userDao: UserDao,
-    private readonly accessTokenService: AccessTokenService
+    private readonly accessTokenService: AccessTokenService,
   ) {}
 
   async refreshTokens(refreshTokensRequest: RefreshTokensRequest): Promise<RefreshTokensSuccessResponse> {

@@ -38,7 +38,7 @@ export class UserService {
         email: createUserDto.email,
         name: createUserDto.name,
         passwordHash,
-      })
+      }),
     );
 
     const emailConfirmToken = await this.emailConfirmService.makeEmailConfirmToken(user);

@@ -13,7 +13,7 @@ export class RefreshSessionDao {
 
   private updateWhereWithFilters(
     { userId, refreshTokenId }: IRefreshSessionFilter,
-    qb: QueryBuilder<RefreshSessionModel, unknown>
+    qb: QueryBuilder<RefreshSessionModel, unknown>,
   ): QueryBuilder<RefreshSessionModel, unknown> {
     if (userId) {
       qb.where('userId', userId);

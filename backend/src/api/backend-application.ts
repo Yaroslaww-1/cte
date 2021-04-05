@@ -25,7 +25,7 @@ export class BackendApplication {
       new ValidationPipe({
         transform: true,
         transformOptions: { enableImplicitConversion: true },
-      })
+      }),
     );
     app.setGlobalPrefix('api');
 
