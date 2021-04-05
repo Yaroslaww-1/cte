@@ -5891,6 +5891,7 @@ __metadata:
   dependencies:
     class-transformer: ^0.4.0
     class-validator: ^0.13.1
+    diff_match_patch: ^0.1.1
   languageName: unknown
   linkType: soft
 
@@ -6218,6 +6219,13 @@ __metadata:
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
   checksum: 81b5cd7ddde6f0ba2a532d434cfdca365aedd6cc62bb133e851e66e071d40382a30924a07c1034bd3d5a2e332146f64514b73c06fe2ebc0490a67f0c98da79fb
+  languageName: node
+  linkType: hard
+
+"diff_match_patch@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "diff_match_patch@npm:0.1.1"
+  checksum: ea467542b409ef689d8ab645873a857685998575dcf5218908da6c491464663a3eb322a3b28bd766514689afafeca71d32b4f4c4c59087aadd70b77e8e67b7ec
   languageName: node
   linkType: hard
 
@@ -7823,6 +7831,7 @@ __metadata:
     vue: ^3.0.0
     vue-class-component: ^8.0.0-0
     vue-router: ^4.0.0-0
+    worker-loader: ^3.0.8
   languageName: unknown
   linkType: soft
 
@@ -17257,6 +17266,18 @@ typescript@^4.2.2:
   dependencies:
     errno: ~0.1.7
   checksum: ef76a6892bdf6a4231e6d657c13e2e960278535915d6235d9e0e3e23b65da94a56e5bed17ac5fda282370601d4cd18f4cba9552aa52f4fa9a25cc9fd3fcf58a9
+  languageName: node
+  linkType: hard
+
+"worker-loader@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "worker-loader@npm:3.0.8"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: 42e93da80473b886b25084f6e15f696a1afe0d00559370a138805f9ddc368ba676436abfe147f4cdb5255716b56bf6f3bc8926364d68e27216189cea95d416cf
   languageName: node
   linkType: hard
 
