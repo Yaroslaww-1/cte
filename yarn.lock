@@ -7915,7 +7915,6 @@ __metadata:
     node-sass: ^4.12.0
     sass-loader: ^8.0.2
     vue: ^3.0.0
-    vue-class-component: ^8.0.0-0
     vue-router: ^4.0.0-0
     vuex: ^4.0.0
     vuex-module-decorators: ^1.0.1
@@ -16961,15 +16960,6 @@ typescript@^4.2.2:
   version: 3.1.0
   resolution: "void-elements@npm:3.1.0"
   checksum: ed0f78f1434f4a5588078861815b3ebdbb0913e5129c3f1b37a3408a9f7c772d28702846316734e758ba40cad4e85371e50160d92d7968b86f12bf7227a1c6c9
-  languageName: node
-  linkType: hard
-
-"vue-class-component@npm:^8.0.0-0":
-  version: 8.0.0-rc.1
-  resolution: "vue-class-component@npm:8.0.0-rc.1"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 8406bc931c30c6395bd098ffdce69ab7e9635f09b2b64f48c19810c07aa60504e4d30b87340a93a005dd798a95d68b1298b690fbdfc26dc8b4b3298653e008a0
   languageName: node
   linkType: hard
 
