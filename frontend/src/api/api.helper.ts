@@ -5,7 +5,7 @@ import { ApiResponseException } from '@shared-frontend/exceptions/api-response.e
 const BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 class Api {
-  private readonly instance: AxiosInstance;
+  readonly instance: AxiosInstance;
   private readonly commonHeaders: {
     [key in string]: string;
   };
@@ -35,6 +35,7 @@ class Api {
     const response = await this.instance
       .post(url, payload, {
         headers: this.commonHeaders,
+        withCredentials: true,
       })
       .then(({ data }) => data)
       .catch(this.handleError);
@@ -81,4 +82,5 @@ class Api {
   }
 }
 
+export { Api };
 export default new Api();
