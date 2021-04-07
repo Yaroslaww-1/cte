@@ -41,7 +41,6 @@ export default class Editor extends Vue {
 	}
 
 	update = debounce(event => {
-		console.log(event.target.innerHTML);
 		worker.postMessage({ newText: event.target.innerHTML });
 	}, 500);
 }
