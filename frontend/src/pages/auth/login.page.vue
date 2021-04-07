@@ -11,9 +11,7 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
-import AuthVuexModule from './auth.vuex-module';
-import { getModule } from 'vuex-module-decorators';
-const authVuexModule = getModule(AuthVuexModule);
+import { authVuexModule } from '@src/vuex/store-accessor';
 
 export default defineComponent({
   components: {

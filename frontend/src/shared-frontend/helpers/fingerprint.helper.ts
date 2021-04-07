@@ -1,5 +1,5 @@
-import Fingerprint2 from 'fingerprintjs2';
-import UAParser from 'ua-parser-js';
+import * as Fingerprint2 from 'fingerprintjs2';
+import * as UAParser from 'ua-parser-js';
 
 const getFingerprint = (): Promise<string> => {
   return new Promise((resolve, reject) => {

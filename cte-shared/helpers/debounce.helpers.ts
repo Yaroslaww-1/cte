@@ -1,5 +1,6 @@
 const debounce = <T = unknown>(inner: () => Promise<T>, ms = 0): (() => Promise<T>) => {
-  let timer: NodeJS.Timeout | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let timer: any | null = null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let resolves: any[] = [];
 
