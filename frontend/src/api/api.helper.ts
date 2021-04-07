@@ -1,8 +1,9 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { stringifyParams } from '@shared/helpers';
 import { ApiResponseException } from '@shared-frontend/exceptions/api-response.exception';
+import { authService } from './services/auth.service';
 
-const BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const BASE_URL = process.env.API_URL || '/api';
 
 class Api {
   readonly instance: AxiosInstance;
@@ -82,5 +83,42 @@ class Api {
   }
 }
 
-export { Api };
-export default new Api();
+class ApiWithAuth extends Api {
+  constructor() {
+    super();
+
+    super.instance.interceptors.request.use(
+      request => {
+        request.headers.authorization = authService.bearerService.getBearer();
+        // if access token expired and refreshToken is exist >> go to API and get new access token
+        if (
+          authService.accessTokenService.isAccessTokenExpired() &&
+          authService.refreshTokenService.isRefreshTokenExist()
+        ) {
+          return (
+            authService
+              .debounceRefreshTokens()
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .then(response => {
+                authService.accessTokenService.updateAccessToken(response!.accessToken);
+                request.headers.authorization = authService.bearerService.getBearer();
+                return request;
+              })
+              .catch(error => Promise.reject(error))
+          );
+        } else {
+          return request;
+        }
+      },
+      error => {
+        return Promise.reject(error);
+      },
+    );
+  }
+}
+
+const api = new Api();
+const apiWithAuth = new ApiWithAuth();
+
+export { Api, ApiWithAuth };
+export { api, apiWithAuth };
