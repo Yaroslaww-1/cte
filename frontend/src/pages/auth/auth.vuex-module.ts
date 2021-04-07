@@ -1,11 +1,11 @@
-// eg. /app/store/posts.ts
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 
-import { UserDto } from '@shared/dto';
-import { authService } from '@src/api/services/auth.service';
+import { LoginDto, UserDto } from '@shared/dto';
+import { AuthApi } from '@src/api/services/auth/auth.api';
+import { getFingerprint } from '@src/shared-frontend/helpers/fingerprint.helper';
 
 @Module({ namespaced: true, name: 'auth' })
-export default class AuthVuexModule extends VuexModule {
+class AuthVuexModule extends VuexModule {
   currentUser: UserDto | null = null;
   accessToken: string | null = null;
   accessTokenExpireDate: Date | null = null;
@@ -31,16 +31,20 @@ export default class AuthVuexModule extends VuexModule {
     this.refreshTokenId = refreshTokenId;
   }
 
-  @Action
+  @Action({ rawError: true })
   async login({ email, password }: { email: string; password: string }): Promise<void> {
-    const loginResponse = await authService.login({ email, password });
-    this.context.commit('updateAccessToken', loginResponse.accessToken);
-    this.context.commit('updateRefreshTokenId', loginResponse.refreshTokenId);
+    const fingerprint = await getFingerprint();
+    const loginDto = new LoginDto({ email, password, fingerprint });
+    const loginResponse = await AuthApi.login(loginDto);
+    this.updateAccessToken(loginResponse.accessToken);
+    this.updateRefreshTokenId(loginResponse.refreshTokenId);
   }
 
-  @Action
+  @Action({ rawError: true })
   async fetchCurrentUser(): Promise<void> {
-    const currentUser = await authService.getCurrentUser();
-    this.context.commit('updateCurrentUser', currentUser);
+    const currentUser = await AuthApi.getCurrentUser();
+    this.updateCurrentUser(currentUser);
   }
 }
+
+export { AuthVuexModule };
