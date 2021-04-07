@@ -3,7 +3,7 @@
     <h1>Welcome to CTE</h1>
     <input type="email" id="email" placeholder="Your Email" v-model.trim="email" />
     <input type="password" id="password" placeholder="Your Password" v-model.trim="password" />
-    <button></button>
+    <button @click="onLogin">Login</button>
   </Page>
 </template>
 
@@ -11,6 +11,9 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
+import AuthVuexModule from './auth.vuex-module';
+import { getModule } from 'vuex-module-decorators';
+const authVuexModule = getModule(AuthVuexModule);
 
 export default defineComponent({
   components: {
@@ -25,7 +28,9 @@ export default defineComponent({
   },
 
   methods: {
-    // onSubmit() {},
+    async onLogin() {
+      await authVuexModule.login({ email: this.email, password: this.password });
+    },
   },
 });
 </script>
