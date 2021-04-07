@@ -1,38 +1,10 @@
-import { getModule } from 'vuex-module-decorators';
-
+/* eslint-disable no-useless-constructor */
 import { debounce } from '@shared/helpers/debounce.helpers';
-import { LoginDto, LoginSuccessDto, RefreshTokensDto, RefreshTokensSuccessDto, UserDto } from '@shared/dto';
-import { api } from '../api.helper';
-import AuthVuexModule from '@src/pages/auth/auth.vuex-module';
+import { LoginDto, RefreshTokensDto, RefreshTokensSuccessDto } from '@shared/dto';
 import { getFingerprint } from '@shared-frontend/helpers/fingerprint.helper';
-const authVuexModule = getModule(AuthVuexModule);
+import { AuthApi } from './auth.api';
 
-const endpoint = 'auth';
-
-class AuthApi {
-  static async login(loginDto: LoginDto): Promise<LoginSuccessDto> {
-    return await api.post(`${endpoint}/login`, loginDto);
-  }
-
-  static async getCurrentUser(): Promise<UserDto> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: REPLACE WITH ACTUAL API CALL!
-        resolve({} as UserDto);
-      }, 1000);
-    });
-  }
-
-  // `${API_URL}/auth/refresh-tokens`
-  static async refreshTokens(refreshTokensDto: RefreshTokensDto): Promise<RefreshTokensSuccessDto> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: REPLACE WITH ACTUAL API CALL!
-        resolve({} as RefreshTokensSuccessDto);
-      }, 1000);
-    });
-  }
-}
+import { authVuexModule } from '@src/vuex/store-accessor';
 
 class BearerService {
   getBearer(): string {
@@ -46,7 +18,7 @@ class AccessTokenService {
     authVuexModule.updateAccessToken(accessToken);
   }
 
-  updateAccessTokenExpireDate(expireDate: Date): void {
+  updateAccessTokenExpireDate(expireDate: Date | null): void {
     authVuexModule.updateAccessTokenExpireDate(expireDate);
   }
 
@@ -83,14 +55,12 @@ class AuthService {
     this.refreshTokenService = new RefreshTokenService();
   }
 
-  async login({ email, password }: { email: string; password: string }): Promise<LoginSuccessDto> {
+  async login({ email, password }: { email: string; password: string }): Promise<void> {
     const fingerprint = await getFingerprint();
     const loginDto = new LoginDto({ email, password, fingerprint });
-    return await AuthApi.login(loginDto);
-  }
-
-  async getCurrentUser(): Promise<UserDto> {
-    return await AuthApi.getCurrentUser();
+    const loginResponse = await AuthApi.login(loginDto);
+    authVuexModule.updateAccessToken(loginResponse.accessToken);
+    authVuexModule.updateRefreshTokenId(loginResponse.refreshTokenId);
   }
 
   async refreshTokens(): Promise<RefreshTokensSuccessDto | undefined> {
@@ -112,8 +82,8 @@ class AuthService {
 
   private resetAuthData(): void {
     authVuexModule.updateCurrentUser(null);
-    authVuexModule.updateAccessTokenExpireDate(null);
     this.refreshTokenService.updateIsRefreshTokenExist(false);
+    this.accessTokenService.updateAccessTokenExpireDate(null);
     this.accessTokenService.updateAccessToken('');
   }
 
@@ -138,4 +108,4 @@ class AuthService {
 
 const authService = new AuthService();
 
-export { authService };
+export { authService, AuthService };
