@@ -3,7 +3,7 @@ import { stringifyParams } from '@shared/helpers';
 import { ApiResponseException } from '@shared-frontend/exceptions/api-response.exception';
 import { authService } from './services/auth.service';
 
-const BASE_URL = process.env.API_URL || '/api';
+const API_URL = process.env.API_URL;
 
 class Api {
   readonly instance: AxiosInstance;
@@ -12,8 +12,11 @@ class Api {
   };
 
   constructor() {
+    if (!API_URL) {
+      console.error('API_URL is not provided! Check your .env file');
+    }
     this.instance = axios.create({
-      baseURL: BASE_URL,
+      baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json',
       },

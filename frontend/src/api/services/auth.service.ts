@@ -2,19 +2,16 @@ import { getModule } from 'vuex-module-decorators';
 
 import { debounce } from '@shared/helpers/debounce.helpers';
 import { LoginDto, LoginSuccessDto, RefreshTokensDto, RefreshTokensSuccessDto, UserDto } from '@shared/dto';
+import { api } from '../api.helper';
 import AuthVuexModule from '@src/pages/auth/auth.vuex-module';
 import { getFingerprint } from '@shared-frontend/helpers/fingerprint.helper';
 const authVuexModule = getModule(AuthVuexModule);
 
+const endpoint = 'auth';
+
 class AuthApi {
   static async login(loginDto: LoginDto): Promise<LoginSuccessDto> {
-    // const response = await api.post(endpoint, loginDto, {});
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: REPLACE WITH ACTUAL API CALL!
-        resolve({} as LoginSuccessDto);
-      }, 1000);
-    });
+    return await api.post(`${endpoint}/login`, loginDto);
   }
 
   static async getCurrentUser(): Promise<UserDto> {
