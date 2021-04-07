@@ -19,7 +19,7 @@ export class EmailConfirmService {
     private readonly jwtService: JwtService,
     private readonly mailerAdapter: MailerAdapter,
     private readonly configService: ConfigService,
-    private readonly userDao: UserDao
+    private readonly userDao: UserDao,
   ) {}
 
   async makeEmailConfirmToken(userEntity: UserEntity): Promise<string> {

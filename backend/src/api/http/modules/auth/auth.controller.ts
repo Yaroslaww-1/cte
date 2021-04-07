@@ -25,14 +25,14 @@ export class AuthController {
     private readonly loginService: LoginService,
     private readonly logoutService: LogoutService,
     private readonly refreshTokensService: RefreshTokensService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {}
 
   @Post('login')
   async login(
     @Body() loginDto: LoginDto,
     @Req() request: Request,
-    @Res() response: Response
+    @Res() response: Response,
   ): Promise<LoginSuccessDto> {
     const userAgent = request.headers['user-agent'];
     const ip = request.ip;
@@ -62,7 +62,7 @@ export class AuthController {
   async refreshTokens(
     @Body() refreshTokensDto: RefreshTokensDto,
     @Req() request: Request,
-    @Res() response: Response
+    @Res() response: Response,
   ): Promise<RefreshTokensSuccessDto> {
     const refreshTokenId = refreshTokensDto.refreshTokenId || request.cookies.refreshTokenId;
     const userAgent = request.headers['user-agent'];
@@ -74,7 +74,7 @@ export class AuthController {
         ip,
         fingerprint: refreshTokensDto.fingerprint,
         refreshTokenId,
-      })
+      }),
     );
     const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
     response.cookie('refreshTokenId', refreshTokensResponse.refreshTokenId, {

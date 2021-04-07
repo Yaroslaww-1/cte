@@ -11,7 +11,7 @@ export class UserDao {
 
   private updateWhereWithFilters(
     { id, name, email }: IUserFilter,
-    qb: QueryBuilder<UserModel, UserModel[]>
+    qb: QueryBuilder<UserModel, UserModel[]>,
   ): QueryBuilder<UserModel, UserModel[]> {
     if (id) {
       qb.where('id', id);
