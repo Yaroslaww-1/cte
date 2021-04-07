@@ -6,6 +6,8 @@ import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
+import { ErrorExceptionFilter } from './exception-filters/error.exception-filter';
+import { loggerMiddleware } from './middlewares/logger.middleware';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -28,7 +30,9 @@ export class BackendApplication {
         transformOptions: { enableImplicitConversion: true },
       }),
     );
+    app.use(loggerMiddleware);
     app.setGlobalPrefix('api');
+    app.useGlobalFilters(new ErrorExceptionFilter());
 
     app.useWebSocketAdapter(new WsAdapter(app));
 
