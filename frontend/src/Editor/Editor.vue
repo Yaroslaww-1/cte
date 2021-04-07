@@ -18,6 +18,14 @@ import Button from '@src/Editor/Button.vue';
 import bold from './modules/bold';
 import italic from './modules/italic';
 
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import Worker from 'worker-loader!./Worker';
+
+const worker = new Worker();
+worker.addEventListener('message', function (e) {
+	console.log(e.data);
+});
+
 @Options({
 	components: {
 		Button,
@@ -34,6 +42,7 @@ export default class Editor extends Vue {
 
 	update = debounce(event => {
 		console.log(event.target.innerHTML);
+		worker.postMessage({ newText: event.target.innerHTML });
 	}, 500);
 }
 </script>
