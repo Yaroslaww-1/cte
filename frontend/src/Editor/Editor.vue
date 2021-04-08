@@ -19,10 +19,24 @@ import bold from './modules/bold';
 import italic from './modules/italic';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import Worker from 'worker-loader!./Worker';
+import PatchMakeWorker from 'worker-loader!./patch-make.worker';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import PatchApplyWorker from 'worker-loader!./patch-apply.worker';
 
-const worker = new Worker();
-worker.addEventListener('message', function (e) {
+// const socket = new WebSocket('ws://localhost:8080');
+// console.log(socket.readyState === WebSocket.CONNECTING);
+
+const patchMakeWorker = new PatchMakeWorker();
+patchMakeWorker.addEventListener('message', function (e) {
+	console.log('Patch by this user:');
+	console.log(e.data);
+});
+
+const patchApplyWorker = new PatchApplyWorker();
+patchApplyWorker.addEventListener('message', function (e) {
+	const editor = document.getElementById('editor');
+	if (editor) editor.innerHTML = e.data;
+	console.log('Patch by another user:');
 	console.log(e.data);
 });
 
@@ -36,12 +50,12 @@ export default class Editor extends Vue {
 
 	execute(command: string, arg?: string): void {
 		const editor = document.getElementById('editor');
-		if (editor !== null) editor.focus();
+		if (editor) editor.focus();
 		document.execCommand(command, false, arg || '');
 	}
 
 	update = debounce(event => {
-		worker.postMessage({ newText: event.target.innerHTML });
+		patchMakeWorker.postMessage({ newText: event.target.innerHTML });
 	}, 500);
 }
 </script>
