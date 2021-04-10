@@ -1,4 +1,4 @@
-import { CreateUserDto, UserDto } from '@shared/dto';
+import { CreateUserDto, EmailConfirmDto, EmailConfirmSuccessDto, UserDto } from '@shared/dto';
 import { api } from '../../api.helper';
 
 const endpoint = 'users';
@@ -13,9 +13,12 @@ class UserApi {
     });
   }
 
-  // `${API_URL}/auth/refresh-tokens`
   static async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
     return await api.post(endpoint, createUserDto);
+  }
+
+  static async confirmEmail(emailConfirmDto: EmailConfirmDto): Promise<EmailConfirmSuccessDto> {
+    return await api.post(`${endpoint}/email-confirm`, emailConfirmDto);
   }
 }
 

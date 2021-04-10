@@ -53,7 +53,7 @@ export class EmailConfirmService {
     await this.mailerAdapter.sendMail(userEmail, {
       templatePath: 'src/adapters/mailer/templates/confirmEmail.pug',
       payload: {
-        confirmationLink: `${frontendAppUrl}/auth/confirm-email?emailConfirmToken=${emailConfirmToken}`,
+        confirmationLink: `${frontendAppUrl}/confirm-email?emailConfirmToken=${emailConfirmToken}`,
       },
       letterSubject: 'Please confirm your email address',
     });
@@ -73,7 +73,7 @@ export class EmailConfirmService {
     const user = mapUserModelToUserEntity(userModel);
     await this.userDao.updateOne(user.id, {
       email: newEmail,
-      emailConfirmToken: undefined,
+      emailConfirmToken: null,
     });
 
     return new EmailConfirmSuccessDto({ message: `${newEmail} confirmed` });
