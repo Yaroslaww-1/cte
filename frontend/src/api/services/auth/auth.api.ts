@@ -1,4 +1,4 @@
-import { LoginDto, LoginSuccessDto, RefreshTokensDto, RefreshTokensSuccessDto, UserDto } from '@shared/dto';
+import { LoginDto, LoginSuccessDto, RefreshTokensDto, RefreshTokensSuccessDto } from '@shared/dto';
 import { api } from '../../api.helper';
 
 const endpoint = 'auth';

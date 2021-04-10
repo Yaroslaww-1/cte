@@ -1,6 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 
-import { CreateUserDto, LoginDto, UserDto } from '@shared/dto';
+import { CreateUserDto, EmailConfirmDto, LoginDto, UserDto } from '@shared/dto';
 import { AuthApi } from '@src/api/services/auth/auth.api';
 import { getFingerprint } from '@src/shared-frontend/helpers/fingerprint.helper';
 import { UserApi } from '@src/api/services/user/user.api';
@@ -44,6 +44,13 @@ class AuthVuexModule extends VuexModule {
   @Action({ rawError: true })
   async register(createUserDto: CreateUserDto): Promise<void> {
     const newUser = await UserApi.createUser(createUserDto);
+    // TODO: redirect to login
+  }
+
+  @Action({ rawError: true })
+  async confirmEmail(emailConfirmDto: EmailConfirmDto): Promise<void> {
+    const emailConfirmResponse = await UserApi.confirmEmail(emailConfirmDto);
+    // TODO: show notification with {emailConfirmResponse.message}
     // TODO: redirect to login
   }
 
