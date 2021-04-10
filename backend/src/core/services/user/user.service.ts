@@ -26,9 +26,9 @@ export class UserService {
   }
 
   async createNewUser(createUserDto: CreateUserDto): Promise<UserDto> {
-    const isUserWithGivenEmailExists = await this.getUser({ email: createUserDto.email });
+    const isUserWithGivenEmailExists = await this.userDao.findOne({ email: createUserDto.email });
     if (isUserWithGivenEmailExists) {
-      throw new InvalidParamsException('User with given email is already exists');
+      throw new InvalidParamsException('User with given email already exists');
     }
 
     const passwordHash = await makePasswordHash(createUserDto.password);
