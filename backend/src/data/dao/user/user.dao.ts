@@ -1,13 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserModel, UserModel } from '@src/data/dao/user/user.model';
 import { QueryBuilder, ModelClass } from 'objection';
+
+import { NullablePartial } from '@shared/types';
+import { IUserModel, UserModel } from '@src/data/dao/user/user.model';
+import { BaseDao } from '@src/data/abstraction/base-dao';
 
 // TODO: Reverse dependency
 export type IUserFilter = Partial<IUserModel>;
 
 @Injectable()
-export class UserDao {
-  constructor(@Inject(UserModel) private readonly userModel: ModelClass<UserModel>) {}
+export class UserDao extends BaseDao<UserModel> {
+  constructor(@Inject(UserModel) private readonly userModel: ModelClass<UserModel>) {
+    super(userModel);
+  }
 
   private updateWhereWithFilters(
     { id, name, email }: IUserFilter,
@@ -52,7 +57,12 @@ export class UserDao {
     await this.userModel.query().where('id', id);
   }
 
-  async updateOne(id: number, updateUser: Partial<IUserModel>): Promise<IUserModel> {
-    return await this.userModel.query().where({ id }).update(updateUser).returning('*').first();
+  async updateOne(id: number, updateUser: NullablePartial<IUserModel>): Promise<IUserModel> {
+    return await this.userModel
+      .query()
+      .where({ id })
+      .update(super.getUpdateObjectWithReplacedNulls(updateUser))
+      .returning('*')
+      .first();
   }
 }
