@@ -50,8 +50,8 @@ export class EmailConfirmService {
     const frontendAppUrl = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)
       ?.FRONTEND_APP_URL;
 
-    this.mailerAdapter.sendMail(userEmail, {
-      templatePath: './templates/confirmEmail.pug',
+    await this.mailerAdapter.sendMail(userEmail, {
+      templatePath: 'src/adapters/mailer/templates/confirmEmail.pug',
       payload: {
         confirmationLink: `${frontendAppUrl}/auth/confirm-email?emailConfirmToken=${emailConfirmToken}`,
       },

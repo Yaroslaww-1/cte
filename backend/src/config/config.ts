@@ -23,9 +23,7 @@ export const configFactory = () => ({
     SECRET: process.env.JWT_SECRET,
   } as IJwtConfig,
   [MAILER_CONFIG]: {
-    MAILER_HOST: process.env.MAILER_HOST,
-    MAILER_PORT: parseInt(process.env.MAILER_PORT || '', 10),
-    EMAIL_ADDRESS: process.env.EMAIL_ADDRESS,
-    EMAIL_PASS: process.env.EMAIL_PASS,
+    EMAIL_ADDRESS: process.env.MAILER_EMAIL_ADDRESS,
+    EMAIL_PASSWORD: process.env.MAILER_EMAIL_PASSWORD,
   } as IMailerConfig,
 });
