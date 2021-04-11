@@ -1,5 +1,8 @@
 import { Controller, Post, Body, Req, Res, UseGuards } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
+
 import {
   LoginDto,
   LoginSuccessDto,
@@ -13,8 +16,6 @@ import { RefreshTokensRequest } from '@src/core/services/auth/requests/refresh-t
 import { LoginService } from '@src/core/services/auth/login.service';
 import { LogoutService } from '@src/core/services/auth/logout.service';
 import { RefreshTokensService } from '@src/core/services/auth/refresh-token.service';
-import { Request, Response } from 'express';
-import { ConfigService } from '@nestjs/config';
 import { IBackendApplicationConfig } from '@src/config/backend-application.config';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 
@@ -32,7 +33,7 @@ export class AuthController {
   async login(
     @Body() loginDto: LoginDto,
     @Req() request: Request,
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
   ): Promise<LoginSuccessDto> {
     const userAgent = request.headers['user-agent'];
     const ip = request.ip;
@@ -62,7 +63,7 @@ export class AuthController {
   async refreshTokens(
     @Body() refreshTokensDto: RefreshTokensDto,
     @Req() request: Request,
-    @Res() response: Response,
+    @Res({ passthrough: true }) response: Response,
   ): Promise<RefreshTokensSuccessDto> {
     const refreshTokenId = refreshTokensDto.refreshTokenId || request.cookies.refreshTokenId;
     const userAgent = request.headers['user-agent'];
@@ -81,7 +82,7 @@ export class AuthController {
       domain,
       path: '/auth',
       maxAge: refreshTokensResponse.refTokenExpiresInSeconds,
-      secure: false, // temp: should be deleted
+      secure: false, // TODO: should be deleted
     });
 
     return new RefreshTokensSuccessDto({
