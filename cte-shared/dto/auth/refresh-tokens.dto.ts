@@ -1,11 +1,12 @@
 import { Expose } from 'class-transformer';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 @Expose()
 export class RefreshTokensDto {
   @IsString()
   readonly fingerprint!: string;
 
+  @IsOptional()
   @IsString()
   readonly refreshTokenId?: string;
 

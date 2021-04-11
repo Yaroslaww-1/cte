@@ -8,8 +8,8 @@ import { jwtVerify, jwtSign, JwtPayloadType, JwtSignOptions } from '@src/core/li
 export class JwtService {
   private SECRET: string;
 
-  constructor(private configService: ConfigService) {
-    const SECRET = configService.get<IJwtConfig>(JWT_CONFIG)?.SECRET;
+  constructor(private readonly configService: ConfigService) {
+    const SECRET = this.configService.get<IJwtConfig>(JWT_CONFIG)?.SECRET;
     if (!SECRET) {
       throw new Error('Jwt secret is not set!');
     }

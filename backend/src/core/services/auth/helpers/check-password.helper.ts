@@ -1,5 +1,5 @@
 import { InvalidPasswordException } from '@src/core/exceptions/auth/invalid-password.exception';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 const checkPassword = (password: string, hash: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {

@@ -62,7 +62,7 @@ export class EmailConfirmService {
   // TODO: move to controller mapper
   async confirmEmail(emailConfirmDto: EmailConfirmDto): Promise<EmailConfirmSuccessDto> {
     const { emailConfirmToken } = emailConfirmDto;
-    const tokenPayload = await this.jwtService.verify<EmailConfirmTokenPayloadEntity>(emailConfirmToken);
+    const tokenPayload = new EmailConfirmTokenPayloadEntity(await this.jwtService.verify(emailConfirmToken));
     // TODO: take newEmail from user entity if we need resend confirm new email action
     const { userId, newEmail } = tokenPayload;
 

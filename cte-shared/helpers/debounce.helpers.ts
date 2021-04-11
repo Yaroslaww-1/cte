@@ -5,9 +5,7 @@ const debounce = <T = unknown>(inner: () => Promise<T>, ms = 0): (() => Promise<
   let resolves: any[] = [];
 
   return function (): Promise<T> {
-    if (timer) {
-      clearTimeout(timer);
-    }
+    clearTimeout(timer);
     timer = setTimeout(() => {
       const result = inner();
       resolves.forEach(r => r(result));
