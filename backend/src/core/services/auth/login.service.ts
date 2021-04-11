@@ -8,8 +8,8 @@ import { RefreshSessionEntity } from './entities/refresh-session.entity';
 import { checkPassword } from './helpers/check-password.helper';
 import { AccessTokenService } from './services/access-token.service';
 import { RefreshSessionService } from './services/refresh-session.service';
-import { LoginSuccessResponse } from './responses/login-success.response';
 import { UserDao } from '@src/data/dao/user/user.dao';
+import { LoginSuccessResponse } from './responses/login-success.response';
 
 @Injectable()
 export class LoginService {
@@ -45,6 +45,7 @@ export class LoginService {
       expiresIn: refTokenExpiresInMilliseconds,
     });
 
+    // TODO: clean old refresh sessions
     await this.refreshSessionService.createRefreshSession(newRefreshSession);
 
     const accessToken = await this.accessTokenService.makeAccessToken(user);
