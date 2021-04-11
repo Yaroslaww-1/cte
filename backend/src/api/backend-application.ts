@@ -8,6 +8,7 @@ import { WsAdapter } from '@nestjs/platform-ws';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 import { ErrorExceptionFilter } from './exception-filters/error.exception-filter';
 import { loggerMiddleware } from './middlewares/logger.middleware';
+import * as cookieParser from 'cookie-parser';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -33,6 +34,7 @@ export class BackendApplication {
     app.use(loggerMiddleware);
     app.setGlobalPrefix('api');
     app.useGlobalFilters(new ErrorExceptionFilter());
+    app.use(cookieParser());
 
     app.useWebSocketAdapter(new WsAdapter(app));
 
