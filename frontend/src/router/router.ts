@@ -4,6 +4,7 @@ import { parseUrlParams, stringifyParams } from '@shared/helpers/querystring.hel
 import LoginPage from '@pages/auth/login.page.vue';
 import RegisterPage from '@pages/auth/register.page.vue';
 import ConfirmEmailPage from '@pages/auth/confirm-email.page.vue';
+import DocumentsPage from '@pages/documents/documents.page.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,6 +18,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/confirm-email',
     component: ConfirmEmailPage,
+  },
+  {
+    path: '/documents',
+    component: DocumentsPage,
   },
 ];
 

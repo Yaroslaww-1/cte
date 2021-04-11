@@ -6,7 +6,13 @@
       </h1>
       <ul>
         <li>
-          <router-link to="/auth">Log In</router-link>
+          <router-link to="/login">Log In</router-link>
+        </li>
+        <li>
+          <router-link to="/register">Register</router-link>
+        </li>
+        <li>
+          <router-link to="/documents">Documents</router-link>
         </li>
       </ul>
     </nav>
