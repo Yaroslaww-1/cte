@@ -8,14 +8,8 @@ class AuthApi {
     return await api.post(`${endpoint}/login`, loginDto);
   }
 
-  // `${API_URL}/auth/refresh-tokens`
   static async refreshTokens(refreshTokensDto: RefreshTokensDto): Promise<RefreshTokensSuccessDto> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: REPLACE WITH ACTUAL API CALL!
-        resolve({} as RefreshTokensSuccessDto);
-      }, 1000);
-    });
+    return await api.post(`${endpoint}/refresh-tokens`, refreshTokensDto);
   }
 }
 

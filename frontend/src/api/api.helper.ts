@@ -1,12 +1,15 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { stringifyParams } from '@shared/helpers';
 import { ApiResponseException } from '@shared-frontend/exceptions/api-response.exception';
-import { authService } from './services/auth/auth.service';
+import { authVuexModule } from '@src/vuex/store-accessor';
+import { refreshTokenService } from './services/auth/refresh-token.service';
+import { debounceRefreshTokens } from '@shared-frontend/helpers/auth.helper';
 
 const API_URL = process.env.VUE_APP_API_URL;
 
 class Api {
-  readonly instance: AxiosInstance;
+  instance: AxiosInstance;
   private readonly commonHeaders: {
     [key in string]: string;
   };
@@ -90,21 +93,31 @@ class ApiWithAuth extends Api {
   constructor() {
     super();
 
+    this.instance = axios.create({
+      baseURL: API_URL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
+    this.initInterceptor();
+  }
+
+  initInterceptor(): void {
     this.instance.interceptors.request.use(
       request => {
-        request.headers.authorization = authService.bearerService.getBearer();
+        request.headers.authorization = authVuexModule.bearer;
         // if access token expired and refreshToken is exist >> go to API and get new access token
-        if (
-          authService.accessTokenService.isAccessTokenExpired() &&
-          authService.refreshTokenService.isRefreshTokenExist()
-        ) {
+        console.log(authVuexModule.isAccessTokenExpired, refreshTokenService.isRefreshTokenExist());
+        if (authVuexModule.isAccessTokenExpired && refreshTokenService.isRefreshTokenExist()) {
           return (
-            authService
-              .debounceRefreshTokens()
+            debounceRefreshTokens()
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .then(response => {
-                authService.accessTokenService.updateAccessToken(response!.accessToken);
-                request.headers.authorization = authService.bearerService.getBearer();
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                authVuexModule.updateAccessToken(response!.accessToken);
+                request.headers.authorization = authVuexModule.bearer;
                 return request;
               })
               .catch(error => Promise.reject(error))
