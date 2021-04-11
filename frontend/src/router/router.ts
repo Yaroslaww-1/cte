@@ -5,22 +5,23 @@ import LoginPage from '@pages/auth/login.page.vue';
 import RegisterPage from '@pages/auth/register.page.vue';
 import ConfirmEmailPage from '@pages/auth/confirm-email.page.vue';
 import DocumentsPage from '@pages/documents/documents.page.vue';
+import { Route } from './routes.enum';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/login',
+    path: Route.Login,
     component: LoginPage,
   },
   {
-    path: '/register',
+    path: Route.Register,
     component: RegisterPage,
   },
   {
-    path: '/confirm-email',
+    path: Route.ConfirmEmail,
     component: ConfirmEmailPage,
   },
   {
-    path: '/documents',
+    path: Route.Documents,
     component: DocumentsPage,
   },
 ];

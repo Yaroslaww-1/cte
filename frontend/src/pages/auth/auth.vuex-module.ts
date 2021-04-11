@@ -14,6 +14,8 @@ import { getFingerprint } from '@src/shared-frontend/helpers/fingerprint.helper'
 import { UserApi } from '@src/api/services/user/user.api';
 import { refreshTokenService } from '@src/api/services/auth/refresh-token.service';
 import { parseAccessTokenPayload } from '@src/shared-frontend/helpers/auth.helper';
+import router from '@src/router/router';
+import { Route } from '@src/router/routes.enum';
 
 @Module({ namespaced: true, name: 'auth' })
 class AuthVuexModule extends VuexModule {
@@ -113,7 +115,7 @@ class AuthVuexModule extends VuexModule {
     } catch (error) {
       console.error(error);
       this.resetAuthData();
-      // $router.push({ name: 'login' }).catch(() => {});
+      router.push({ name: Route.Login });
     }
   }
 
