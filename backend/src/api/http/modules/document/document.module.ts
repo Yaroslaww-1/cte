@@ -2,15 +2,18 @@ import { Module } from '@nestjs/common';
 
 import { DocumentController } from './documents.controller';
 import { DocumentDao } from '@src/data/dao/document/document.dao';
-import { DocumentService } from '@core/services/document/document.service';
 import { SharedServicesModule } from '@src/api/shared-services.module';
+import { GetDocumentsUsecase } from '@src/core/services/document/usecases/get-documents.usecase';
+import { DocumentMapper } from '@src/core/services/document/document.mapper';
 
 const daos = [DocumentDao];
-const services = [DocumentService];
+const mappers = [DocumentMapper];
+const usecases = [GetDocumentsUsecase];
 
 @Module({
   imports: [SharedServicesModule],
   controllers: [DocumentController],
-  providers: [...daos, ...services],
+  providers: [...mappers, ...daos, ...usecases],
+  exports: [...mappers, ...daos, ...usecases],
 })
 export class DocumentModule {}
