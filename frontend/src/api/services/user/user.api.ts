@@ -1,4 +1,5 @@
-import { CreateUserDto, EmailConfirmDto, EmailConfirmSuccessDto, UserDto } from '@shared/dto';
+import { UserDto } from '@shared/dto';
+import { ConfirmEmailRequest, ConfirmEmailSuccessResponse, CreateUserRequest } from '@shared/request-response';
 import { api } from '../../api.helper';
 
 const endpoint = 'users';
@@ -13,12 +14,12 @@ class UserApi {
     });
   }
 
-  static async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
-    return await api.post(endpoint, createUserDto);
+  static async createUser(request: CreateUserRequest): Promise<UserDto> {
+    return await api.post(endpoint, request);
   }
 
-  static async confirmEmail(emailConfirmDto: EmailConfirmDto): Promise<EmailConfirmSuccessDto> {
-    return await api.post(`${endpoint}/email-confirm`, emailConfirmDto);
+  static async confirmEmail(request: ConfirmEmailRequest): Promise<ConfirmEmailSuccessResponse> {
+    return await api.post(`${endpoint}/confirm-email`, request);
   }
 }
 

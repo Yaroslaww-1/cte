@@ -10,7 +10,7 @@ import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
 import { authVuexModule } from '@src/vuex/store-accessor';
-import { EmailConfirmDto } from '@shared/dto';
+import { ConfirmEmailRequest } from '@shared/request-response';
 
 export default defineComponent({
   components: {
@@ -19,12 +19,12 @@ export default defineComponent({
 
   methods: {
     async onConfirmEmail() {
-      const { emailConfirmToken } = this.$route.query;
-      console.log(emailConfirmToken, this.$route.query);
-      if (typeof emailConfirmToken !== 'string') {
+      const { confirmEmailToken } = this.$route.query;
+      console.log(confirmEmailToken, this.$route.query);
+      if (typeof confirmEmailToken !== 'string') {
         // TODO: show notifications
       } else {
-        await authVuexModule.confirmEmail(new EmailConfirmDto({ emailConfirmToken }));
+        await authVuexModule.confirmEmail(await ConfirmEmailRequest.new(ConfirmEmailRequest, { confirmEmailToken }));
       }
     },
   },

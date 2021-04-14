@@ -13,7 +13,7 @@ import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
 import { authVuexModule } from '@src/vuex/store-accessor';
-import { CreateUserDto } from '@shared/dto';
+import { CreateUserRequest } from '@shared/request-response';
 
 export default defineComponent({
   components: {
@@ -31,7 +31,7 @@ export default defineComponent({
   methods: {
     async onRegister() {
       const { name, email, password } = this;
-      await authVuexModule.register(new CreateUserDto({ name, email, password }));
+      await authVuexModule.register(await CreateUserRequest.new(CreateUserRequest, { name, email, password }));
     },
   },
 });

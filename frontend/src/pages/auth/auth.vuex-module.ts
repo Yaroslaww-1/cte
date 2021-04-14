@@ -1,21 +1,24 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
+// import axios from 'axios';
 
-import {
-  CreateUserDto,
-  EmailConfirmDto,
-  LoginDto,
-  LoginSuccessDto,
-  RefreshTokensDto,
-  RefreshTokensSuccessDto,
-  UserDto,
-} from '@shared/dto';
-import { AuthApi } from '@src/api/services/auth/auth.api';
+import { UserDto } from '@shared/dto';
 import { getFingerprint } from '@src/shared-frontend/helpers/fingerprint.helper';
 import { UserApi } from '@src/api/services/user/user.api';
 import { refreshTokenService } from '@src/api/services/auth/refresh-token.service';
 import { parseAccessTokenPayload } from '@src/shared-frontend/helpers/auth.helper';
 import router from '@src/router/router';
+import { AuthApi } from '@api/auth/auth.api';
 import { Route } from '@src/router/routes.enum';
+import {
+  ConfirmEmailRequest,
+  CreateUserRequest,
+  LoginRequest,
+  LoginSuccessResponse,
+  RefreshTokensRequest,
+  RefreshTokensSuccessResponse,
+} from '@shared/request-response';
+
+// const API_URL = process.env.VUE_APP_API_URL;
 
 @Module({ namespaced: true, name: 'auth' })
 class AuthVuexModule extends VuexModule {
@@ -57,7 +60,7 @@ class AuthVuexModule extends VuexModule {
   }
 
   @Mutation
-  updateAuthData(loginResponse: LoginSuccessDto): void {
+  updateAuthData(loginResponse: LoginSuccessResponse): void {
     const { accessToken } = loginResponse;
     this.accessToken = accessToken;
 
@@ -82,32 +85,41 @@ class AuthVuexModule extends VuexModule {
   @Action({ rawError: true })
   async login({ email, password }: { email: string; password: string }): Promise<void> {
     const fingerprint = await getFingerprint();
-    const loginDto = new LoginDto({ email, password, fingerprint });
+    const loginDto = await LoginRequest.new(LoginRequest, { email, password, fingerprint });
+    // const { data: loginResponse } = await axios.post<LoginSuccessDto>(`${API_URL}/auth/login`, loginDto, {
+    //   withCredentials: true,
+    // });
     const loginResponse = await AuthApi.login(loginDto);
 
     this.updateAuthData(loginResponse);
     // this.updateRefreshTokenId(loginResponse.refreshTokenId);
   }
 
-  // @Action({ rawError: true })
-  // logout(): void {
-  //   this.updateCurrentUser(null);
-  //   refreshTokenService.updateIsRefreshTokenExist(false);
-  //   this.updateAccessTokenExpireDate(null);
-  //   this.updateAccessToken('');
-  // }
+  @Action({ rawError: true })
+  async logout(): Promise<void> {
+    await AuthApi.logout();
+    this.resetAuthData();
+    router.push({ name: Route.Login });
+  }
 
   @Action({ rawError: true })
-  async register(createUserDto: CreateUserDto): Promise<void> {
-    const newUser = await UserApi.createUser(createUserDto);
+  async register(createUserRequest: CreateUserRequest): Promise<void> {
+    const newUser = await UserApi.createUser(createUserRequest);
     // TODO: redirect to login
   }
 
   @Action({ rawError: true })
-  async refreshTokens(): Promise<RefreshTokensSuccessDto | undefined> {
+  async refreshTokens(): Promise<RefreshTokensSuccessResponse | undefined> {
     try {
       const fingerprint = await getFingerprint();
-      const response = await AuthApi.refreshTokens(new RefreshTokensDto({ fingerprint }));
+      // const { data: response } = await axios.post<RefreshTokensSuccessDto>(
+      //   `${API_URL}/auth/refresh-tokens`,
+      //   new RefreshTokensDto({ fingerprint }),
+      //   { withCredentials: true },
+      // );
+      const response = await AuthApi.refreshTokens(
+        await RefreshTokensRequest.new(RefreshTokensRequest, { fingerprint }),
+      );
 
       this.updateAuthData(response);
 
@@ -120,8 +132,8 @@ class AuthVuexModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async confirmEmail(emailConfirmDto: EmailConfirmDto): Promise<void> {
-    const emailConfirmResponse = await UserApi.confirmEmail(emailConfirmDto);
+  async confirmEmail(confirmEmailRequest: ConfirmEmailRequest): Promise<void> {
+    const emailConfirmResponse = await UserApi.confirmEmail(confirmEmailRequest);
     // TODO: show notification with {emailConfirmResponse.message}
     // TODO: redirect to login
   }
