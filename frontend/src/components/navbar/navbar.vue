@@ -14,10 +14,27 @@
         <li>
           <router-link to="/documents">Documents</router-link>
         </li>
+        <li>
+          <p @click="onLogout">Logout</p>
+        </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import { authVuexModule } from '@src/vuex/store-accessor';
+
+export default defineComponent({
+  methods: {
+    async onLogout() {
+      await authVuexModule.logout();
+    },
+  },
+});
+</script>
 
 <style scoped>
 header {
