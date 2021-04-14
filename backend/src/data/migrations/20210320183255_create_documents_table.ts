@@ -2,9 +2,10 @@ import Knex from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable('documents', function (table) {
-    table.increments('id').unique().notNullable();
+    table.uuid('id').unique().notNullable().defaultTo(knex.raw('uuid_generate_v4()')).primary();
     table.string('title');
-    table.integer('user_id').unsigned();
+
+    table.uuid('user_id');
     table.foreign('user_id').references('users.id');
   });
 }
