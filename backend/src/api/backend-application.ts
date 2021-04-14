@@ -1,14 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
-import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
 import { WsAdapter } from '@nestjs/platform-ws';
-import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
-import { ErrorExceptionFilter } from './exception-filters/error.exception-filter';
-import { loggerMiddleware } from './middlewares/logger.middleware';
 import * as cookieParser from 'cookie-parser';
+
+import { RootModule } from './root.module';
+import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
+import { loggerMiddleware } from './middlewares/logger.middleware';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -25,16 +25,19 @@ export class BackendApplication {
     const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
 
     app.enableCors({ origin: config.FRONTEND_APP_URL, credentials: true, optionsSuccessStatus: 200 });
+    app.use(loggerMiddleware);
+    app.setGlobalPrefix('api');
+    app.use(cookieParser());
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,
+        whitelist: true,
         transformOptions: { enableImplicitConversion: true },
+        exceptionFactory: (validationErrors: ValidationError[] = []): BadRequestException => {
+          return new BadRequestException(validationErrors);
+        },
       }),
     );
-    app.use(loggerMiddleware);
-    app.setGlobalPrefix('api');
-    app.useGlobalFilters(new ErrorExceptionFilter());
-    app.use(cookieParser());
 
     app.useWebSocketAdapter(new WsAdapter(app));
 
