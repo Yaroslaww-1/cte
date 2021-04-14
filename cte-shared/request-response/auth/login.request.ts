@@ -1,8 +1,10 @@
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
 
+import { BaseDto } from '../../abstraction/base-dto';
+
 @Expose()
-export class LoginDto {
+class LoginRequest extends BaseDto<LoginRequest> {
   @IsString()
   readonly email!: string;
 
@@ -11,8 +13,6 @@ export class LoginDto {
 
   @IsString()
   readonly fingerprint!: string;
-
-  constructor(props: LoginDto) {
-    Object.assign(this, props);
-  }
 }
+
+export { LoginRequest };

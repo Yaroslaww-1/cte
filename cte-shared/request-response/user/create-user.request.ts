@@ -1,8 +1,10 @@
 import { Expose } from 'class-transformer';
 import { IsString } from 'class-validator';
 
+import { BaseDto } from '../../abstraction/base-dto';
+
 @Expose()
-export class CreateUserDto {
+class CreateUserRequest extends BaseDto<CreateUserRequest> {
   @IsString()
   readonly name!: string;
 
@@ -11,8 +13,6 @@ export class CreateUserDto {
 
   @IsString()
   readonly password!: string;
-
-  constructor(props: CreateUserDto) {
-    Object.assign(this, props);
-  }
 }
+
+export { CreateUserRequest };

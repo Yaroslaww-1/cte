@@ -1,8 +1,10 @@
-import { IsNumber, IsString, validateSync } from 'class-validator';
+import { IsNumber, IsString, IsUUID } from 'class-validator';
 import { Expose } from 'class-transformer';
 
+import { BaseDto } from '../../abstraction/base-dto';
+
 @Expose()
-class AccessTokenPayloadDto {
+class AccessTokenPayloadDto extends BaseDto<AccessTokenPayloadDto> {
   // TODO: check if we really need tokenType here
   @IsString()
   readonly tokenType!: string;
@@ -10,19 +12,14 @@ class AccessTokenPayloadDto {
   @IsString()
   readonly username!: string;
 
-  @IsNumber()
-  readonly userId!: number;
+  @IsUUID(4)
+  readonly userId!: string;
 
   @IsNumber()
   readonly expiresIn!: number;
 
   // TODO: add iss property
   // iss,
-
-  constructor(props: AccessTokenPayloadDto) {
-    Object.assign(this, props);
-    validateSync(this);
-  }
 }
 
 export { AccessTokenPayloadDto };
