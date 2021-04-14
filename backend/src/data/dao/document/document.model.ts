@@ -2,9 +2,9 @@ import { IUserModel, UserModel } from '../user/user.model';
 import { Model, RelationMappings } from 'objection';
 
 interface IDocumentModel {
-  id: number;
+  id: string;
   title: string;
-  userId: number;
+  userId: string;
   user: IUserModel;
 }
 

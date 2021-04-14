@@ -2,14 +2,14 @@ import { IUserModel, UserModel } from '../user/user.model';
 import { Model, RelationMappings } from 'objection';
 
 interface IRefreshSessionModel {
-  id: number;
+  id: string;
   refreshTokenId: string;
   userAgent?: string;
   fingerprint: string;
   ip: string;
   expiresIn: number;
 
-  userId: number;
+  userId: string;
   user: IUserModel;
 }
 
@@ -17,6 +17,25 @@ interface RefreshSessionModel extends IRefreshSessionModel {}
 class RefreshSessionModel extends Model {
   static get tableName(): string {
     return 'refresh_sessions';
+  }
+
+  static get jsonSchema(): Record<string, unknown> {
+    return {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        refreshTokenId: { type: 'string' },
+        userAgent: { type: 'string' },
+        fingerprint: { type: 'string' },
+        ip: { type: 'string' },
+        expiresIn: { type: 'bigint' },
+        userId: { type: 'string' },
+      },
+    };
+  }
+
+  static get pickJsonSchemaProperties(): boolean {
+    return true;
   }
 
   static get relationMappings(): RelationMappings {
