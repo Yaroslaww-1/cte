@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { InvalidCredentialsException } from '@src/core/exceptions/auth/invalid-credentials.exception';
 import { InvalidPasswordException } from '@core/exceptions/auth/invalid-password.exception';
