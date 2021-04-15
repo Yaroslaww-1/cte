@@ -36,11 +36,10 @@ class RefreshTokensUsecase implements IBaseUsecase<RefreshTokensDto, RefreshToke
 
     await oldRefreshSession.verifyFingerprint(fingerprint);
 
-    const userModel = await this.userDao.findOne({ id: oldRefreshSession.userId });
-    if (!userModel) {
+    const user = await this.userDao.findOne({ id: oldRefreshSession.userId });
+    if (!user) {
       throw new NotFoundException('User with refresh session');
     }
-    const user = await UserEntity.new(UserEntity, userModel);
 
     const newRefreshSession = await RefreshSessionEntity.newWithoutRefreshTokenId({
       userId: user.id,

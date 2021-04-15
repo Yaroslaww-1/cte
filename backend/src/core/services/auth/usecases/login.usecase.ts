@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { InvalidCredentialsException } from '@src/core/exceptions/auth/invalid-credentials.exception';
-import { InvalidPasswordException } from '@core/exceptions/auth/invalid-password.exception';
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
 import { REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS } from '../constants';
 import { RefreshSessionEntity } from '../entities/refresh-session.entity';
@@ -32,15 +30,7 @@ class LoginUsecase implements IBaseUsecase<LoginDto, LoginSuccessDto> {
 
     const user = await UserEntity.new(UserEntity, userModel);
 
-    try {
-      await user.isPasswordEqual(loginDto.password);
-    } catch (e) {
-      if (e instanceof InvalidPasswordException) {
-        throw new InvalidCredentialsException();
-      } else {
-        throw e;
-      }
-    }
+    await user.isPasswordEqual(loginDto.password);
 
     const newRefreshSession = await RefreshSessionEntity.newWithoutRefreshTokenId({
       userId: user.id,
