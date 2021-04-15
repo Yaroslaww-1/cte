@@ -11,8 +11,13 @@ class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request & { accessTokenPayload: AccessTokenPayloadDto } = context.switchToHttp().getRequest();
     const authorization = request.headers.authorization;
-    const bearer = authorization && authorization.startsWith('BEARER ') ? authorization : null;
-    const token = bearer ? bearer.split('BEARER ')[1] : null;
+    const isAuthorizationExists = authorization?.startsWith('BEARER ');
+
+    if (!isAuthorizationExists) {
+      return false;
+    }
+
+    const token = authorization?.split('BEARER ')[1];
 
     if (!token) {
       return false;
