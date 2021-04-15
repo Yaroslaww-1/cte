@@ -32,8 +32,6 @@ class AuthVuexModule extends VuexModule {
       const accessTokenExpDate = this.accessTokenExpireDate.getTime() - 10;
       const nowTime = new Date().getTime();
 
-      console.log(accessTokenExpDate, nowTime);
-
       return accessTokenExpDate <= nowTime;
     } else {
       return true;

@@ -42,36 +42,23 @@ class LoginUsecase implements IBaseUsecase<LoginDto, LoginSuccessDto> {
       }
     }
 
-    console.log(refTokenExpiresInMilliseconds, typeof refTokenExpiresInMilliseconds);
+    const newRefreshSession = await RefreshSessionEntity.newWithoutRefreshTokenId({
+      userId: user.id,
+      ip: loginDto.ip,
+      userAgent: loginDto.userAgent,
+      fingerprint: loginDto.fingerprint,
+      expiresIn: refTokenExpiresInMilliseconds,
+    });
+    await this.refreshSessionService.createRefreshSession(newRefreshSession);
 
-    try {
-      const newRefreshSession = await RefreshSessionEntity.newWithoutRefreshTokenId({
-        userId: user.id,
-        ip: loginDto.ip,
-        userAgent: loginDto.userAgent,
-        fingerprint: loginDto.fingerprint,
-        expiresIn: refTokenExpiresInMilliseconds,
-      });
-      console.log('c');
-      await this.refreshSessionService.createRefreshSession(newRefreshSession);
-      console.log('cc');
+    const accessToken = await this.accessTokenService.makeAccessToken(user);
+    const refreshTokenId = newRefreshSession.refreshTokenId;
 
-      const accessToken = await this.accessTokenService.makeAccessToken(user);
-      const refreshTokenId = newRefreshSession.refreshTokenId;
-
-      console.log('ccc');
-
-      return await LoginSuccessDto.new(LoginSuccessDto, {
-        accessToken,
-        refreshTokenId,
-        refTokenExpiresInSeconds,
-      });
-    } catch (e) {
-      console.error('dasda', e);
-      throw new BadRequestException();
-    }
-
-    // TODO: clean old refresh sessions
+    return await LoginSuccessDto.new(LoginSuccessDto, {
+      accessToken,
+      refreshTokenId,
+      refTokenExpiresInSeconds,
+    });
   }
 }
 

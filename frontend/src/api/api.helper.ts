@@ -109,7 +109,6 @@ class ApiWithAuth extends Api {
       request => {
         request.headers.authorization = authVuexModule.bearer;
         // if access token expired and refreshToken is exist >> go to API and get new access token
-        console.log(authVuexModule.isAccessTokenExpired, refreshTokenService.isRefreshTokenExist());
         if (authVuexModule.isAccessTokenExpired && refreshTokenService.isRefreshTokenExist()) {
           return (
             debounceRefreshTokens()

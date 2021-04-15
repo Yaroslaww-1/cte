@@ -50,7 +50,6 @@ export class RefreshSessionDao {
 
   async createOne(createRefreshSession: Omit<IRefreshSessionModel, 'user'>): Promise<RefreshSessionEntity> {
     const refreshSession = await this.refreshSessionModel.query().insert(createRefreshSession).returning('*');
-    console.log(refreshSession.expiresIn, typeof refreshSession.expiresIn);
     return await this.refreshSessionMapper.mapToEntity(refreshSession);
   }
 

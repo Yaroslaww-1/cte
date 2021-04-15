@@ -38,17 +38,10 @@ export class AuthController {
     const userAgent = httpRequest.headers['user-agent'];
     const ip = httpRequest.ip;
 
-    console.log({ ...request, userAgent, ip });
-
     const loginDto = await LoginDto.new(LoginDto, { ...request, userAgent, ip });
 
     const loginSuccessResponse = await this.loginUsecase.execute(loginDto);
     const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
-    console.log(
-      'loginSuccessResponse.refreshTokenId',
-      loginSuccessResponse.refreshTokenId,
-      loginSuccessResponse.refTokenExpiresInSeconds,
-    );
     response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
       domain,
       path: '/api/auth',
@@ -65,7 +58,6 @@ export class AuthController {
   @Post('logout')
   async logout(@Body() request: LogoutRequest, @Req() httpRequest: Request): Promise<LogoutSuccessResponse> {
     const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
-    console.log('refreshTokenId', refreshTokenId, httpRequest.cookies.refreshTokenId);
     return await this.logoutUsecase.execute(refreshTokenId);
   }
 
@@ -76,7 +68,6 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<RefreshTokensSuccessResponse> {
     const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
-    console.log('refreshTokens/refreshTokenId', refreshTokenId, httpRequest.cookies);
     const userAgent = httpRequest.headers['user-agent'];
     const ip = httpRequest.ip;
 

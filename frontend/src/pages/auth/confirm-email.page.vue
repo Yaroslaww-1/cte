@@ -20,7 +20,6 @@ export default defineComponent({
   methods: {
     async onConfirmEmail() {
       const { confirmEmailToken } = this.$route.query;
-      console.log(confirmEmailToken, this.$route.query);
       if (typeof confirmEmailToken !== 'string') {
         // TODO: show notifications
       } else {
