@@ -8,7 +8,6 @@ import { RefreshTokensDto } from '../dto/refresh-tokens.dto';
 import { RefreshSessionEntity } from '../entities/refresh-session.entity';
 import { AccessTokenService } from '../services/access-token.service';
 import { RefreshSessionService } from '../services/refresh-session.service';
-import { UserEntity } from '../../user/entities/user.entity';
 import { IBaseUsecase } from '@src/core/abstraction/base-usecase.interface';
 import { RefreshTokensSuccessDto } from '../dto/refresh-tokens-success.dto';
 
