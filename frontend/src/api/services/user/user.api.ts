@@ -1,17 +1,12 @@
 import { UserDto } from '@shared/dto';
 import { ConfirmEmailRequest, ConfirmEmailSuccessResponse, CreateUserRequest } from '@shared/request-response';
-import { api } from '../../api.helper';
+import { api, apiWithAuth } from '../../api.helper';
 
 const endpoint = 'users';
 
 class UserApi {
   static async getCurrentUser(): Promise<UserDto> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // TODO: REPLACE WITH ACTUAL API CALL!
-        resolve({} as UserDto);
-      }, 1000);
-    });
+    return await apiWithAuth.get(`${endpoint}/current`);
   }
 
   static async createUser(request: CreateUserRequest): Promise<UserDto> {

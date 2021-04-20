@@ -3,9 +3,10 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { AccessTokenPayloadDto } from '@shared/dto';
 
 const AccessTokenPayload = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext): AccessTokenPayloadDto => {
+  (data: unknown, ctx: ExecutionContext): Promise<AccessTokenPayloadDto> => {
     const req = ctx.switchToHttp().getRequest();
-    return req.accessTokenPayload;
+    const accessTokenPayload = req.accessTokenPayload;
+    return AccessTokenPayloadDto.new(AccessTokenPayloadDto, accessTokenPayload);
   },
 );
 
