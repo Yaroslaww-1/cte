@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { BadRequestException, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
 import { ConfigService } from '@nestjs/config';
@@ -9,6 +9,8 @@ import * as cookieParser from 'cookie-parser';
 import { RootModule } from './root.module';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 import { loggerMiddleware } from './middlewares/logger.middleware';
+import { HttpExceptionFilter } from './exception-filters/http.exception-filter';
+import { ValidationException } from '@src/core/exceptions/validation.exception';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -33,11 +35,12 @@ export class BackendApplication {
         transform: true,
         whitelist: true,
         transformOptions: { enableImplicitConversion: true },
-        exceptionFactory: (validationErrors: ValidationError[] = []): BadRequestException => {
-          return new BadRequestException(validationErrors);
+        exceptionFactory: (validationErrors: ValidationError[] = []): ValidationException => {
+          return new ValidationException(validationErrors);
         },
       }),
     );
+    app.useGlobalFilters(new HttpExceptionFilter());
 
     app.useWebSocketAdapter(new WsAdapter(app));
 
