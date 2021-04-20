@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
-import { REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS } from '../constants';
+import { REFRESH_TOKEN_LIFETIME_IN_SECONDS } from '../constants';
 import { RefreshSessionEntity } from '../entities/refresh-session.entity';
 import { AccessTokenService } from '../services/access-token.service';
 import { UserDao } from '@src/data/dao/user/user.dao';
@@ -20,7 +20,7 @@ class LoginUsecase implements IBaseUsecase<LoginDto, LoginSuccessDto> {
   ) {}
 
   async execute(loginDto: LoginDto): Promise<LoginSuccessDto> {
-    const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
+    const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_LIFETIME_IN_SECONDS * 1000;
     const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
 
     const userModel = await this.userDao.findOne({ email: loginDto.email });
@@ -37,7 +37,7 @@ class LoginUsecase implements IBaseUsecase<LoginDto, LoginSuccessDto> {
       ip: loginDto.ip,
       userAgent: loginDto.userAgent,
       fingerprint: loginDto.fingerprint,
-      expiresIn: refTokenExpiresInMilliseconds,
+      expiresInMs: refTokenExpiresInMilliseconds,
     });
     await this.refreshSessionService.createRefreshSession(newRefreshSession);
 

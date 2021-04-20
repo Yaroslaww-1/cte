@@ -7,7 +7,7 @@ interface IRefreshSessionModel {
   userAgent?: string;
   fingerprint: string;
   ip: string;
-  expiresIn: number;
+  expiresInMs: number;
 
   userId: string;
   user: IUserModel;
@@ -28,7 +28,7 @@ class RefreshSessionModel extends Model {
         userAgent: { type: 'string' },
         fingerprint: { type: 'string' },
         ip: { type: 'string' },
-        expiresIn: { type: 'bigint' },
+        expiresInMs: { type: 'bigint' },
         userId: { type: 'string' },
       },
     };

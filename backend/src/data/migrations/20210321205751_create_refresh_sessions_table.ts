@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('user_agent', 200).nullable();
     table.string('fingerprint', 200).notNullable();
     table.string('ip', 15).notNullable();
-    table.bigInteger('expires_in').notNullable();
+    table.bigInteger('expires_in_ms').notNullable();
 
     table.uuid('user_id');
     table.foreign('user_id').references('id').inTable('users');

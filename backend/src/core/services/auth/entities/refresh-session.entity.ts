@@ -23,7 +23,7 @@ class RefreshSessionEntity extends BaseEntity<RefreshSessionEntity> {
   readonly ip!: string;
 
   @IsNumber()
-  readonly expiresIn!: number;
+  readonly expiresInMs!: number;
 
   @IsOptional()
   @IsString()
@@ -41,7 +41,7 @@ class RefreshSessionEntity extends BaseEntity<RefreshSessionEntity> {
   async verifyFingerprint(newFingerprint: string): Promise<void> {
     const nowTime = new Date().getTime();
 
-    if (nowTime > this.expiresIn) {
+    if (nowTime > this.expiresInMs) {
       throw new SessionExpiredException();
     }
     // if (oldIp !== newIp) throw Exception // for best security

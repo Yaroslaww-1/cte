@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
 import { RefreshSessionDao } from '@src/data/dao/refresh-session/refresh-session.dao';
 import { UserDao } from '@src/data/dao/user/user.dao';
-import { REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS } from '../constants';
+import { REFRESH_TOKEN_LIFETIME_IN_SECONDS } from '../constants';
 import { RefreshTokensDto } from '../dto/refresh-tokens.dto';
 import { RefreshSessionEntity } from '../entities/refresh-session.entity';
 import { AccessTokenService } from '../services/access-token.service';
@@ -23,7 +23,7 @@ class RefreshTokensUsecase implements IBaseUsecase<RefreshTokensDto, RefreshToke
   async execute(refreshTokensRequest: RefreshTokensDto): Promise<RefreshTokensSuccessDto> {
     const { refreshTokenId, fingerprint, ip, userAgent } = refreshTokensRequest;
 
-    const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_EXPIRES_IN_MILLISECONDS;
+    const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_LIFETIME_IN_SECONDS * 1000;
     const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
 
     const oldRefreshSession = await this.refreshSessionDao.findOne({ refreshTokenId });
@@ -45,7 +45,7 @@ class RefreshTokensUsecase implements IBaseUsecase<RefreshTokensDto, RefreshToke
       ip,
       userAgent,
       fingerprint,
-      expiresIn: refTokenExpiresInMilliseconds,
+      expiresInMs: refTokenExpiresInMilliseconds,
     });
 
     await this.refreshSessionService.createRefreshSession(newRefreshSession);

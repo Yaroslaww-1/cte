@@ -16,7 +16,7 @@ class AccessTokenPayloadDto extends BaseDto<AccessTokenPayloadDto> {
   readonly userId!: string;
 
   @IsNumber()
-  readonly expiresIn!: number;
+  readonly expiresInMs!: number;
 
   // TODO: add iss property
   // iss,

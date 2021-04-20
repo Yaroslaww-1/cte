@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { classToPlain } from 'class-transformer';
 
 import { AccessTokenPayloadDto, UserDto } from '@shared/dto';
-import { ACCESS_TOKEN_EXPIRES_IN_MILLISECONDS, ACCESS_TOKEN_TYPE } from '../constants';
+import { ACCESS_TOKEN_LIFETIME_IN_SECONDS, ACCESS_TOKEN_TYPE } from '../constants';
 import { JwtService } from '../../shared/jwt.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AccessTokenService {
       tokenType: ACCESS_TOKEN_TYPE,
       username: userDto.name,
       userId: userDto.id,
-      expiresIn: new Date().getTime() + ACCESS_TOKEN_EXPIRES_IN_MILLISECONDS,
+      expiresInMs: new Date().getTime() + ACCESS_TOKEN_LIFETIME_IN_SECONDS * 1000,
     });
     const config = {
       payload: classToPlain(payload),
@@ -22,7 +22,7 @@ export class AccessTokenService {
       options: {
         algorithm: 'HS512',
         subject: userDto.id.toString(),
-        expiresIn: ACCESS_TOKEN_EXPIRES_IN_MILLISECONDS,
+        expiresIn: ACCESS_TOKEN_LIFETIME_IN_SECONDS,
       },
     };
 
