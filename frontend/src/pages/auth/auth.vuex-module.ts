@@ -6,7 +6,6 @@ import { getFingerprint } from '@src/shared-frontend/helpers/fingerprint.helper'
 import { UserApi } from '@src/api/services/user/user.api';
 import { refreshTokenService } from '@src/api/services/auth/refresh-token.service';
 import { parseAccessTokenPayload } from '@src/shared-frontend/helpers/auth.helper';
-import router from '@src/router/router';
 import { AuthApi } from '@api/auth/auth.api';
 import { Route } from '@src/router/routes.enum';
 import {
@@ -17,8 +16,7 @@ import {
   RefreshTokensRequest,
   RefreshTokensSuccessResponse,
 } from '@shared/request-response';
-
-// const API_URL = process.env.VUE_APP_API_URL;
+import { redirectTo } from '@src/router/helpers';
 
 @Module({ namespaced: true, name: 'auth' })
 class AuthVuexModule extends VuexModule {
@@ -62,8 +60,8 @@ class AuthVuexModule extends VuexModule {
     const { accessToken } = loginResponse;
     this.accessToken = accessToken;
 
-    const { expiresIn } = parseAccessTokenPayload(accessToken);
-    this.accessTokenExpireDate = new Date(expiresIn);
+    const { expiresInMs } = parseAccessTokenPayload(accessToken);
+    this.accessTokenExpireDate = new Date(expiresInMs);
     refreshTokenService.updateIsRefreshTokenExist(true);
   }
 
@@ -75,46 +73,33 @@ class AuthVuexModule extends VuexModule {
     refreshTokenService.updateIsRefreshTokenExist(false);
   }
 
-  // @Mutation
-  // updateRefreshTokenId(refreshTokenId: string): void {
-  //   this.refreshTokenId = refreshTokenId;
-  // }
-
   @Action({ rawError: true })
   async login({ email, password }: { email: string; password: string }): Promise<void> {
     const fingerprint = await getFingerprint();
     const loginDto = await LoginRequest.new(LoginRequest, { email, password, fingerprint });
-    // const { data: loginResponse } = await axios.post<LoginSuccessDto>(`${API_URL}/auth/login`, loginDto, {
-    //   withCredentials: true,
-    // });
     const loginResponse = await AuthApi.login(loginDto);
 
     this.updateAuthData(loginResponse);
-    // this.updateRefreshTokenId(loginResponse.refreshTokenId);
   }
 
   @Action({ rawError: true })
   async logout(): Promise<void> {
     await AuthApi.logout();
     this.resetAuthData();
-    router.push({ name: Route.Login });
+    redirectTo(Route.Login);
   }
 
   @Action({ rawError: true })
   async register(createUserRequest: CreateUserRequest): Promise<void> {
-    const newUser = await UserApi.createUser(createUserRequest);
-    // TODO: redirect to login
+    await UserApi.createUser(createUserRequest);
+    redirectTo(Route.Login);
   }
 
   @Action({ rawError: true })
   async refreshTokens(): Promise<RefreshTokensSuccessResponse | undefined> {
     try {
       const fingerprint = await getFingerprint();
-      // const { data: response } = await axios.post<RefreshTokensSuccessDto>(
-      //   `${API_URL}/auth/refresh-tokens`,
-      //   new RefreshTokensDto({ fingerprint }),
-      //   { withCredentials: true },
-      // );
+
       const response = await AuthApi.refreshTokens(
         await RefreshTokensRequest.new(RefreshTokensRequest, { fingerprint }),
       );
@@ -125,7 +110,7 @@ class AuthVuexModule extends VuexModule {
     } catch (error) {
       console.error(error);
       this.resetAuthData();
-      router.push({ name: Route.Login });
+      redirectTo(Route.Login);
     }
   }
 
@@ -133,7 +118,7 @@ class AuthVuexModule extends VuexModule {
   async confirmEmail(confirmEmailRequest: ConfirmEmailRequest): Promise<void> {
     const emailConfirmResponse = await UserApi.confirmEmail(confirmEmailRequest);
     // TODO: show notification with {emailConfirmResponse.message}
-    // TODO: redirect to login
+    redirectTo(Route.Login);
   }
 
   @Action({ rawError: true })
