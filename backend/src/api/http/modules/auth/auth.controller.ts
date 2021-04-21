@@ -41,12 +41,11 @@ export class AuthController {
     const loginDto = await LoginDto.new(LoginDto, { ...request, userAgent, ip });
 
     const loginSuccessResponse = await this.loginUsecase.execute(loginDto);
-    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
     response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
       domain,
       path: '/api/auth',
       maxAge: loginSuccessResponse.refTokenExpiresInSeconds,
-      secure: false, // temp: should be deleted
     });
 
     return await LoginSuccessResponse.new(LoginSuccessResponse, {
@@ -79,12 +78,11 @@ export class AuthController {
     });
     const refreshTokensResponse = await this.refreshTokensUsecase.execute(refreshTokensDto);
 
-    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
     response.cookie('refreshTokenId', refreshTokensResponse.refreshTokenId, {
       domain,
       path: '/api/auth',
       maxAge: refreshTokensResponse.refTokenExpiresInSeconds,
-      secure: false, // TODO: should be deleted
     });
 
     return await RefreshTokensSuccessResponse.new(RefreshTokensSuccessResponse, {

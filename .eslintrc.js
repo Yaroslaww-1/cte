@@ -18,7 +18,8 @@ module.exports = {
   ignorePatterns: [
     '.eslintrc.js',
     'dist',
-    'node_modules'
+    'node_modules',
+    'test'
   ],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 2,

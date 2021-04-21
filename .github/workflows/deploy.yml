@@ -6,12 +6,13 @@ on:
       - develop
 
 env:
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
-  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-  DATABASE_DB_NAME: ${{ secrets.DATABASE_DB_NAME }}
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  BACKEND_DATABASE_URL: ${{ secrets.BACKEND_DATABASE_URL }}
   BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
   BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+  BACKEND_JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
+  FRONTEND_APP_URL: ${{ secrets.FRONTEND_APP_URL }}
+  BACKEND_MAILER_EMAIL_ADDRESS: ${{ secrets.BACKEND_MAILER_EMAIL_ADDRESS }}
+  BACKEND_MAILER_EMAIL_PASSWORD: ${{ secrets.BACKEND_MAILER_EMAIL_PASSWORD }}
 
 jobs:
   setup-node-modules:
@@ -40,7 +41,7 @@ jobs:
         path: 'node_modules'
         key: node_modules-${{ hashFiles('yarn.lock') }}
     - name: run migrations
-      run: DATABASE_URL=${{ secrets.DATABASE_URL }} cd backend && yarn db:migrate
+      run: BACKEND_DATABASE_URL=${{ secrets.BACKEND_DATABASE_URL }} cd backend && yarn db:migrate
 
   build-backend:
     runs-on: ubuntu-latest
@@ -94,14 +95,18 @@ jobs:
         key: ${{ secrets.DEPLOYMENT_KEY }}
         port: ${{ secrets.DEPLOYMENT_PORT }}
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
-        envs: DATABASE_URL,BACKEND_HOST,BACKEND_PORT,GITHUB_USERNAME,GITHUB_TOKEN
+        envs: GITHUB_USERNAME,GITHUB_TOKEN,BACKEND_DATABASE_URL,BACKEND_HOST,BACKEND_PORT,BACKEND_JWT_SECRET,BACKEND_MAILER_EMAIL_ADDRESS,BACKEND_MAILER_EMAIL_PASSWORD,FRONTEND_APP_URL
         script: |
           export GITHUB_USERNAME=$GITHUB_USERNAME
           export GITHUB_TOKEN=$GITHUB_TOKEN
           echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
-          export DATABASE_URL=$DATABASE_URL
+          export BACKEND_DATABASE_URL=$BACKEND_DATABASE_URL
           export BACKEND_HOST=$BACKEND_HOST
           export BACKEND_PORT=$BACKEND_PORT
+          export BACKEND_JWT_SECRET=$BACKEND_JWT_SECRET
+          export BACKEND_MAILER_EMAIL_ADDRESS=$BACKEND_MAILER_EMAIL_ADDRESS
+          export BACKEND_MAILER_EMAIL_PASSWORD=$BACKEND_MAILER_EMAIL_PASSWORD
+          export FRONTEND_APP_URL=$FRONTEND_APP_URL
           cd app
           docker-compose down
           docker-compose -f docker-compose.prod.yml up -d --build
