@@ -3,6 +3,10 @@ import * as UAParser from 'ua-parser-js';
 
 const getFingerprint = (): Promise<string> => {
   return new Promise((resolve, reject) => {
+    if (localStorage.getItem('fingerprint')) {
+      return localStorage.getItem('fingerprint');
+    }
+
     const getHash = async (): Promise<string> => {
       const options: Fingerprint2.Options = {
         preprocessor: (key: string, value: string): string => {
@@ -39,7 +43,11 @@ const getFingerprint = (): Promise<string> => {
     };
 
     console.log('get fp hash @ setTimeout');
-    setTimeout(async () => resolve(await getHash()), 500);
+    setTimeout(async () => {
+      const hash = await getHash();
+      localStorage.setItem('fingerprint', hash);
+      resolve(hash);
+    }, 500);
   });
 };
 
