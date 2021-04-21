@@ -4,7 +4,8 @@ import * as UAParser from 'ua-parser-js';
 const getFingerprint = (): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (localStorage.getItem('fingerprint')) {
-      return localStorage.getItem('fingerprint');
+      resolve(localStorage.getItem('fingerprint') as string);
+      return;
     }
 
     const getHash = async (): Promise<string> => {
