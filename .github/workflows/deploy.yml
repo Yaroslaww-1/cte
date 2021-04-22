@@ -72,7 +72,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./frontend/Dockerfile
         image_tag: latest
-        build_extra_args: "--build-arg VUE_APP_API_URL=${VUE_APP_API_URL}"
+        build_extra_args: '{"--build-arg": "VUE_APP_API_URL=$VUE_APP_API_URL"}'
 
   deploy:
     needs: [build-backend, build-frontend]
