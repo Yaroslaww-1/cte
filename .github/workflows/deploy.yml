@@ -60,6 +60,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: set VUE_APP_API_URL to env variable
+      run: |
+        export VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+        echo "VUE_APP_API_URL=$VUE_APP_API_URL"
     - uses: whoan/docker-build-with-cache-action@v5
       with:
         username: ${{ github.actor }}
@@ -68,7 +72,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./frontend/Dockerfile
         image_tag: latest
-        build_extra_args: --build-arg VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+        build_extra_args: "--build-arg VUE_APP_API_URL=$VUE_APP_API_URL"
 
   deploy:
     needs: [build-backend, build-frontend]
