@@ -13,7 +13,7 @@ services:
       - BACKEND_JWT_SECRET
       - BACKEND_MAILER_EMAIL_ADDRESS
       - BACKEND_MAILER_EMAIL_PASSWORD
-      - FRONTEND_APP_URL
+      - BACKEND_FRONTEND_APP_URL
       - BACKEND_COOKIE_DOMAIN
     restart: always
     networks:
