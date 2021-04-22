@@ -46,6 +46,7 @@ export class AuthController {
       domain,
       path: '/api/auth',
       maxAge: loginSuccessResponse.refTokenExpiresInSeconds,
+      secure: false,
     });
 
     return await LoginSuccessResponse.new(LoginSuccessResponse, {
@@ -67,6 +68,7 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<RefreshTokensSuccessResponse> {
     const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
+    console.log('refreshTokenId', refreshTokenId);
     const userAgent = httpRequest.headers['user-agent'];
     const ip = httpRequest.ip;
 
@@ -83,6 +85,7 @@ export class AuthController {
       domain,
       path: '/api/auth',
       maxAge: refreshTokensResponse.refTokenExpiresInSeconds,
+      secure: false,
     });
 
     return await RefreshTokensSuccessResponse.new(RefreshTokensSuccessResponse, {
