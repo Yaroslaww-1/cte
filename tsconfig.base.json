@@ -10,6 +10,8 @@
     "sourceMap": true,
     "incremental": true,
     "noImplicitAny": true,
-    "strict": true
+    "strict": true,
+    "keyofStringsOnly": true,
+    "skipLibCheck": true,
   }
 }
