@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
 import { ConfigService } from '@nestjs/config';
@@ -41,6 +41,7 @@ export class BackendApplication {
       }),
     );
     app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     app.useWebSocketAdapter(new WsAdapter(app));
 
