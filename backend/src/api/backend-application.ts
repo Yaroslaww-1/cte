@@ -26,6 +26,8 @@ export class BackendApplication {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
 
+    console.log('BACKEND_APPLICATION_CONFIG', config);
+
     app.enableCors({ origin: config.FRONTEND_APP_URL, credentials: true, optionsSuccessStatus: 200 });
     app.use(loggerMiddleware);
     app.setGlobalPrefix('api');
