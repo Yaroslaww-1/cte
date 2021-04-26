@@ -17,7 +17,7 @@ import { Options, Vue } from 'vue-class-component';
 		action: String,
 	},
 })
-export default class Button extends Vue {
+export default class IconButton extends Vue {
 	description!: string;
 	icon!: string;
 	action!: string;

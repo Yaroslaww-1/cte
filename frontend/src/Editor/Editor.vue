@@ -1,6 +1,6 @@
 <template>
 	<div class="buttons">
-		<Button
+		<IconButton
 			v-for="(module, i) in modules"
 			:key="module.title + i"
 			:title="module.description"
@@ -14,7 +14,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { debounce } from 'ts-debounce';
-import Button from '@src/Editor/Button.vue';
+import IconButton from '@src/components/buttons/icon-button.vue';
 import bold from './modules/bold';
 import italic from './modules/italic';
 
@@ -42,7 +42,7 @@ patchApplyWorker.addEventListener('message', function (e) {
 
 @Options({
 	components: {
-		Button,
+		IconButton,
 	},
 })
 export default class Editor extends Vue {
