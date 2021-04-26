@@ -5,7 +5,7 @@
 			:key="module.title + i"
 			:title="module.description"
 			:icon="module.icon"
-			:action="module.action"
+			:onClickAction="module.onClickAction"
 		/>
 	</div>
 	<div id="editor" contenteditable spellcheck="false" @input="this.update">Enter text here...</div>
@@ -47,12 +47,6 @@ patchApplyWorker.addEventListener('message', function (e) {
 })
 export default class Editor extends Vue {
 	modules = [bold, italic];
-
-	execute(command: string, arg?: string): void {
-		const editor = document.getElementById('editor');
-		if (editor) editor.focus();
-		document.execCommand(command, false, arg || '');
-	}
 
 	update = debounce(event => {
 		patchMakeWorker.postMessage({ newText: event.target.innerHTML });
