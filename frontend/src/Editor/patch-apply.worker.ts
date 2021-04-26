@@ -7,6 +7,6 @@ const dmp = new DMP();
 
 patchApply.addEventListener('message', event => {
 	const oldText = event.data.oldText;
-	const newText = dmp.patch_apply(event.data.patch, oldText)[0];
+	const newText = dmp.patchApply(event.data.patch, oldText)[0];
 	patchApply.postMessage(newText);
 });

@@ -8,7 +8,7 @@ let oldText = '';
 
 patchMake.addEventListener('message', event => {
 	const newText = event.data.newText;
-	const patch = dmp.patch_make(oldText, newText);
+	const patch = dmp.patchMake(oldText, newText);
 	oldText = newText;
 	patchMake.postMessage(patch);
 });
