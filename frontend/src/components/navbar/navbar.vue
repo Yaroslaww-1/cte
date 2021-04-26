@@ -1,17 +1,43 @@
 <template>
   <header>
     <nav>
-      <h1>
-        <router-link to="/home">CTE</router-link>
-      </h1>
+      <div class="logo">
+        <router-link to="/"><img src="../../assets/logo.jpg" alt=""></router-link>
+      </div>
       <ul>
-        <li>
-          <router-link to="/auth">Log In</router-link>
+        <li v-if="!isLoggedIn">
+          <router-link to="/login">Log In</router-link>
+        </li>
+        <li v-if="!isLoggedIn">
+          <router-link to="/register">Register</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <base-button @click="logOut">Log Out</base-button>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script lang="ts">
+import BaseButton from '../../components/buttons/link-button.vue';
+export default {
+  components: {
+    BaseButton,
+  },
+  computed: {
+    isLoggedIn(): boolean {
+      return this.$store.getters.isAuthenticated;
+    }
+  },
+  methods: {
+    logOut(): void {
+      this.$store.dispatch('logOut');
+      this.$router.replace('/home');
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @mixin flexCenter($justify) {
@@ -21,7 +47,7 @@
 }
 header {
   width: 100%;
-  height: 5rem;
+  height: 5.8rem;
   background-color: #3f3f3f;
   @include flexCenter(center);
   a {
@@ -48,7 +74,7 @@ a:hover,
 a.router-link-active {
   border: 1px solid #cecece;
 }
-h1 {
+.logo {
   margin: 0;
   a {
     color: white;
