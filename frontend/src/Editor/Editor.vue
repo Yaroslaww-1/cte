@@ -58,7 +58,7 @@ export default class Editor extends Vue {
 #editor {
 	background-color: #1e2126;
 	color: #abb2bf;
-	min-height: 90vh;
+	min-height: calc(100vh - 51px);
 	padding: 10px;
 }
 .buttons {
