@@ -5954,6 +5954,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"de-indent@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "de-indent@npm:1.0.2"
+  checksum: a1933a4328d053d9b0db447668521a6d0360b509c115dc5340420fd645be556c00b82e491d6b862249981ed22fbf2016080b222ad23c25038aba72cb8e3120ea
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.2.0, debug@npm:^2.3.3, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -7827,10 +7834,13 @@ __metadata:
     eslint-plugin-vue: ^7.0.0-0
     node-sass: ^4.12.0
     sass-loader: ^8.0.2
+    svg-inline-loader: ^0.8.2
     ts-debounce: ^3.0.0
     vue: ^3.0.0
     vue-class-component: ^8.0.0-0
     vue-router: ^4.0.0-0
+    vue-svg-loader: beta
+    vue-template-compiler: ^2.6.12
     worker-loader: ^3.0.8
   languageName: unknown
   linkType: soft
@@ -8415,7 +8425,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"he@npm:1.2.x":
+"he@npm:1.2.x, he@npm:^1.1.0":
   version: 1.2.0
   resolution: "he@npm:1.2.0"
   bin:
@@ -14806,6 +14816,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"simple-html-tokenizer@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "simple-html-tokenizer@npm:0.1.1"
+  checksum: 46969af412ee26ae4b549888ce67b868059607855ad2696f8c81e11fde37301c7d9b4346071d12136b8b8c2038f384cba5ff242bfc943119b05e72ea24203cc2
+  languageName: node
+  linkType: hard
+
 "simple-swizzle@npm:^0.2.2":
   version: 0.2.2
   resolution: "simple-swizzle@npm:0.2.2"
@@ -15570,6 +15587,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"svg-inline-loader@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "svg-inline-loader@npm:0.8.2"
+  dependencies:
+    loader-utils: ^1.1.0
+    object-assign: ^4.0.1
+    simple-html-tokenizer: ^0.1.1
+  checksum: 8ead7f04e354c02aab7563ebeeecc4cfa2fea0c4efd04475f2b1731a5a576f46c7d596e2cb3f456ce01d9739ed537d779baba0045c96c1213027a68d5ce58e0e
+  languageName: node
+  linkType: hard
+
 "svg-tags@npm:^1.0.0":
   version: 1.0.0
   resolution: "svg-tags@npm:1.0.0"
@@ -15577,7 +15605,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"svgo@npm:^1.0.0":
+"svgo@npm:^1.0.0, svgo@npm:^1.3.2":
   version: 1.3.2
   resolution: "svgo@npm:1.3.2"
   dependencies:
@@ -16796,6 +16824,29 @@ typescript@^4.2.2:
     hash-sum: ^1.0.2
     loader-utils: ^1.0.2
   checksum: 6c5e914011903c65acb5642987da6590b743a1f484d79fec2e10f1406fb5beca0c152cd4f10f8eae32412349bd09cad7f1ede00b18fd74481de78e8402a8c7c0
+  languageName: node
+  linkType: hard
+
+"vue-svg-loader@npm:beta":
+  version: 0.17.0-beta.2
+  resolution: "vue-svg-loader@npm:0.17.0-beta.2"
+  dependencies:
+    loader-utils: ^2.0.0
+    semver: ^7.3.2
+    svgo: ^1.3.2
+  peerDependencies:
+    vue: ^2.5.0 || ^3.0.0-0
+  checksum: 3d50b0dbbdab87a55e49a978f9f45644617db49f68c1348e073ad8e5b1d3dd50f9addfcef2d84ac78be27eb8c8e88272b5260bca037036bd7f08b3d6c770a90a
+  languageName: node
+  linkType: hard
+
+"vue-template-compiler@npm:^2.6.12":
+  version: 2.6.12
+  resolution: "vue-template-compiler@npm:2.6.12"
+  dependencies:
+    de-indent: ^1.0.2
+    he: ^1.1.0
+  checksum: 5b05dda398cc1df7ba244316ddfb8f6463dbaafb4d23a4ac7e1cb8914e813a464f4ac055e41ac6e60feeadd4cccdeec1111fac592f2bb4eeb320889846a18912
   languageName: node
   linkType: hard
 
