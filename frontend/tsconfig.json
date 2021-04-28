@@ -12,6 +12,7 @@
       "@shared-frontend/*": ["src/shared-frontend/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/assets/*"],
     },
     "lib": [
       "esnext",
@@ -22,7 +23,8 @@
   },
   "include": [
     "src",
-    "@types/*.d.ts"
+    "@types/*.d.ts",
+    "assets/*"
   ],
   "exclude": [
     "node_modules",

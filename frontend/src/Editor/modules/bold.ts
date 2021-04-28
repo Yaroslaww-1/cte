@@ -1,8 +1,9 @@
-import svg from '../../assets/images/bold.svg';
+import BoldIcon from '../../assets/images/bold.svg';
+
 export default {
 	title: 'bold',
 	description: 'Bold',
-	icon: svg,
+	IconComponent: BoldIcon,
 	onClickAction(): void {
 		document.execCommand('bold', false, '');
 	},

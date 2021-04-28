@@ -4,7 +4,7 @@
 			v-for="(module, i) in modules"
 			:key="module.title + i"
 			:title="module.description"
-			:icon="module.icon"
+			:IconComponent="module.IconComponent"
 			:onClickAction="module.onClickAction"
 		/>
 	</div>

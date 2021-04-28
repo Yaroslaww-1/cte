@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = {
 	chainWebpack: config => {
 		config.resolve.alias.set('@src', path.resolve(__dirname, 'src'));
+		config.resolve.alias.set('@assets', path.resolve(__dirname, 'assets'));
 
 		const svgRule = config.module.rule('svg');
 

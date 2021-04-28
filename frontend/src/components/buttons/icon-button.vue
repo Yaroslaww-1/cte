@@ -1,5 +1,9 @@
 <template>
-	<button @click="this.onClick" :title="this.description" v-html="icon" class="btn"></button>
+	<button @click="this.onClick" :title="this.description" class="btn">
+		<component :is="IconComponent">
+			<slot />
+		</component>
+	</button>
 </template>
 
 <script lang="ts">
@@ -8,14 +12,15 @@ import { Options, Vue } from 'vue-class-component';
 @Options({
 	props: {
 		description: String,
-		icon: String,
+		IconComponent: Object,
 		action: String,
 		onClickAction: Function,
 	},
 })
 export default class IconButton extends Vue {
 	description!: string;
-	icon!: string;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	IconComponent!: object;
 	action!: string;
 	onClickAction!: () => void;
 	onClick(): void {
@@ -27,15 +32,18 @@ export default class IconButton extends Vue {
 </script>
 
 <style lang="scss">
-svg {
-	width: 16px !important;
-	height: 16px !important;
-}
 .btn {
 	padding: 0;
 	outline: none;
 	border: none;
 	padding: 5px;
+	height: 20px;
+	width: 20px;
+
+	svg {
+		width: 16px !important;
+		height: 16px !important;
+	}
 }
 .btn:hover {
 	background-color: lightgrey;
