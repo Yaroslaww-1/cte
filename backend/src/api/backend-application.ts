@@ -1,38 +1,54 @@
-import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
-import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
 import { WsAdapter } from '@nestjs/platform-ws';
+import * as cookieParser from 'cookie-parser';
+
+import { RootModule } from './root.module';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
+import { loggerMiddleware } from './middlewares/logger.middleware';
+import { HttpExceptionFilter } from './exception-filters/http.exception-filter';
+import { ValidationException } from '@src/core/exceptions/validation.exception';
 
 export class BackendApplication {
-	public static new(): BackendApplication {
-		return new BackendApplication();
-	}
+  public static new(): BackendApplication {
+    return new BackendApplication();
+  }
 
-	public async run(): Promise<void> {
-		const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(RootModule, {
-			bodyParser: true,
-		});
+  public async run(): Promise<void> {
+    const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(RootModule, {
+      bodyParser: true,
+    });
 
-		const configService = app.get(ConfigService);
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
+    const configService = app.get(ConfigService);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
 
-		app.useGlobalPipes(
-			new ValidationPipe({
-				transform: true,
-				transformOptions: { enableImplicitConversion: true },
-			})
-		);
-		app.setGlobalPrefix('api');
+    console.log('BACKEND_APPLICATION_CONFIG', config);
 
-		app.useWebSocketAdapter(new WsAdapter(app));
+    app.enableCors({ origin: config.FRONTEND_APP_URL, credentials: true, optionsSuccessStatus: 200 });
+    app.use(loggerMiddleware);
+    app.setGlobalPrefix('api');
+    app.use(cookieParser());
+    app.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+        transformOptions: { enableImplicitConversion: true },
+        exceptionFactory: (validationErrors: ValidationError[] = []): ValidationException => {
+          return new ValidationException(validationErrors);
+        },
+      }),
+    );
+    app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-		await app.listen(config.PORT, config.HOST);
+    app.useWebSocketAdapter(new WsAdapter(app));
 
-		Logger.log(`Server started on host: ${config.HOST}; port: ${config.PORT};`, BackendApplication.name);
-	}
+    await app.listen(config.PORT, config.HOST);
+
+    Logger.log(`Server started on host: ${config.HOST}; port: ${config.PORT};`, BackendApplication.name);
+  }
 }

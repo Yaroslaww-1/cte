@@ -13,4 +13,13 @@ module.exports = {
   extends: [
     '../.eslintrc.js'
   ],
+  overrides: [
+    {
+      "files": ["**/*.model.ts"],
+      "rules": {
+        "@typescript-eslint/naming-convention": ["off"],
+        "@typescript-eslint/no-empty-interface": ["off"],
+      }
+    }
+  ]
 };

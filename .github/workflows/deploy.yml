@@ -6,12 +6,14 @@ on:
       - develop
 
 env:
-  DATABASE_USER: ${{ secrets.DATABASE_USER }}
-  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-  DATABASE_DB_NAME: ${{ secrets.DATABASE_DB_NAME }}
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  BACKEND_DATABASE_URL: ${{ secrets.BACKEND_DATABASE_URL }}
   BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
   BACKEND_PORT: ${{ secrets.BACKEND_PORT }}
+  BACKEND_JWT_SECRET: ${{ secrets.BACKEND_JWT_SECRET }}
+  BACKEND_FRONTEND_APP_URL: ${{ secrets.BACKEND_FRONTEND_APP_URL }}
+  BACKEND_MAILER_EMAIL_ADDRESS: ${{ secrets.BACKEND_MAILER_EMAIL_ADDRESS }}
+  BACKEND_MAILER_EMAIL_PASSWORD: ${{ secrets.BACKEND_MAILER_EMAIL_PASSWORD }}
+  BACKEND_COOKIE_DOMAIN: ${{ secrets.BACKEND_COOKIE_DOMAIN }}
 
 jobs:
   setup-node-modules:
@@ -40,7 +42,7 @@ jobs:
         path: 'node_modules'
         key: node_modules-${{ hashFiles('yarn.lock') }}
     - name: run migrations
-      run: DATABASE_URL=${{ secrets.DATABASE_URL }} cd backend && yarn db:migrate
+      run: BACKEND_DATABASE_URL=${{ secrets.BACKEND_DATABASE_URL }} cd backend && yarn db:migrate
 
   build-backend:
     runs-on: ubuntu-latest
@@ -67,6 +69,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./frontend/Dockerfile
         image_tag: latest
+        build_extra_args: "--build-arg VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}"
 
   deploy:
     needs: [build-backend, build-frontend]
@@ -94,21 +97,27 @@ jobs:
         key: ${{ secrets.DEPLOYMENT_KEY }}
         port: ${{ secrets.DEPLOYMENT_PORT }}
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
-        envs: DATABASE_URL,BACKEND_HOST,BACKEND_PORT,GITHUB_USERNAME,GITHUB_TOKEN
+        envs: GITHUB_USERNAME,GITHUB_TOKEN,BACKEND_DATABASE_URL,BACKEND_HOST,BACKEND_PORT,BACKEND_JWT_SECRET,BACKEND_MAILER_EMAIL_ADDRESS,BACKEND_MAILER_EMAIL_PASSWORD,BACKEND_FRONTEND_APP_URL,BACKEND_COOKIE_DOMAIN,VUE_APP_API_URL
         script: |
           export GITHUB_USERNAME=$GITHUB_USERNAME
           export GITHUB_TOKEN=$GITHUB_TOKEN
           echo "$GITHUB_TOKEN" | docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
-          export DATABASE_URL=$DATABASE_URL
           export BACKEND_HOST=$BACKEND_HOST
           export BACKEND_PORT=$BACKEND_PORT
+          export BACKEND_DATABASE_URL=$BACKEND_DATABASE_URL
+          export BACKEND_JWT_SECRET=$BACKEND_JWT_SECRET
+          export BACKEND_MAILER_EMAIL_ADDRESS=$BACKEND_MAILER_EMAIL_ADDRESS
+          export BACKEND_MAILER_EMAIL_PASSWORD=$BACKEND_MAILER_EMAIL_PASSWORD
+          export BACKEND_FRONTEND_APP_URL=$BACKEND_FRONTEND_APP_URL
+          export BACKEND_COOKIE_DOMAIN=$BACKEND_COOKIE_DOMAIN
+          export VUE_APP_API_URL=$VUE_APP_API_URL
           cd app
-          docker-compose down
+          docker-compose -f docker-compose.prod.yml pull
           docker-compose -f docker-compose.prod.yml up -d --build
 
-  notify:
-    needs: [build-backend, build-frontend, deploy]
-    if: always()
+  notify-success:
+    needs: [deploy, run-migrations]
+    if: success()
     runs-on: ubuntu-latest
     steps:
     - uses: appleboy/telegram-action@master
@@ -116,4 +125,28 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          Pog! Build is finished! Status is ${{ job.status }}
+          Pog! Build is finished! Status is success
+
+  notify-failure:
+    needs: [deploy, run-migrations]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+    - uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Pog! Build is finished! Status is failure
+
+  notify-error-if-first-layer-fails:
+    needs: [build-backend, build-frontend, setup-node-modules]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+    - uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          Pog! Build is finished! Status is failure

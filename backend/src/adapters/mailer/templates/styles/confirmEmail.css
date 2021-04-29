@@ -1,0 +1,56 @@
+a {
+    outline: none;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.logo {
+    display: flex;
+    align-self: flex-start;
+    width: auto;
+    height: 60px;
+}
+
+.textUp {
+    color: #262626;
+    font-weight: 200;
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.textPlain {
+    color: #4c4c4c;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.btn {
+    padding: 6px 16px;
+    border-color: #008cc9;
+    background-color: #008cc9;
+    border-radius: 2px;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.textLink {
+    color: #ffffff!important;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+
+.name {
+    text-align: center;
+    color: #262626;
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 1.2;
+}

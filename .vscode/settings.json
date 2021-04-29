@@ -10,5 +10,11 @@
   "eslint.validate": [
     "typescript",
     "typescriptreact"
-  ]
+  ],
+  "editor.tabSize": 2,
+  "cSpell.words": [
+    "Usecase",
+    "Vuex",
+    "usecases"
+  ],
 }
