@@ -40,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import BaseCard from '../../components/cards/card.vue';
-import BaseButton from '../../components/buttons/link-button.vue';
-import BaseDialog from '../../components/dialogs/dialog.vue';
-import TheHeader from '../../components/navbar/navbar.vue';
+import BaseCard from '@components/cards/card.vue';
+import BaseButton from '@components/buttons/link-button.vue';
+import BaseDialog from '@components/dialogs/dialog.vue';
+import TheHeader from '@components/navbar/navbar.vue';
 export default {
   components: {
     BaseCard,
