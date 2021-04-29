@@ -31,6 +31,4 @@ WORKDIR /usr/src/app/backend
 
 RUN yarn build
 
-EXPOSE 5001
-
 CMD ["yarn", "start:prod"]

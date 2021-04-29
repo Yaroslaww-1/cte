@@ -8,15 +8,17 @@
       "@config/*": ["src/config/*"],
       "@data/*": ["src/data/*"],
       "@core/*": ["src/core/*"],
-      "@shared/*": ["../cte-shared/*"] 
+      "@shared/*": ["../cte-shared/*"],
+      "@api/*": ["src/api/*"],
     }
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
   ],
   "exclude": [
     "node_modules",
     "dist",
+    "test"
   ]
 }

@@ -1,21 +1,23 @@
-version: '3.6'
+version: '3.8'
 
 services:
   backend:
     container_name: cte_backend
     build:
-      network: host
       context: .
       dockerfile: ./backend/Dockerfile
     ports: 
-      - "5001:5001"
-      - "5432:5432"
-    environment:
-      DATABASE_URL: ${DATABASE_URL}
-      PORT: ${BACKEND_PORT}
-      HOST: ${BACKEND_HOST}
-    network_mode: host
+      - 5001:5001
+    env_file:
+      - ./backend/.env
+    environment: 
+      - FRONTEND_APP_URL=http://localhost
     restart: always
+    networks:
+      - cte-network
+    # Please see https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
 
   frontend:
     container_name: cte_frontend
@@ -23,4 +25,12 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
     ports:
-      - "3000:80"
+      - 3000:3000
+      - 80:80
+    env_file:
+      - ./frontend/.env
+    networks:
+      - cte-network
+
+networks:
+  cte-network:
