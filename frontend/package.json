@@ -32,14 +32,14 @@
     "vue-svg-loader": "beta",
     "vue-template-compiler": "^2.6.12",
     "vuex": "^4.0.0",
-    "vuex-module-decorators": "^1.0.1"
+    "vuex-module-decorators": "^1.0.1",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.0.2",
-    "eslint-plugin-vue": "^7.0.0-0",
-    "worker-loader": "^3.0.8"
+    "eslint-plugin-vue": "^7.0.0-0"
   }
 }
