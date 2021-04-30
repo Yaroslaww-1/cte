@@ -3,7 +3,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@components/home.vue';
 import Login from '@pages/auth/Login.vue';
 import Register from '@pages/auth/Register.vue';
-import UserDocuments from '@pages/documents/UserDocuments.vue';
+import DocumentsList from '@pages/documents/DocumentsList.vue';
+import TheDocument from '@pages/documents/TheDocument.vue';
 import store from '@pages/auth/vuex/index';
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,8 +24,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/documents',
-    component: UserDocuments,
-    meta: { requiresAuth: true }
+    component: DocumentsList,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/documents/:id',
+    component: TheDocument,
+    props: true,
+    meta: { requiresAuth: true },
   },
   {
     path: '/',
@@ -37,7 +44,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _, next) => {
+router.beforeEach((to: any, _: any, next: any) => {
   if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
     next('/login');
   } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {

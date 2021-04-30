@@ -8,6 +8,7 @@ interface State {
 }
 
 export default {
+  namespaced: true,
   state(): State {
     return {
       token: null,
