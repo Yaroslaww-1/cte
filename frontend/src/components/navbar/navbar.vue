@@ -89,4 +89,7 @@ a.router-link-active {
 li {
   margin: 0 0.5rem;
 }
+img {
+  height: 55px;
+}
 </style>
