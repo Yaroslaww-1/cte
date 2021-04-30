@@ -1,4 +1,4 @@
-import qs from 'qs';
+import * as qs from 'qs';
 
 export const stringifyParams = (params: unknown): string =>
   qs.stringify(params, { arrayFormat: 'comma', encodeValuesOnly: true, encode: false });

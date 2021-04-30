@@ -1,5 +1,8 @@
 FROM node:12-alpine as builder
 
+ARG VUE_APP_API_URL="http://localhost:5001/api"
+ENV VUE_APP_API_URL=${VUE_APP_API_URL}
+
 WORKDIR /usr/src/app
 
 # Copy yarn

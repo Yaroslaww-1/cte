@@ -1,11 +1,16 @@
-import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
-import { RootModule } from './root.module';
 import { ConfigService } from '@nestjs/config';
 import { WsAdapter } from '@nestjs/platform-ws';
+import * as cookieParser from 'cookie-parser';
+
+import { RootModule } from './root.module';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
+import { loggerMiddleware } from './middlewares/logger.middleware';
+import { HttpExceptionFilter } from './exception-filters/http.exception-filter';
+import { ValidationException } from '@src/core/exceptions/validation.exception';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -21,13 +26,24 @@ export class BackendApplication {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const config = configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)!;
 
+    console.log('BACKEND_APPLICATION_CONFIG', config);
+
+    app.enableCors({ origin: config.FRONTEND_APP_URL, credentials: true, optionsSuccessStatus: 200 });
+    app.use(loggerMiddleware);
+    app.setGlobalPrefix('api');
+    app.use(cookieParser());
     app.useGlobalPipes(
       new ValidationPipe({
         transform: true,
+        whitelist: true,
         transformOptions: { enableImplicitConversion: true },
-      })
+        exceptionFactory: (validationErrors: ValidationError[] = []): ValidationException => {
+          return new ValidationException(validationErrors);
+        },
+      }),
     );
-    app.setGlobalPrefix('api');
+    app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     app.useWebSocketAdapter(new WsAdapter(app));
 

@@ -1,90 +1,94 @@
 import { Controller, Post, Body, Req, Res, UseGuards } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
-import {
-  LoginDto,
-  LoginSuccessDto,
-  LogoutDto,
-  LogoutSuccessDto,
-  RefreshTokensDto,
-  RefreshTokensSuccessDto,
-} from '@shared/dto';
-import { LoginRequest } from '@src/core/services/auth/requests/login.request';
-import { RefreshTokensRequest } from '@src/core/services/auth/requests/refresh-tokens.request';
-import { LoginService } from '@src/core/services/auth/login.service';
-import { LogoutService } from '@src/core/services/auth/logout.service';
-import { RefreshTokensService } from '@src/core/services/auth/refresh-token.service';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+
 import { IBackendApplicationConfig } from '@src/config/backend-application.config';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
+import { LoginUsecase } from '@src/core/services/auth/usecases/login.usecase';
+import { LogoutUsecase } from '@src/core/services/auth/usecases/logout.usecase';
+import { RefreshTokensUsecase } from '@src/core/services/auth/usecases/refresh-tokens.usecase';
+import {
+  LoginRequest,
+  LoginSuccessResponse,
+  LogoutRequest,
+  LogoutSuccessResponse,
+  RefreshTokensRequest,
+  RefreshTokensSuccessResponse,
+} from '@shared/request-response';
+import { LoginDto } from '@src/core/services/auth/dto/login.dto';
+import { RefreshTokensDto } from '@src/core/services/auth/dto/refresh-tokens.dto';
 
 @Controller('auth')
 @UseGuards(ThrottlerGuard)
 export class AuthController {
   constructor(
-    private readonly loginService: LoginService,
-    private readonly logoutService: LogoutService,
-    private readonly refreshTokensService: RefreshTokensService,
-    private readonly configService: ConfigService
+    private readonly loginUsecase: LoginUsecase,
+    private readonly logoutUsecase: LogoutUsecase,
+    private readonly refreshTokensUsecase: RefreshTokensUsecase,
+    private readonly configService: ConfigService,
   ) {}
 
   @Post('login')
   async login(
-    @Body() loginDto: LoginDto,
-    @Req() request: Request,
-    @Res() response: Response
-  ): Promise<LoginSuccessDto> {
-    const userAgent = request.headers['user-agent'];
-    const ip = request.ip;
+    @Body() request: LoginRequest,
+    @Req() httpRequest: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<LoginSuccessResponse> {
+    const userAgent = httpRequest.headers['user-agent'];
+    const ip = httpRequest.ip;
 
-    const loginSuccessResponse = await this.loginService.login(new LoginRequest({ ...loginDto, userAgent, ip }));
-    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    const loginDto = await LoginDto.new(LoginDto, { ...request, userAgent, ip });
+
+    const loginSuccessResponse = await this.loginUsecase.execute(loginDto);
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
     response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
       domain,
-      path: '/auth',
+      path: '/api/auth',
       maxAge: loginSuccessResponse.refTokenExpiresInSeconds,
-      secure: false, // temp: should be deleted
+      secure: false,
     });
 
-    return new LoginSuccessDto({
+    return await LoginSuccessResponse.new(LoginSuccessResponse, {
       accessToken: loginSuccessResponse.accessToken,
       refreshTokenId: loginSuccessResponse.refreshTokenId,
     });
   }
 
   @Post('logout')
-  async logout(@Body() logoutDto: LogoutDto, @Req() request: Request): Promise<LogoutSuccessDto> {
-    const refreshToken = logoutDto.refreshToken || request.cookies.refreshToken;
-    return await this.logoutService.logout(refreshToken);
+  async logout(@Body() request: LogoutRequest, @Req() httpRequest: Request): Promise<LogoutSuccessResponse> {
+    const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
+    return await this.logoutUsecase.execute(refreshTokenId);
   }
 
   @Post('refresh-tokens')
   async refreshTokens(
-    @Body() refreshTokensDto: RefreshTokensDto,
-    @Req() request: Request,
-    @Res() response: Response
-  ): Promise<RefreshTokensSuccessDto> {
-    const refreshTokenId = refreshTokensDto.refreshTokenId || request.cookies.refreshTokenId;
-    const userAgent = request.headers['user-agent'];
-    const ip = request.ip;
+    @Body() request: RefreshTokensRequest,
+    @Req() httpRequest: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<RefreshTokensSuccessResponse> {
+    const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
+    console.log('refreshTokenId', refreshTokenId);
+    const userAgent = httpRequest.headers['user-agent'];
+    const ip = httpRequest.ip;
 
-    const refreshTokensResponse = await this.refreshTokensService.refreshTokens(
-      new RefreshTokensRequest({
-        userAgent,
-        ip,
-        fingerprint: refreshTokensDto.fingerprint,
-        refreshTokenId,
-      })
-    );
-    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.HOST;
+    const refreshTokensDto = await RefreshTokensDto.new(RefreshTokensDto, {
+      userAgent,
+      ip,
+      fingerprint: request.fingerprint,
+      refreshTokenId,
+    });
+    const refreshTokensResponse = await this.refreshTokensUsecase.execute(refreshTokensDto);
+
+    const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
     response.cookie('refreshTokenId', refreshTokensResponse.refreshTokenId, {
       domain,
-      path: '/auth',
+      path: '/api/auth',
       maxAge: refreshTokensResponse.refTokenExpiresInSeconds,
-      secure: false, // temp: should be deleted
+      secure: false,
     });
 
-    return new RefreshTokensSuccessDto({
+    return await RefreshTokensSuccessResponse.new(RefreshTokensSuccessResponse, {
       accessToken: refreshTokensResponse.accessToken,
       refreshTokenId: refreshTokensResponse.refreshTokenId,
     });

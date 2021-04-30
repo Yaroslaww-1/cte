@@ -12,20 +12,17 @@ export class MailerAdapter {
 
   constructor(private configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
-      host: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.MAILER_HOST,
-      port: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.MAILER_PORT,
-      secure: false,
-      requireTLS: true,
+      service: 'gmail',
       auth: {
         user: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_ADDRESS,
-        pass: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_PASS,
+        pass: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_PASSWORD,
       },
     });
   }
 
-  async sendMail(recipient: string, messageConfig: MessageConfig): Promise<void> {
+  sendMail(recipient: string, messageConfig: MessageConfig): Promise<void> {
     const message = pug.renderFile(messageConfig.templatePath, messageConfig.payload);
-    this.transporter.sendMail({
+    return this.transporter.sendMail({
       from: this.configService.get<IMailerConfig>(MAILER_CONFIG)?.EMAIL_ADDRESS,
       to: recipient,
       subject: messageConfig.letterSubject,

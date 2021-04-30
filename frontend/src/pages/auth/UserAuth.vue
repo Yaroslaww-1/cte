@@ -40,17 +40,17 @@
 </template>
 
 <script lang="ts">
-import BaseCard from '@components/cards/card.vue';
-import BaseButton from '@components/buttons/link-button.vue';
-import BaseDialog from '@components/dialogs/dialog.vue';
-import TheHeader from '@components/navbar/navbar.vue';
+// import BaseCard from '@components/BaseCard.vue';
+// import BaseButton from '@components/BaseButton.vue';
+// import BaseDialog from '@components/BaseDialog.vue';
+// import TheHeader from '@components/navbar/navbar.vue';
 export default {
-  components: {
-    BaseCard,
-    BaseButton,
-    BaseDialog,
-    TheHeader,
-  },
+  // components: {
+  //   BaseCard,
+  //   BaseButton,
+  //   BaseDialog,
+  //   TheHeader,
+  // },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data(): any {
     return {
@@ -69,61 +69,61 @@ export default {
       confirmPassword: '',
     };
   },
-  methods: {
-    checkValidation(): void {
-      const check1 = this.firstName === this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
-      const check2 = this.lastName === this.lastName.charAt(0).toUpperCase() + this.lastName.slice(1);
-      const re = /^[^\s@]+@[^\s@]+$/;
-      const check3 = re.test(this.signupEmail);
-      const check4 = this.signupPassword === this.confirmPassword;
-      if (!(check1 && check2 && check3 && check4)) this.signupDataIsValid = false;
-      if (!this.email || !this.password) this.loginDataIsValid = false;
-    },
-    async submit(): Promise<void> {
-      this.checkValidation();
+  // methods: {
+  //   checkValidation(): void {
+  //     const check1 = this.firstName === this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
+  //     const check2 = this.lastName === this.lastName.charAt(0).toUpperCase() + this.lastName.slice(1);
+  //     const re = /^[^\s@]+@[^\s@]+$/;
+  //     const check3 = re.test(this.signupEmail);
+  //     const check4 = this.signupPassword === this.confirmPassword;
+  //     if (!(check1 && check2 && check3 && check4)) this.signupDataIsValid = false;
+  //     if (!this.email || !this.password) this.loginDataIsValid = false;
+  //   },
+  //   async submit(): Promise<void> {
+  //     this.checkValidation();
 
-      this.isLoading = true;
-      const actionPayload = {
-        email: this.email,
-        password: this.password,
-      };
-      const signupPayload = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        userName: this.userName,
-        email: this.signupEmail,
-        password: this.signupPassword,
-      };
-      try {
-        if (this.loginDataIsValid && this.mode === 'login') {
-          await this.$store.dispatch('logIn', actionPayload);
-        } else if (this.signupDataIsValid && this.mode === 'signup') {
-          await this.$store.dispatch('signUp', signupPayload);
-        }
-      } catch (error) {
-        this.error = error.message || 'Failed. Try later!';
-      }
-      this.isLoading = false;
-    },
-    swithAuthMode(): void {
-      if (this.mode === 'login') this.mode = 'signup';
-      else this.mode = 'login';
-    },
-    handleError(): void {
-      this.error = null;
-    },
-  },
-  computed: {
-    submitButtonCaption(): string {
-      if (this.mode === 'login') return 'Login';
-      else return 'Signup';
-    },
-    switchModeButtonCaption(): string {
-      // eslint-disable-next-line prettier/prettier
-      if (this.mode === 'login') return 'Don\'t have an account? Sign up';
-      else return 'Have an account? Log in instead';
-    },
-  },
+  //     this.isLoading = true;
+  //     const actionPayload = {
+  //       email: this.email,
+  //       password: this.password,
+  //     };
+  //     const signupPayload = {
+  //       firstName: this.firstName,
+  //       lastName: this.lastName,
+  //       userName: this.userName,
+  //       email: this.signupEmail,
+  //       password: this.signupPassword,
+  //     };
+  //     try {
+  //       if (this.loginDataIsValid && this.mode === 'login') {
+  //         await this.$store.dispatch('logIn', actionPayload);
+  //       } else if (this.signupDataIsValid && this.mode === 'signup') {
+  //         await this.$store.dispatch('signUp', signupPayload);
+  //       }
+  //     } catch (error) {
+  //       this.error = error.message || 'Failed. Try later!';
+  //     }
+  //     this.isLoading = false;
+  //   },
+  //   swithAuthMode(): void {
+  //     if (this.mode === 'login') this.mode = 'signup';
+  //     else this.mode = 'login';
+  //   },
+  //   handleError(): void {
+  //     this.error = null;
+  //   },
+  // },
+  // computed: {
+  //   submitButtonCaption(): string {
+  //     if (this.mode === 'login') return 'Login';
+  //     else return 'Signup';
+  //   },
+  //   switchModeButtonCaption(): string {
+  //     // eslint-disable-next-line prettier/prettier
+  //     if (this.mode === 'login') return 'Don\'t have an account? Sign up';
+  //     else return 'Have an account? Log in instead';
+  //   },
+  // },
 };
 </script>
 
@@ -142,7 +142,7 @@ label {
   margin-bottom: 0.5rem;
   margin-top: 0.7rem;
   display: block;
-  font-size: 1.1rem;;
+  font-size: 1.1rem;
 }
 
 input {

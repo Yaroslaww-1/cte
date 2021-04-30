@@ -2,16 +2,45 @@
   <header>
     <nav>
       <h1>
-        <router-link to="/home">CTE</router-link>
+        <router-link :to="Route.Base">CTE</router-link>
       </h1>
       <ul>
         <li>
-          <router-link to="/auth">Log In</router-link>
+          <router-link :to="Route.Login">Log In</router-link>
+        </li>
+        <li>
+          <router-link :to="Route.Register">Register</router-link>
+        </li>
+        <li>
+          <router-link :to="Route.Documents">Documents</router-link>
+        </li>
+        <li>
+          <p @click="onLogout">Logout</p>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import { authVuexModule } from '@src/vuex/store-accessor';
+import { Route } from '@src/router/routes.enum';
+
+export default defineComponent({
+  computed: {
+    Route() {
+      return Route;
+    },
+  },
+  methods: {
+    async onLogout() {
+      await authVuexModule.logout();
+    },
+  },
+});
+</script>
 
 <style lang="scss" scoped>
 @mixin flexCenter($justify) {

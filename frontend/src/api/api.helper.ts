@@ -1,18 +1,25 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { stringifyParams } from '@shared/helpers';
 import { ApiResponseException } from '@shared-frontend/exceptions/api-response.exception';
+import { authVuexModule } from '@src/vuex/store-accessor';
+import { refreshTokenService } from './services/auth/refresh-token.service';
+import { debounceRefreshTokens } from '@shared-frontend/helpers/auth.helper';
 
-const BASE_URL = process.env.REACT_APP_API_URL || '/api';
+const API_URL = process.env.VUE_APP_API_URL;
 
 class Api {
-  private readonly instance: AxiosInstance;
+  instance: AxiosInstance;
   private readonly commonHeaders: {
     [key in string]: string;
   };
 
   constructor() {
+    if (!API_URL) {
+      console.error('API_URL is not provided! Check your .env file');
+    }
     this.instance = axios.create({
-      baseURL: BASE_URL,
+      baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -35,6 +42,7 @@ class Api {
     const response = await this.instance
       .post(url, payload, {
         headers: this.commonHeaders,
+        withCredentials: true,
       })
       .then(({ data }) => data)
       .catch(this.handleError);
@@ -81,4 +89,51 @@ class Api {
   }
 }
 
-export default new Api();
+class ApiWithAuth extends Api {
+  constructor() {
+    super();
+
+    this.instance = axios.create({
+      baseURL: API_URL,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+
+    this.initInterceptor();
+  }
+
+  initInterceptor(): void {
+    this.instance.interceptors.request.use(
+      request => {
+        request.headers.authorization = authVuexModule.bearer;
+        // if access token expired and refreshToken is exist >> go to API and get new access token
+        if (authVuexModule.isAccessTokenExpired && refreshTokenService.isRefreshTokenExist()) {
+          return (
+            debounceRefreshTokens()
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              .then(response => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                authVuexModule.updateAccessToken(response!.accessToken);
+                request.headers.authorization = authVuexModule.bearer;
+                return request;
+              })
+              .catch(error => Promise.reject(error))
+          );
+        } else {
+          return request;
+        }
+      },
+      error => {
+        return Promise.reject(error);
+      },
+    );
+  }
+}
+
+const api = new Api();
+const apiWithAuth = new ApiWithAuth();
+
+export { Api, ApiWithAuth };
+export { api, apiWithAuth };

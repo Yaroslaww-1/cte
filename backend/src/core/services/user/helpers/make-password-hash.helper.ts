@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 const makePasswordHash = (password: string): Promise<string> => {
   return new Promise((resolve, reject) => {

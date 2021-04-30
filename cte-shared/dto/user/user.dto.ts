@@ -1,18 +1,21 @@
-import { Expose } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { Exclude, Expose } from 'class-transformer';
+import { IsString, IsUUID } from 'class-validator';
 
-@Expose()
-export class UserDto {
-  @IsNumber()
-  readonly id!: number;
+import { BaseDto } from '../../abstraction/base-dto';
 
+@Exclude()
+class UserDto extends BaseDto<UserDto> {
+  @Expose()
+  @IsUUID(4)
+  readonly id!: string;
+
+  @Expose()
   @IsString()
   readonly name!: string;
 
+  @Expose()
   @IsString()
   readonly email!: string;
-
-  constructor(props: UserDto) {
-    Object.assign(this, props);
-  }
 }
+
+export { UserDto };
