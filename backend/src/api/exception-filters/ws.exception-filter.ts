@@ -8,7 +8,7 @@ import { ErrorServerEmit } from '@shared/ws/emits';
 import { getErrorMessage } from './helpers/get-error-message.helper';
 
 @Catch()
-export class WithErrorEmitExceptionsFilter extends BaseWsExceptionFilter {
+export class WsExceptionsFilter extends BaseWsExceptionFilter {
   async catch(exception: unknown, host: ArgumentsHost): Promise<void> {
     const args = host.getArgs();
     const clientSocket = args.find(arg => arg instanceof WebSocket);
