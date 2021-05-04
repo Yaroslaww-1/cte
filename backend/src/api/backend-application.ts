@@ -1,5 +1,5 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import { ClassSerializerInterceptor, Logger, ValidationError, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { IBackendApplicationConfig } from '@config/backend-application.config';
 import { ConfigService } from '@nestjs/config';
@@ -10,7 +10,7 @@ import { RootModule } from './root.module';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
 import { loggerMiddleware } from './middlewares/logger.middleware';
 import { HttpExceptionFilter } from './exception-filters/http.exception-filter';
-import { ValidationException } from '@src/core/exceptions/validation.exception';
+import { ConfiguredValidationPipe } from './pipes/configured-validation-pipe';
 
 export class BackendApplication {
   public static new(): BackendApplication {
@@ -21,6 +21,7 @@ export class BackendApplication {
     const app: NestExpressApplication = await NestFactory.create<NestExpressApplication>(RootModule, {
       bodyParser: true,
     });
+    app.useWebSocketAdapter(new WsAdapter(app));
 
     const configService = app.get(ConfigService);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -32,20 +33,9 @@ export class BackendApplication {
     app.use(loggerMiddleware);
     app.setGlobalPrefix('api');
     app.use(cookieParser());
-    app.useGlobalPipes(
-      new ValidationPipe({
-        transform: true,
-        whitelist: true,
-        transformOptions: { enableImplicitConversion: true },
-        exceptionFactory: (validationErrors: ValidationError[] = []): ValidationException => {
-          return new ValidationException(validationErrors);
-        },
-      }),
-    );
+    app.useGlobalPipes(ConfiguredValidationPipe.new());
     app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-
-    app.useWebSocketAdapter(new WsAdapter(app));
 
     await app.listen(config.PORT, config.HOST);
 
