@@ -20,11 +20,8 @@ export class WithErrorEmitExceptionsFilter extends BaseWsExceptionFilter {
         message = getErrorMessage(exception);
       }
 
-      console.log('eee', message);
-
       const errorEmit = await ErrorServerEmit.new(ErrorServerEmit, { message });
       const errorJson = serialize(errorEmit);
-      console.log('errorJson', errorJson);
       clientSocket.send(errorJson);
     }
     super.catch(exception, host);

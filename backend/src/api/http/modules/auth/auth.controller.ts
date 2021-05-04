@@ -68,7 +68,6 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<RefreshTokensSuccessResponse> {
     const refreshTokenId = request.refreshTokenId || httpRequest.cookies.refreshTokenId;
-    console.log('refreshTokenId', refreshTokenId);
     const userAgent = httpRequest.headers['user-agent'];
     const ip = httpRequest.ip;
 
