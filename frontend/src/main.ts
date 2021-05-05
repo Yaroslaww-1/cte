@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { createApp } from 'vue';
 import store from './vuex/store';
 import PrimeVue from 'primevue/config';
