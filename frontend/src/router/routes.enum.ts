@@ -4,7 +4,7 @@ enum Route {
   Register = '/register',
   ConfirmEmail = '/confirm-email',
   Documents = '/documents',
-  Editor = '/editor',
+  DocumentEdit = '/documents/:documentId/edit',
 }
 
 export { Route };
