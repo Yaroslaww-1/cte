@@ -7,10 +7,11 @@ import { GetDocumentsUsecase } from '@src/core/services/document/usecases/get-do
 import { DocumentMapper } from '@src/core/services/document/document.mapper';
 import { CreateDocumentUsecase } from '@src/core/services/document/usecases/create-document.usecase';
 import { UserModule } from '../user/user.module';
+import { GetDocumentUsecase } from '@src/core/services/document/usecases/get-document.usecase';
 
 const daos = [DocumentDao];
 const mappers = [DocumentMapper];
-const usecases = [GetDocumentsUsecase, CreateDocumentUsecase];
+const usecases = [GetDocumentsUsecase, CreateDocumentUsecase, GetDocumentUsecase];
 
 @Module({
   imports: [SharedServicesModule, UserModule],

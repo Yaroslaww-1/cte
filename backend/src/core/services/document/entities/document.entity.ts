@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsString, IsUUID, IsObject } from 'class-validator';
 
 import { BaseEntity } from '@src/core/abstraction/base-entity';
@@ -11,9 +12,10 @@ class DocumentEntity extends BaseEntity {
   readonly title!: string;
 
   @IsString()
-  readonly content!: string;
+  content!: string;
 
   @IsObject()
+  @Type(() => UserEntity)
   readonly user!: UserEntity;
 
   static async newWithDefaults(props: { title: string; content?: string; user: UserEntity }): Promise<DocumentEntity> {
