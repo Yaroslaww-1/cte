@@ -10,11 +10,11 @@ class DocumentEntity extends BaseEntity {
   @IsString()
   readonly title!: string;
 
-  @IsObject()
-  readonly user!: UserEntity;
-
   @IsString()
   readonly content!: string;
+
+  @IsObject()
+  readonly user!: UserEntity;
 
   static async newWithDefaults(props: { title: string; content?: string; user: UserEntity }): Promise<DocumentEntity> {
     props.content = '';
