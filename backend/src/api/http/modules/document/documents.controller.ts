@@ -20,7 +20,6 @@ export class DocumentController {
   }
 
   @Post()
-  @UseGuards(AuthGuard)
   async createNewUser(@Body() request: CreateDocumentRequest): Promise<DocumentDto> {
     return await this.createDocumentUsecase.execute(request);
   }
