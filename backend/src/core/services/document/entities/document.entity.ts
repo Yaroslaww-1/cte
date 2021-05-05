@@ -1,9 +1,9 @@
-import { IsString, IsUUID, IsObject, ValidateNested } from 'class-validator';
+import { IsString, IsUUID, IsObject } from 'class-validator';
 
 import { BaseEntity } from '@src/core/abstraction/base-entity';
-import { UserDto } from '@shared/dto';
+import { UserEntity } from '../../user/entities/user.entity';
 
-class DocumentEntity extends BaseEntity<DocumentEntity> {
+class DocumentEntity extends BaseEntity {
   @IsUUID(4)
   readonly id!: string;
 
@@ -11,8 +11,15 @@ class DocumentEntity extends BaseEntity<DocumentEntity> {
   readonly title!: string;
 
   @IsObject()
-  @ValidateNested()
-  readonly user!: UserDto;
+  readonly user!: UserEntity;
+
+  @IsString()
+  readonly content!: string;
+
+  static async newWithDefaults(props: { title: string; content?: string; user: UserEntity }): Promise<DocumentEntity> {
+    props.content = '';
+    return await super.new(DocumentEntity, props as DocumentEntity);
+  }
 }
 
 export { DocumentEntity };

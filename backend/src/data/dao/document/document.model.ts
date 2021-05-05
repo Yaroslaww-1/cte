@@ -4,6 +4,8 @@ import { Model, RelationMappings } from 'objection';
 interface IDocumentModel {
   id: string;
   title: string;
+  content: string;
+
   userId: string;
   user: IUserModel;
 }
@@ -12,6 +14,22 @@ interface DocumentModel extends IDocumentModel {}
 class DocumentModel extends Model {
   static get tableName(): string {
     return 'documents';
+  }
+
+  static get jsonSchema(): Record<string, unknown> {
+    return {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        content: { type: 'string' },
+        userId: { type: 'string' },
+      },
+    };
+  }
+
+  static get pickJsonSchemaProperties(): boolean {
+    return true;
   }
 
   static get relationMappings(): RelationMappings {
