@@ -70,6 +70,7 @@ export class UserDao extends BaseDao<UserModel> {
   async updateOne(id: string, updateUser: NullablePartial<IUserModel>): Promise<UserEntity | null> {
     const user = await this.userModel
       .query()
+      .withGraphFetched({ documents: true })
       .where({ id })
       .update(super.getUpdateObjectWithReplacedNulls(updateUser))
       .returning('*')

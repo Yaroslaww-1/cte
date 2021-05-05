@@ -18,6 +18,10 @@ class DocumentDto extends BaseDto<DocumentDto> {
   @Type(() => UserDto)
   @IsObject()
   readonly user!: UserDto;
+
+  @Expose()
+  @IsString()
+  readonly content!: string;
 }
 
 export { DocumentDto };
