@@ -3,23 +3,27 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { PartialBy, WithoutFunctions } from '@shared/types';
 
-class BaseEntity<P> {
-  constructor(props: P) {
+class BaseEntity {
+  constructor(props: unknown) {
     Object.assign(this, props);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static async new<T extends Record<string, any>>(
-    type: new (props: T) => T,
-    props: WithoutFunctions<PartialBy<T, 'id'>>,
-  ): Promise<T> {
+  static async new<Constructor extends Record<string, any>, Entity extends BaseEntity & { id: string }>(
+    type: new (props: Constructor) => Entity,
+    props: WithoutFunctions<PartialBy<Entity, 'id'>>,
+  ): Promise<Entity> {
     const propsWithId = {
       id: uuidv4(),
       ...props,
     };
-    const obj = new type((propsWithId as unknown) as T);
+    const obj = new type((propsWithId as unknown) as Constructor);
     await validateOrReject(obj);
     return obj;
+  }
+
+  static async validate(): Promise<void> {
+    await validateOrReject(this);
   }
 }
 

@@ -6,7 +6,7 @@ import { SessionExpiredException } from '@src/core/exceptions/auth/session-expir
 import { InvalidRefreshSessionException } from '@src/core/exceptions/auth/invalid-refresh-session.exception';
 import { WithoutFunctions } from '@shared/types';
 
-class RefreshSessionEntity extends BaseEntity<RefreshSessionEntity> {
+class RefreshSessionEntity extends BaseEntity {
   @IsUUID(4)
   readonly id!: string;
 
