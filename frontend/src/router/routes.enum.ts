@@ -5,6 +5,7 @@ enum Route {
   ConfirmEmail = '/confirm-email',
   Documents = '/documents',
   Editor = '/editor',
+  EditDocument = '/editor/:id',
 }
 
 export { Route };

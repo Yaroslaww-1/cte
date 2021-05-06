@@ -40,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
     component: EditorPage,
     meta: { isAuth: true },
   },
+  {
+    path: Route.EditDocument,
+    component: EditorPage,
+    meta: { isAuth: true },
+  },
 ];
 
 const router = createRouter({

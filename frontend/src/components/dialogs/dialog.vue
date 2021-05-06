@@ -12,9 +12,7 @@
           <slot></slot>
         </section>
         <menu v-if="!fixed">
-          <slot name="actions">
-            <LinkButton @click="tryClose">Close</LinkButton>
-          </slot>
+          <slot name="actions"></slot>
         </menu>
       </dialog>
     </transition>
@@ -22,9 +20,7 @@
 </template>
 
 <script lang="ts">
-import LinkButton from '../buttons/link-button.vue';
 export default {
-  components: { LinkButton },
   props: {
     show: {
       type: Boolean,
@@ -38,15 +34,6 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    },
-  },
-  emits: ['close'],
-  methods: {
-    tryClose(): void {
-      if (this.fixed) {
-        return;
-      }
-      this.$emit('close');
     },
   },
 };
