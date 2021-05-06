@@ -4,11 +4,15 @@ import { DMP } from '@shared/libs/dmp.lib';
 const patchMake: Worker = self as any;
 
 const dmp = new DMP();
-let oldText = '';
+let oldText: string | null = null;
 
 patchMake.addEventListener('message', event => {
-  const newText = event.data.newText;
-  const patch = dmp.patchMake(oldText, newText);
-  oldText = newText;
+  const { currentText } = event.data;
+  if (!oldText) {
+    oldText = currentText;
+    return;
+  }
+  const patch = dmp.patchMake(oldText, currentText);
+  oldText = currentText;
   patchMake.postMessage(patch);
 });

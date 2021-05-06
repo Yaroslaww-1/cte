@@ -6,7 +6,7 @@ import { InvalidPasswordException } from '@src/core/exceptions/auth/invalid-pass
 import { makePasswordHash } from '../helpers/make-password-hash.helper';
 import { WithoutFunctions } from '@shared/types';
 
-class UserEntity extends BaseEntity<UserEntity> {
+class UserEntity extends BaseEntity {
   @IsUUID(4)
   readonly id!: string;
 

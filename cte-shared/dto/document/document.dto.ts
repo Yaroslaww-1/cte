@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { IsObject, IsString, IsUUID } from 'class-validator';
 
 import { UserDto } from '../user';
@@ -15,8 +15,13 @@ class DocumentDto extends BaseDto<DocumentDto> {
   readonly title!: string;
 
   @Expose()
+  @Type(() => UserDto)
   @IsObject()
   readonly user!: UserDto;
+
+  @Expose()
+  @IsString()
+  readonly content!: string;
 }
 
 export { DocumentDto };

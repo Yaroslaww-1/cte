@@ -7,7 +7,7 @@ import LoginPage from '@pages/auth/login.page.vue';
 import RegisterPage from '@pages/auth/register.page.vue';
 import ConfirmEmailPage from '@pages/auth/confirm-email.page.vue';
 import DocumentsPage from '@pages/documents/documents.page.vue';
-import EditorPage from '@pages/editor/editor.page.vue';
+import DocumentEditPage from '@pages/document-edit/document-edit.page.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,8 +36,8 @@ const routes: Array<RouteRecordRaw> = [
     meta: { isAuth: true },
   },
   {
-    path: Route.Editor,
-    component: EditorPage,
+    path: Route.DocumentEdit,
+    component: DocumentEditPage,
     meta: { isAuth: true },
   },
 ];

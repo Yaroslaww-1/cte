@@ -1,6 +1,8 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
 import { Request, Response } from 'express';
 
+import { getErrorMessage } from './helpers/get-error-message.helper';
+
 @Catch(HttpException)
 class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost): void {
@@ -8,11 +10,7 @@ class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    let message: string | object = exception.message;
-    if (exception.getResponse && exception.getResponse() !== '') {
-      message = exception.getResponse();
-    }
+    const message = getErrorMessage(exception);
 
     console.error(`Exception: message=${message} stack=${exception.stack}`);
 
