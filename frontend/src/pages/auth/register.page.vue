@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, registerRuntimeCompiler } from 'vue';
+import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
 import { authVuexModule } from '@src/vuex/store-accessor';
