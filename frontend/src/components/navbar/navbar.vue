@@ -1,9 +1,9 @@
 <template>
   <header>
     <nav>
-      <h1>
-        <router-link :to="Route.Base">CTE</router-link>
-      </h1>
+      <div class="logo">
+        <router-link :to="Route.Base"><img src="@src/assets/logo.jpg" /></router-link>
+      </div>
       <ul>
         <li>
           <router-link :to="Route.Login">Log In</router-link>
@@ -77,7 +77,7 @@ a:hover,
 a.router-link-active {
   border: 1px solid #cecece;
 }
-h1 {
+.logo {
   margin: 0;
   a {
     color: white;
@@ -91,5 +91,8 @@ h1 {
 }
 li {
   margin: 0 0.5rem;
+}
+img {
+  height: 55px;
 }
 </style>

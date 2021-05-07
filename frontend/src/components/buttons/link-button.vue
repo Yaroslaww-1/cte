@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     mode: {
       type: String,
@@ -26,7 +28,7 @@ export default {
       default: '/',
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -53,7 +55,7 @@ a {
 .flat {
   background-color: transparent;
   color: #696969;
-  border: none;
+  border: 1px solid gray;
   &:hover,
   &:active {
     background-color: #e8e8e8;
