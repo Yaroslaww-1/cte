@@ -25,6 +25,7 @@
     "test:backend": "cd backend && yarn test:unit"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "typescript": "^4.2.2"
   },
   "devDependencies": {
