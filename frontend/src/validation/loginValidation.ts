@@ -1,13 +1,11 @@
-interface IPayload {
-  email: string;
-  password: string;
-}
-
-const checkIsLoginDataValid = (payload: IPayload): boolean => {
-  if (!payload.email || !payload.password) {
-    return false;
-  }
-  return true;
+const emailValidator = (input: string): Error | null => {
+  if (input === '') return Error('This fied cannot be empty. Please, enter the email.');
+  return null;
 };
 
-export default checkIsLoginDataValid;
+const passwordValidator = (input: string): Error | null => {
+  if (input === '') return Error('This fied cannot be empty. Please, enter the password.');
+  return null;
+};
+
+export { emailValidator, passwordValidator };

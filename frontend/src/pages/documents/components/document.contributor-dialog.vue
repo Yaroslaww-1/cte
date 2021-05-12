@@ -1,12 +1,18 @@
 <template>
   <div>
-    <contributor-dialog :opened="opened" :emptyUserName="emptyUserName">
+    <contributor-dialog :opened="opened">
       <template v-slot:userName>
-        <label for="contributor-username">Enter contributor username</label>
-        <input type="text" id="contributor-username" v-model="userName" autocomplete="off" />
+        <input-validation
+          :withLabel="true"
+          label="Enter contributor username"
+          :validator="validator"
+          :empty="empty"
+          value="userName"
+        >
+        </input-validation>
       </template>
       <link-button @click="addContributor">Add</link-button>
-      <link-button @click="toggle('')" v-on:click="hideMessage">Cancel</link-button>
+      <link-button @click="toggleContributorDialog">Cancel</link-button>
     </contributor-dialog>
   </div>
 </template>
@@ -14,22 +20,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { documentsVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
+import { documentEditVuexModule } from '@src/vuex/store-accessor';
 import ContributorDialog from '@components/dialogs/contributor-dialog.vue';
 import LinkButton from '@components/buttons/link-button.vue';
-import changeModifiedDate from '@src/date-time/changeModifiedDate';
+import InputValidation from '@src/components/inputs/input-validation.vue';
+import validator from '@src/validation/userNameValidator';
 
 export default defineComponent({
   props: {
     opened: {
-      type: Boolean,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
-    },
-    empty: {
       type: Boolean,
       required: true,
     },
@@ -38,38 +37,34 @@ export default defineComponent({
   components: {
     ContributorDialog,
     LinkButton,
+    InputValidation,
   },
 
   data() {
     return {
-      userName: '',
-      emptyUserName: this.empty,
-      toggle: this.toggleContributorDialog,
+      empty: false,
     };
   },
 
   methods: {
     addContributor(): void | undefined {
-      if (this.userName === '') {
-        this.emptyUserName = true;
+      if (!documentEditVuexModule.inputs.userName) {
+        this.empty = true;
         return;
       }
-      this.emptyUserName = false;
-      this.toggle();
-      const document = documentsVuexModule.documents.find(value => value.id === this.id);
-      if (document) {
-        documentEditVuexModule.addContributor([document, this.userName]);
-        changeModifiedDate(document);
+      const document = documentEditVuexModule.document!;
+      documentEditVuexModule.addContributor([document, documentEditVuexModule.inputs.userName]);
+      this.toggleContributorDialog();
+    },
+    toggleContributorDialog(): void {
+      if (documentEditVuexModule.inputs.userName) {
+        documentEditVuexModule.changeValue(['userName', null]);
       }
-      this.userName = '';
+      this.empty = false;
+      documentEditVuexModule.toggleDialog(['contributor', null]);
     },
-    hideMessage() {
-      if (this.emptyUserName) this.emptyUserName = false;
-      if (this.userName) this.userName = '';
-    },
+    validator: validator,
   },
-
-  inject: ['toggleContributorDialog'],
 });
 </script>
 

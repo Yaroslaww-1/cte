@@ -1,16 +1,16 @@
 <template>
   <Page>
-    <create-dialog :opened="createDialogOpened" :id="documentID" :empty="emptyTitle"></create-dialog>
-    <delete-dialog :opened="deleteDialogOpened" :id="documentID"></delete-dialog>
-    <contributor-dialog :opened="contributorDialogOpened" :id="documentID" :empty="emptyUserName"></contributor-dialog>
+    <create-dialog :opened="createDialogOpened"></create-dialog>
+    <delete-dialog :opened="deleteDialogOpened"></delete-dialog>
+    <contributor-dialog :opened="contributorDialogOpened"></contributor-dialog>
     <section>
       <base-card class="card">
         <link-button mode="flat" @click="toggleCreateDialog">Create</link-button>
         <h2 v-if="hasDocuments">Your documents</h2>
         <ul v-if="hasDocuments">
           <the-document v-for="document in documents" :key="document.id" :document="document">
-            <link-button @click.prevent="toggleContributorDialog(document.id)">Add contributor</link-button>
-            <link-button @click.prevent="toggleDeleteDialog(document.id)">Delete</link-button>
+            <link-button @click.prevent="toggleContributorDialog(document)">Add contributor</link-button>
+            <link-button @click.prevent="toggleDeleteDialog(document)">Delete</link-button>
           </the-document>
         </ul>
         <h2 v-else>You have no documents yet</h2>
@@ -24,7 +24,7 @@ import { defineComponent, onMounted } from 'vue';
 
 import Page from '@components/page/page.vue';
 import TheDocument from './components/document.component.vue';
-import { authVuexModule, documentsVuexModule } from '@src/vuex/store-accessor';
+import { authVuexModule, documentsVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
 import { CreateDocumentRequest } from '@shared/request-response';
 import { DocumentDto } from '@shared/dto';
 import LinkButton from '@components/buttons/link-button.vue';
@@ -44,17 +44,6 @@ export default defineComponent({
     ContributorDialog,
   },
 
-  data() {
-    return {
-      createDialogOpened: false,
-      emptyTitle: false,
-      deleteDialogOpened: false,
-      documentID: '',
-      contributorDialogOpened: false,
-      emptyUserName: false,
-    };
-  },
-
   computed: {
     documents(): DocumentDto[] {
       return documentsVuexModule.documents;
@@ -62,28 +51,27 @@ export default defineComponent({
     hasDocuments(): number {
       return documentsVuexModule.documents.length;
     },
+    createDialogOpened(): boolean {
+      return documentEditVuexModule.dialogOpened.create;
+    },
+    deleteDialogOpened(): boolean {
+      return documentEditVuexModule.dialogOpened.delete;
+    },
+    contributorDialogOpened(): boolean {
+      return documentEditVuexModule.dialogOpened.contributor;
+    },
   },
 
   methods: {
     toggleCreateDialog(): void {
-      this.createDialogOpened = !this.createDialogOpened;
+      documentEditVuexModule.toggleDialog(['create', null]);
     },
-    toggleDeleteDialog(id?: string): void {
-      if (id) this.documentID = id;
-      this.deleteDialogOpened = !this.deleteDialogOpened;
+    toggleDeleteDialog(document: DocumentDto): void {
+      documentEditVuexModule.toggleDialog(['delete', document]);
     },
-    toggleContributorDialog(id?: string): void {
-      if (id) this.documentID = id;
-      this.contributorDialogOpened = !this.contributorDialogOpened;
+    toggleContributorDialog(document: DocumentDto): void {
+      documentEditVuexModule.toggleDialog(['contributor', document]);
     },
-  },
-
-  provide() {
-    return {
-      toggleCreateDialog: this.toggleCreateDialog,
-      toggleDeleteDialog: this.toggleDeleteDialog,
-      toggleContributorDialog: this.toggleContributorDialog,
-    };
   },
 
   setup() {

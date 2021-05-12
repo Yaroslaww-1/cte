@@ -1,12 +1,18 @@
 <template>
   <div>
-    <create-dialog :opened="opened" :emptyTitle="emptyTitle">
+    <create-dialog :opened="opened">
       <template v-slot:title>
-        <label for="document-title">Enter new document title</label>
-        <input type="text" id="document-title" v-model="title" autocomplete="off" />
+        <input-validation
+          :withLabel="true"
+          label="Enter new document title"
+          :validator="validator"
+          :empty="empty"
+          value="title"
+        >
+        </input-validation>
       </template>
-      <link-button @click="createdDocument">Create</link-button>
-      <link-button @click="toggleCreateDialog('')" v-on:click="hideMessage">Close</link-button>
+      <link-button @click="createDocument">Create</link-button>
+      <link-button @click="toggleCreateDialog">Close</link-button>
     </create-dialog>
   </div>
 </template>
@@ -14,22 +20,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { authVuexModule, documentsVuexModule } from '@src/vuex/store-accessor';
+import { authVuexModule, documentsVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
 import CreateDialog from '@components/dialogs/create-dialog.vue';
 import LinkButton from '@components/buttons/link-button.vue';
-import dateAndTime from '@src/date-time/dateAndTime';
+import getDateAndTime from '@src/date-time/dateAndTime';
+import { DocumentDto } from '@shared/dto';
+import { v4 as uuidv4 } from 'uuid';
+import InputValidation from '@src/components/inputs/input-validation.vue';
+import validator from '@src/validation/titleValidator';
 
 export default defineComponent({
   props: {
     opened: {
-      type: Boolean,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
-    },
-    empty: {
       type: Boolean,
       required: true,
     },
@@ -38,52 +40,45 @@ export default defineComponent({
   components: {
     CreateDialog,
     LinkButton,
+    InputValidation,
   },
 
   data() {
     return {
-      title: '',
-      emptyTitle: this.empty,
-      toggle: this.toggleCreateDialog,
+      empty: false,
     };
   },
 
   methods: {
-    createdDocument(): void | undefined {
-      if (this.title === '') {
-        this.emptyTitle = true;
+    async createDocument(): Promise<void> {
+      if (!documentEditVuexModule.inputs.title) {
+        this.empty = true;
         return;
       }
-      this.emptyTitle = false;
-      this.toggle();
-      const id = this.createID();
-      const currentUser = authVuexModule.currentUser;
-      if (currentUser) {
-        const document = {
-          id: id,
-          title: this.title,
-          user: currentUser,
-          content: '',
-          contributorsNames: [currentUser.name],
-          createdDate: dateAndTime(),
-          modifiedDate: dateAndTime(),
-        };
-        documentsVuexModule.addDocument(document);
+      const id = uuidv4();
+      const title = documentEditVuexModule.inputs.title!;
+      const currentUser = authVuexModule.currentUser!;
+      const document = await DocumentDto.new(DocumentDto, {
+        id: id,
+        title: title,
+        user: currentUser,
+        content: '',
+        contributorsNames: [currentUser.name],
+        createdDate: getDateAndTime(),
+        modifiedDate: getDateAndTime(),
+      });
+      documentsVuexModule.addDocument(document);
+      this.toggleCreateDialog();
+    },
+    toggleCreateDialog(): void {
+      if (documentEditVuexModule.inputs.title) {
+        documentEditVuexModule.changeValue(['title', null]);
       }
-      this.title = '';
+      this.empty = false;
+      documentEditVuexModule.toggleDialog(['create', null]);
     },
-    createID(): string {
-      const sameTitle = documentsVuexModule.documents.filter(value => value.title === this.title);
-      if (!sameTitle.length) return this.title;
-      else return `${this.title}${sameTitle.length + 1}`;
-    },
-    hideMessage() {
-      if (this.emptyTitle) this.emptyTitle = false;
-      if (this.title) this.title = '';
-    },
+    validator: validator,
   },
-
-  inject: ['toggleCreateDialog'],
 });
 </script>
 

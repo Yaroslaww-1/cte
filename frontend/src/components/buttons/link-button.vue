@@ -2,9 +2,9 @@
   <button v-if="!link" :class="mode">
     <slot></slot>
   </button>
-  <router-link v-else :to="to" :class="mode">
+  <button v-else @click="onClick" :class="mode">
     <slot></slot>
-  </router-link>
+  </button>
 </template>
 
 <script lang="ts">
@@ -26,6 +26,12 @@ export default defineComponent({
       type: String,
       required: false,
       default: '/',
+    },
+  },
+
+  methods: {
+    onClick() {
+      this.$router.push(this.to);
     },
   },
 });

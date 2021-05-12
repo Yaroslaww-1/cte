@@ -3,7 +3,6 @@
     <div>
       <slot name="userName"></slot>
     </div>
-    <input-validation :emptyUserName="emptyUserName"></input-validation>
     <div class="buttons">
       <slot></slot>
     </div>
@@ -14,20 +13,14 @@
 import { defineComponent } from 'vue';
 
 import BaseDialog from './dialog.vue';
-import InputValidation from '../inputs/input-validation.vue';
 
 export default defineComponent({
   components: {
     BaseDialog,
-    InputValidation,
   },
 
   props: {
     opened: {
-      type: Boolean,
-      required: true,
-    },
-    emptyUserName: {
       type: Boolean,
       required: true,
     },

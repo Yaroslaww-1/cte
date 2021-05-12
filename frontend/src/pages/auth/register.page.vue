@@ -4,20 +4,46 @@
       <h1>Register</h1>
       <form @submit.prevent="onRegister">
         <div class="form-control">
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Your Name" v-model.trim="name" />
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="Your Email" v-model.trim="email" />
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Set Password" v-model.trim="password" />
-          <label for="password_confirm">Confirm Password</label>
-          <input type="password" id="password_confirm" placeholder="Confirm Password" v-model.trim="confirmPassword" />
+          <input-validation
+            :withLabel="true"
+            label="Name"
+            :validator="nameValidator"
+            :empty="empty"
+            value="registerName"
+            placeholder="Your Name"
+          ></input-validation>
+          <input-validation
+            :withLabel="true"
+            label="Email"
+            :validator="emailValidator"
+            :empty="empty"
+            value="registerEmail"
+            type="email"
+            placeholder="Your Email"
+          ></input-validation>
+          <input-validation
+            :withLabel="true"
+            label="Password"
+            :validator="passwordValidator"
+            :empty="empty"
+            value="registerPassword"
+            type="password"
+            placeholder="Set Password"
+          ></input-validation>
+          <input-validation
+            :withLabel="true"
+            label="Confirm Password"
+            :validator="confirmPasswordValidator"
+            :empty="empty"
+            value="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+          ></input-validation>
         </div>
-        <input-validation :register="!isRegisterDataValid">Your data is incorrect.</input-validation>
         <link-button class="register-button">Register</link-button>
-        <router-link :to="Route.Login">
-          <link-button type="button" mode="flat">Have an account? Log in instead</link-button>
-        </router-link>
+        <link-button :to="Route.Login" type="button" :link="true" mode="flat" @click="clearInputs">
+          Have an account? Log in instead
+        </link-button>
       </form>
     </base-card>
   </Page>
@@ -27,12 +53,17 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
-import { authVuexModule } from '@src/vuex/store-accessor';
+import { authVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
 import { CreateUserRequest } from '@shared/request-response';
 import { Route } from '@src/router/routes.enum';
 import BaseCard from '@components/cards/card.vue';
 import LinkButton from '@components/buttons/link-button.vue';
-import checkIsRegisterDataValid from '@src/validation/registerValidation';
+import {
+  nameValidator,
+  emailValidator,
+  passwordValidator,
+  confirmPasswordValidator,
+} from '@src/validation/registerValidation';
 import InputValidation from '@components/inputs/input-validation.vue';
 
 export default defineComponent({
@@ -45,22 +76,33 @@ export default defineComponent({
 
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      isRegisterDataValid: true,
+      empty: false,
     };
   },
 
   methods: {
     async onRegister(): Promise<void> {
-      const { name, email, password, confirmPassword } = this;
-      this.isRegisterDataValid = checkIsRegisterDataValid({ name, email, password, confirmPassword });
-      if (this.isRegisterDataValid) {
-        await authVuexModule.register(await CreateUserRequest.new(CreateUserRequest, { name, email, password }));
+      const name = documentEditVuexModule.inputs.registerName;
+      const email = documentEditVuexModule.inputs.registerEmail;
+      const password = documentEditVuexModule.inputs.registerPassword;
+      const confirmPassword = documentEditVuexModule.inputs.confirmPassword;
+      if (!name || !email || !password || !confirmPassword) {
+        this.empty = true;
+        return;
       }
+      await authVuexModule.register(await CreateUserRequest.new(CreateUserRequest, { name, email, password }));
+      this.clearInputs();
     },
+    clearInputs() {
+      documentEditVuexModule.changeValue(['registerName', null]);
+      documentEditVuexModule.changeValue(['registerEmail', null]);
+      documentEditVuexModule.changeValue(['registerPassword', null]);
+      documentEditVuexModule.changeValue(['confirmPassword', null]);
+    },
+    nameValidator: nameValidator,
+    emailValidator: emailValidator,
+    passwordValidator: passwordValidator,
+    confirmPasswordValidator: confirmPasswordValidator,
   },
 
   computed: {

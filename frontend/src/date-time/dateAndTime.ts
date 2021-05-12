@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-const dateAndTime = (): string => {
+const getDateAndTime = (): string => {
   const date = DateTime.now().toLocaleString(DateTime.DATE_FULL);
   const time = DateTime.now().toLocaleString({
     hour: '2-digit',
@@ -11,4 +11,4 @@ const dateAndTime = (): string => {
   return `${date} ${time}`;
 };
 
-export default dateAndTime;
+export default getDateAndTime;

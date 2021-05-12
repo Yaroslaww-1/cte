@@ -1,18 +1,25 @@
-interface IPayload {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { documentEditVuexModule } from '@src/vuex/store-accessor';
 
-const checkIsRegisterDataValid = (payload: IPayload): boolean => {
-  const re = /^[^\s@]+@[^\s@]+$/;
-  const validEmail = re.test(payload.email);
-  const matchingPasswords = payload.password === payload.confirmPassword && payload.password !== '';
-  if (!(validEmail && matchingPasswords)) {
-    return false;
-  }
-  return true;
+const nameValidator = (input: string): Error | null => {
+  if (input === '') return Error('This field cannot be empty. Please, enter the user name.');
+  return null;
 };
 
-export default checkIsRegisterDataValid;
+const emailValidator = (input: string): Error | null => {
+  if (input === '') return Error('This fied cannot be empty. Please, enter the email.');
+  return null;
+};
+
+const passwordValidator = (input: string): Error | null => {
+  if (input === '') return Error('This fied cannot be empty. Please, set the password.');
+  return null;
+};
+
+const confirmPasswordValidator = (input: string): Error | null => {
+  const password = documentEditVuexModule.inputs.registerPassword;
+  if (input === '') return Error('This field cannot be empty.');
+  if (input !== password) return Error('Passwords do not match.');
+  return null;
+};
+
+export { nameValidator, emailValidator, passwordValidator, confirmPasswordValidator };

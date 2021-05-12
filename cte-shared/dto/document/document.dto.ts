@@ -28,6 +28,7 @@ class DocumentDto extends BaseDto<DocumentDto> {
   readonly createdDate!: string;
 
   @Expose()
+  @Type(() => String)
   @IsArray()
   contributorsNames!: string[];
 
