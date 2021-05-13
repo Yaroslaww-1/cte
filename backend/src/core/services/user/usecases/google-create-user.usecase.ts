@@ -12,11 +12,7 @@ import { BaseEntity } from '@src/core/abstraction/base-entity';
 
 @Injectable()
 export class GoogleCreateUserUsecase implements IBaseUsecase<GoogleCreateUserRequest, UserDto> {
-  constructor(
-    private readonly userDao: UserDao,
-    private readonly userMapper: UserMapper,
-    private readonly sendConfirmEmailUsecase: SendConfirmEmailUsecase,
-  ) {}
+  constructor(private readonly userDao: UserDao, private readonly userMapper: UserMapper) {}
 
   async execute(googleCreateUserRequest: GoogleCreateUserRequest): Promise<UserDto> {
     const isUserWithGivenEmailExists = await this.userDao.findOne({ email: googleCreateUserRequest.email });
