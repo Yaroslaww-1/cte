@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { GoogleAuthController } from './google-auth.controller';
-import { GoogleAuthService } from '@src/core/services/google-auth/google-auth.service';
 import { GoogleStrategy } from '@src/core/services/google-auth/google.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { GoogleCreateUserUsecase } from '@src/core/services/user/usecases/google-create-user.usecase';
@@ -14,6 +13,6 @@ const usecases = [GoogleCreateUserUsecase];
 @Module({
   imports: [ConfigModule],
   controllers: [GoogleAuthController],
-  providers: [...mappers, ...daos, ...usecases, GoogleAuthService, GoogleStrategy],
+  providers: [...mappers, ...daos, ...usecases, GoogleStrategy],
 })
 export class GoogleAuthModule {}
