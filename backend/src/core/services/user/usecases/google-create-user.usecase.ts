@@ -22,7 +22,6 @@ export class GoogleCreateUserUsecase implements IBaseUsecase<GoogleCreateUserReq
     const user = await BaseEntity.new(UserEntity, {
       name: googleCreateUserRequest.name,
       email: googleCreateUserRequest.email,
-      passwordHash: '',
     });
 
     await this.userDao.createOne(user);
