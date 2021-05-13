@@ -7,7 +7,6 @@ import { UserDao } from '@src/data/dao/user/user.dao';
 import { GoogleCreateUserRequest } from '@shared/request-response/user/google-create-user.request';
 import { InvalidParamsException } from '@src/core/exceptions/invalid-params.exception';
 import { UserEntity } from '../entities/user.entity';
-import { SendConfirmEmailUsecase } from './send-confirm-email.usecase';
 import { BaseEntity } from '@src/core/abstraction/base-entity';
 
 @Injectable()
