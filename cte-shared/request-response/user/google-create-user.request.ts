@@ -4,7 +4,7 @@ import { IsString } from 'class-validator';
 import { BaseDto } from '../../abstraction/base-dto';
 
 @Exclude()
-class GoogleCreateUserRequest extends BaseDto<GoogleCreateUserRequest> {
+class GoogleUserRequest extends BaseDto<GoogleUserRequest> {
   @Expose()
   @IsString()
   readonly name!: string;
@@ -14,4 +14,4 @@ class GoogleCreateUserRequest extends BaseDto<GoogleCreateUserRequest> {
   readonly email!: string;
 }
 
-export { GoogleCreateUserRequest };
+export { GoogleUserRequest };
