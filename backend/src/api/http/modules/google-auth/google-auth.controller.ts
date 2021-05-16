@@ -1,11 +1,11 @@
 import { Controller, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserDto } from '@shared/dto';
-import { GoogleCreateUserUsecase } from '@src/core/services/user/usecases/google-create-user.usecase';
+import { GoogleCreateOrLoginUserUsecase } from '@src/core/services/google-auth/google-create-or-login-user.usecase';
 
 @Controller('google-auth')
 export class GoogleAuthController {
-  constructor(private readonly googleCreateUserUsecase: GoogleCreateUserUsecase) {}
+  constructor(private readonly googleCreateUserUsecase: GoogleCreateOrLoginUserUsecase) {}
 
   @Get()
   @UseGuards(AuthGuard('google'))
@@ -17,7 +17,7 @@ export class GoogleAuthController {
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   googleAuthRedirect(@Req() req: any): Promise<UserDto> {
-    return this.googleCreateUserUsecase.execute({
+    return this.googleCreateUserUsecase.execute(req, {
       name: req.user.firstName + ' ' + req.user.lastName,
       email: req.user.email,
     });

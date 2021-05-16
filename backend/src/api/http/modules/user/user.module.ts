@@ -9,18 +9,10 @@ import { GetUserUsecase } from '@src/core/services/user/usecases/get-user.usecas
 import { CreateUserUsecase } from '@src/core/services/user/usecases/create-user.usecase';
 import { SendConfirmEmailUsecase } from '@src/core/services/user/usecases/send-confirm-email.usecase';
 import { ConfirmEmailUsecase } from '@src/core/services/user/usecases/confirm-email.usecase';
-import { GoogleCreateUserUsecase } from '@src/core/services/user/usecases/google-create-user.usecase';
 
 const mappers = [UserMapper];
 const daos = [UserDao];
-const usecases = [
-  GetUsersUsecase,
-  GetUserUsecase,
-  CreateUserUsecase,
-  SendConfirmEmailUsecase,
-  ConfirmEmailUsecase,
-  GoogleCreateUserUsecase,
-];
+const usecases = [GetUsersUsecase, GetUserUsecase, CreateUserUsecase, SendConfirmEmailUsecase, ConfirmEmailUsecase];
 
 @Module({
   imports: [SharedServicesModule, MailerModule],
