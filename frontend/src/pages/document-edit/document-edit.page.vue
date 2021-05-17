@@ -69,7 +69,6 @@ export default defineComponent({
       this.ws.registerListener<UpdateDocumentClientServerEmitPayload>(
         UPDATE_DOCUMENT_CLIENT_SERVER_EMIT_EVENT,
         payload => {
-          console.log('UPDATE_DOCUMENT_CLIENT_SERVER_EMIT_EVENT', payload);
           this.patchApplyWorker.postMessage({
             currentText: this.textAfterLastUpdate,
             patchOperations: payload.patchOperations,
@@ -91,7 +90,6 @@ export default defineComponent({
     this.textAfterLastUpdate = this.document?.content || '';
 
     this.patchMakeWorker.addEventListener('message', async e => {
-      console.log('PATCH MAKE FINISHED', e);
       const payload = await UpdateDocumentClientServerEmitPayload.new(UpdateDocumentClientServerEmitPayload, {
         userId,
         documentId,
@@ -101,12 +99,10 @@ export default defineComponent({
     });
 
     this.patchApplyWorker.addEventListener('message', async e => {
-      console.log('Patch by another user:');
-      console.log(`${this.textAfterLastUpdate} => ${e.data}`);
       const editor = document.getElementById('editor');
-      if (editor) editor.innerHTML = e.data;
-      else console.log('NO EDITOR!!!!!!!!');
-      console.log('this.currentText after patch by another user', this.textAfterLastUpdate);
+      if (editor) {
+        editor.innerHTML = e.data;
+      }
       this.textAfterLastUpdate = e.data;
     });
   },

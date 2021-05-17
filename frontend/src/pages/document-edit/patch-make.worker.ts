@@ -7,7 +7,6 @@ const dmp = new DMP();
 
 patchMake.addEventListener('message', event => {
   const { oldText, currentText } = event.data;
-  console.log('PATCH MAKE', oldText, currentText);
   const patch = dmp.patchMake(oldText, currentText);
   patchMake.postMessage(patch);
 });
