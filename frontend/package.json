@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@types/fingerprintjs2": "^2.0.0",
+    "@types/luxon": "^1.26.5",
     "@types/ua-parser-js": "^0.7.35",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -40,7 +41,6 @@
     "worker-loader": "^3.0.8"
   },
   "devDependencies": {
-    "@types/luxon": "^1.26.5",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/eslint-config-standard": "^5.1.2",
