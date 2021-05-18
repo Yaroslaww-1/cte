@@ -9,6 +9,7 @@
       autocomplete="off"
       :type="type"
       :placeholder="placeholder"
+      @keyup="$emit('update:inputData', input)"
     />
     <p v-if="error && blured">{{ error.message }}</p>
   </div>
@@ -17,13 +18,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import { documentEditVuexModule } from '@src/vuex/store-accessor';
-
 export default defineComponent({
   props: {
+    inputData: {
+      type: String,
+    },
     validator: {
       type: Function as PropType<(input: string) => Error | null>,
-      required: true,
+      required: false,
     },
     label: {
       type: String,
@@ -49,6 +51,14 @@ export default defineComponent({
       type: String,
       default: 'text',
     },
+    passwordValidator: {
+      type: Function as PropType<(input: string, password: string) => Error | null>,
+      required: false,
+    },
+    password: {
+      type: String,
+      required: false,
+    },
   },
 
   data() {
@@ -61,13 +71,14 @@ export default defineComponent({
   methods: {
     onBlur() {
       this.blured = true;
-      if (!this.error) documentEditVuexModule.changeValue([this.value, this.input]);
     },
   },
 
   computed: {
     error(): Error | null {
-      return this.validator(this.input);
+      if (this.password && this.passwordValidator) return this.passwordValidator(this.input, this.password);
+      else if (this.validator) return this.validator(this.input);
+      return null;
     },
   },
 

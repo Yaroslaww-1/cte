@@ -5,6 +5,8 @@
       <form @submit.prevent="onLogin">
         <div class="form-control">
           <input-validation
+            v-model:inputData="email"
+            v-model="inputData"
             :withLabel="true"
             label="Email"
             :validator="emailValidator"
@@ -14,6 +16,7 @@
             placeholder="Your Email"
           ></input-validation>
           <input-validation
+            v-model:inputData="password"
             :withLabel="true"
             label="Password"
             :validator="passwordValidator"
@@ -36,7 +39,7 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
-import { authVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
+import { authVuexModule } from '@src/vuex/store-accessor';
 import { Route } from '@src/router/routes.enum';
 import BaseCard from '@components/cards/card.vue';
 import LinkButton from '@components/buttons/link-button.vue';
@@ -53,14 +56,16 @@ export default defineComponent({
 
   data() {
     return {
+      email: '',
+      password: '',
+      inputData: '',
       empty: false,
     };
   },
 
   methods: {
     async onLogin(): Promise<void> {
-      const email = documentEditVuexModule.inputs.loginEmail;
-      const password = documentEditVuexModule.inputs.loginPassword;
+      const { email, password } = this;
       if (!email || !password) {
         this.empty = true;
         return;
@@ -69,8 +74,8 @@ export default defineComponent({
       this.clearInputs();
     },
     clearInputs() {
-      documentEditVuexModule.changeValue(['loginEmail', null]);
-      documentEditVuexModule.changeValue(['loginPassword', null]);
+      this.email = '';
+      this.password = '';
     },
     emailValidator: emailValidator,
     passwordValidator: passwordValidator,

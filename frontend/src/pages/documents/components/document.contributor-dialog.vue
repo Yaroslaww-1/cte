@@ -3,6 +3,7 @@
     <contributor-dialog :opened="opened">
       <template v-slot:userName>
         <input-validation
+          v-model:inputData="userName"
           :withLabel="true"
           label="Enter contributor username"
           :validator="validator"
@@ -42,25 +43,25 @@ export default defineComponent({
 
   data() {
     return {
+      userName: '',
+      inputData: '',
       empty: false,
     };
   },
 
   methods: {
     addContributor(): void | undefined {
-      if (!documentEditVuexModule.inputs.userName) {
+      if (!this.userName) {
         this.empty = true;
         return;
       }
       const document = documentEditVuexModule.document!;
-      documentEditVuexModule.addContributor([document, documentEditVuexModule.inputs.userName]);
+      documentEditVuexModule.addContributor([document, this.userName]);
       this.toggleContributorDialog();
     },
     toggleContributorDialog(): void {
-      if (documentEditVuexModule.inputs.userName) {
-        documentEditVuexModule.changeValue(['userName', null]);
-      }
       this.empty = false;
+      this.userName = '';
       documentEditVuexModule.toggleDialog(['contributor', null]);
     },
     validator: validator,

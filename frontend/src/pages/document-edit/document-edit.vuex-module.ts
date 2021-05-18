@@ -8,27 +8,11 @@ import getDateAndTime from '@src/date-time/dateAndTime';
 class DocumentEditVuexModule extends VuexModule {
   document: DocumentDto | null = null;
 
-  inputs: { [prop: string]: string | null } = {
-    title: null,
-    userName: null,
-    loginEmail: null,
-    loginPassword: null,
-    registerName: null,
-    registerEmail: null,
-    registerPassword: null,
-    confirmPassword: null,
-  };
-
   dialogOpened: { [prop: string]: boolean } = { create: false, delete: false, contributor: false };
 
   @Mutation
   updateDocument(document: DocumentDto): void {
     this.document = document;
-  }
-
-  @Mutation
-  alterValue(tuple: [string, string | null]): void {
-    this.inputs[tuple[0]] = tuple[1];
   }
 
   @Mutation
@@ -63,11 +47,6 @@ class DocumentEditVuexModule extends VuexModule {
   changeModifiedDate(): void {
     const dateAndTime = getDateAndTime();
     this.editModifiedDate(dateAndTime);
-  }
-
-  @Action
-  changeValue(tuple: [string, string | null]): void {
-    this.alterValue([tuple[0], tuple[1]]);
   }
 
   @Action

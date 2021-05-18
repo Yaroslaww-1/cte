@@ -1,10 +1,10 @@
 const emailValidator = (input: string): Error | null => {
-  if (input === '') return Error('This fied cannot be empty. Please, enter the email.');
+  if (input === '') return Error('This field cannot be empty. Please, enter the email.');
   return null;
 };
 
 const passwordValidator = (input: string): Error | null => {
-  if (input === '') return Error('This fied cannot be empty. Please, enter the password.');
+  if (input === '') return Error('This field cannot be empty. Please, enter the password.');
   return null;
 };
 

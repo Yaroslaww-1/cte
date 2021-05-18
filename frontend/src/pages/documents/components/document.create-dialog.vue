@@ -3,6 +3,7 @@
     <create-dialog :opened="opened">
       <template v-slot:title>
         <input-validation
+          v-model:inputData="title"
           :withLabel="true"
           label="Enter new document title"
           :validator="validator"
@@ -45,22 +46,23 @@ export default defineComponent({
 
   data() {
     return {
+      title: '',
+      inputData: '',
       empty: false,
     };
   },
 
   methods: {
     async createDocument(): Promise<void> {
-      if (!documentEditVuexModule.inputs.title) {
+      if (!this.title) {
         this.empty = true;
         return;
       }
       const id = uuidv4();
-      const title = documentEditVuexModule.inputs.title!;
       const currentUser = authVuexModule.currentUser!;
       const document = await DocumentDto.new(DocumentDto, {
         id: id,
-        title: title,
+        title: this.title,
         user: currentUser,
         content: '',
         contributorsNames: [currentUser.name],
@@ -71,10 +73,8 @@ export default defineComponent({
       this.toggleCreateDialog();
     },
     toggleCreateDialog(): void {
-      if (documentEditVuexModule.inputs.title) {
-        documentEditVuexModule.changeValue(['title', null]);
-      }
       this.empty = false;
+      this.title = '';
       documentEditVuexModule.toggleDialog(['create', null]);
     },
     validator: validator,

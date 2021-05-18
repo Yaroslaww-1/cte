@@ -5,6 +5,7 @@
       <form @submit.prevent="onRegister">
         <div class="form-control">
           <input-validation
+            v-model:inputData="name"
             :withLabel="true"
             label="Name"
             :validator="nameValidator"
@@ -13,6 +14,7 @@
             placeholder="Your Name"
           ></input-validation>
           <input-validation
+            v-model:inputData="email"
             :withLabel="true"
             label="Email"
             :validator="emailValidator"
@@ -22,6 +24,7 @@
             placeholder="Your Email"
           ></input-validation>
           <input-validation
+            v-model:inputData="password"
             :withLabel="true"
             label="Password"
             :validator="passwordValidator"
@@ -31,13 +34,15 @@
             placeholder="Set Password"
           ></input-validation>
           <input-validation
+            v-model:inputData="confirmPassword"
             :withLabel="true"
             label="Confirm Password"
-            :validator="confirmPasswordValidator"
+            :passwordValidator="confirmPasswordValidator"
             :empty="empty"
             value="confirmPassword"
             type="password"
             placeholder="Confirm Password"
+            :password="password"
           ></input-validation>
         </div>
         <link-button class="register-button">Register</link-button>
@@ -53,7 +58,7 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
-import { authVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
+import { authVuexModule } from '@src/vuex/store-accessor';
 import { CreateUserRequest } from '@shared/request-response';
 import { Route } from '@src/router/routes.enum';
 import BaseCard from '@components/cards/card.vue';
@@ -76,16 +81,18 @@ export default defineComponent({
 
   data() {
     return {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      inputData: '',
       empty: false,
     };
   },
 
   methods: {
     async onRegister(): Promise<void> {
-      const name = documentEditVuexModule.inputs.registerName;
-      const email = documentEditVuexModule.inputs.registerEmail;
-      const password = documentEditVuexModule.inputs.registerPassword;
-      const confirmPassword = documentEditVuexModule.inputs.confirmPassword;
+      const { name, email, password, confirmPassword } = this;
       if (!name || !email || !password || !confirmPassword) {
         this.empty = true;
         return;
@@ -94,10 +101,10 @@ export default defineComponent({
       this.clearInputs();
     },
     clearInputs() {
-      documentEditVuexModule.changeValue(['registerName', null]);
-      documentEditVuexModule.changeValue(['registerEmail', null]);
-      documentEditVuexModule.changeValue(['registerPassword', null]);
-      documentEditVuexModule.changeValue(['confirmPassword', null]);
+      this.name = '';
+      this.email = '';
+      this.password = '';
+      this.confirmPassword = '';
     },
     nameValidator: nameValidator,
     emailValidator: emailValidator,
