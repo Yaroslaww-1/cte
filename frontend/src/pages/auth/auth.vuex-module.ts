@@ -20,7 +20,7 @@ import { redirectTo } from '@src/router/helpers';
 
 @Module({ namespaced: true, name: 'auth' })
 class AuthVuexModule extends VuexModule {
-  currentUser: UserDto | null = { id: '1', name: 'artemkarimov', email: 'artem@gmail.com' };
+  currentUser: UserDto | null = null;
   accessToken: string | null = null;
   accessTokenExpireDate: Date | null = null;
   // refreshTokenId: string | null = null;
