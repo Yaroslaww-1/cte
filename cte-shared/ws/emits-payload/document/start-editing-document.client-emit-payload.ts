@@ -10,6 +10,10 @@ class StartEditingDocumentClientEmitPayload extends BaseDto<StartEditingDocument
   @Expose()
   @IsUUID(4)
   readonly userId!: string;
+
+  @Expose()
+  @IsUUID(4)
+  readonly documentId!: string;
 }
 
 export { START_EDITING_DOCUMENT_CLIENT_EMIT_EVENT, StartEditingDocumentClientEmitPayload };

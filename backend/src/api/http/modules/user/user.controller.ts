@@ -37,7 +37,6 @@ export class UserController {
   }
 
   @Post()
-  @UseGuards(AuthGuard)
   async createNewUser(@Body() request: CreateUserRequest): Promise<UserDto> {
     return await this.createUserUsecase.execute(request);
   }
