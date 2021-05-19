@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PingModule } from './ping/ping.module';
+import { DocumentModule } from './document/document.module';
 
 @Module({
-  imports: [PingModule],
+  imports: [DocumentModule],
 })
 export class WSRootModule {}

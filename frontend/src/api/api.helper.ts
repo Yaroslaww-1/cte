@@ -28,8 +28,9 @@ class Api {
   }
 
   async get<Response = unknown, Params = unknown>(url: string, params?: Params): Promise<Response> {
+    const stringifiedParams = params ? `?${stringifyParams(params)}` : '';
     const response = await this.instance
-      .get<Response>(`${url}?${stringifyParams(params)}`, {
+      .get<Response>(`${url}${stringifiedParams}`, {
         headers: this.commonHeaders,
         data: {},
       })

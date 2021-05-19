@@ -58,7 +58,6 @@ export class UserDao extends BaseDao<UserModel> {
     return await this.userMapper.mapToEntity(user);
   }
 
-  // TODO: investigate if Omit is the correct way to do it
   async createOne(createUser: IUserModel): Promise<UserEntity> {
     const user = await this.userModel.query().insert(createUser).returning('*');
     return await this.userMapper.mapToEntity(user);
@@ -71,6 +70,7 @@ export class UserDao extends BaseDao<UserModel> {
   async updateOne(id: string, updateUser: NullablePartial<IUserModel>): Promise<UserEntity | null> {
     const user = await this.userModel
       .query()
+      .withGraphFetched({ documents: true })
       .where({ id })
       .update(super.getUpdateObjectWithReplacedNulls(updateUser))
       .returning('*')
