@@ -1,5 +1,5 @@
 import { Exclude, Expose, Type } from 'class-transformer';
-import { IsObject, IsString, IsUUID } from 'class-validator';
+import { IsObject, IsString, IsUUID, IsArray } from 'class-validator';
 
 import { UserDto } from '../user';
 import { BaseDto } from '../../abstraction/base-dto';
@@ -22,6 +22,19 @@ class DocumentDto extends BaseDto<DocumentDto> {
   @Expose()
   @IsString()
   readonly content!: string;
+
+  @Expose()
+  @IsString()
+  readonly createdDate!: string;
+
+  @Expose()
+  @Type(() => String)
+  @IsArray()
+  contributorsNames!: string[];
+
+  @Expose()
+  @IsString()
+  modifiedDate!: string;
 }
 
 export { DocumentDto };

@@ -13,6 +13,16 @@ class DocumentsVuexModule extends VuexModule {
     this.documents = documents;
   }
 
+  @Mutation
+  appendDocument(document: DocumentDto): void {
+    this.documents.unshift(document);
+  }
+
+  @Mutation
+  removeDocument(index: number): void {
+    this.documents.splice(index, 1);
+  }
+
   @Action({ rawError: true })
   async fetchDocuments(): Promise<void> {
     const documents = await DocumentApi.getAllDocuments();
@@ -22,6 +32,16 @@ class DocumentsVuexModule extends VuexModule {
   @Action({ rawError: true })
   async createDocument(createDocumentRequest: CreateDocumentRequest): Promise<DocumentDto> {
     return await DocumentApi.createDocument(createDocumentRequest);
+  }
+
+  @Action
+  addDocument(document: DocumentDto): void {
+    this.appendDocument(document);
+  }
+
+  @Action
+  deleteDocument(index: number): void {
+    this.removeDocument(index);
   }
 }
 
