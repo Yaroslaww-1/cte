@@ -30,7 +30,6 @@
     "sass-loader": "^8.0.2",
     "ts-debounce": "^3.0.0",
     "ua-parser-js": "^0.7.27",
-    "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
