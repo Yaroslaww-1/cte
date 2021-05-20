@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, IsUUID, IsObject, IsArray } from 'class-validator';
+import { IsString, IsUUID, IsObject } from 'class-validator';
 
 import { BaseEntity } from '@src/core/abstraction/base-entity';
 import { UserEntity } from '../../user/entities/user.entity';
