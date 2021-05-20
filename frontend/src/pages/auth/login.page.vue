@@ -5,7 +5,7 @@
     <input type="password" id="password" placeholder="Your Password" v-model.trim="password" />
     <button @click="onLogin">Login</button>
     <br />
-    <button>Login with Google</button>
+    <button @click="onGoogleGetCode">Login with Google</button>
   </Page>
 </template>
 
@@ -20,6 +20,14 @@ export default defineComponent({
     Page,
   },
 
+  mounted: function () {
+    this.$nextTick(() => {
+      if (this.$route.query.code) {
+        this.onGoogleLogin(String(this.$route.query.code));
+      }
+    });
+  },
+
   data() {
     return {
       email: '',
@@ -31,6 +39,12 @@ export default defineComponent({
     async onLogin() {
       const { email, password } = this;
       await authVuexModule.login({ email, password });
+    },
+    async onGoogleGetCode() {
+      await authVuexModule.getGoogleCode();
+    },
+    async onGoogleLogin(code: string) {
+      await authVuexModule.loginWithGoogle(code);
     },
   },
 });
