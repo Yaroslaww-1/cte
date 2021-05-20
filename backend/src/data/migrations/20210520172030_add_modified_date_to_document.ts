@@ -2,7 +2,7 @@ import Knex from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.alterTable('documents', table => {
-    table.string('modified_date').notNullable();
+    table.timestamp('modified_date').defaultTo(knex.fn.now());
   });
 }
 
