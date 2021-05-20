@@ -4,6 +4,8 @@
     <input type="email" id="email" placeholder="Your Email" v-model.trim="email" />
     <input type="password" id="password" placeholder="Your Password" v-model.trim="password" />
     <button @click="onLogin">Login</button>
+    <br />
+    <button>Login with Google</button>
   </Page>
 </template>
 
