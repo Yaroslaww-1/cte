@@ -8,6 +8,9 @@ interface IDocumentModel {
 
   userId: string;
   user: IUserModel;
+
+  createdDate: string;
+  modifiedDate: string;
 }
 
 interface DocumentModel extends IDocumentModel {}
@@ -24,6 +27,8 @@ class DocumentModel extends Model {
         title: { type: 'string' },
         content: { type: 'string' },
         userId: { type: 'string' },
+        createdDate: { type: 'string' },
+        modifiedDate: { type: 'string' },
       },
     };
   }
