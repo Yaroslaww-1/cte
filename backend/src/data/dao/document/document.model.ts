@@ -1,5 +1,6 @@
 import { IUserModel, UserModel } from '../user/user.model';
 import { Model, RelationMappings } from 'objection';
+import BaseModel from '../base.model';
 
 interface IDocumentModel {
   id: string;
@@ -9,12 +10,12 @@ interface IDocumentModel {
   userId: string;
   user: IUserModel;
 
-  createdDate: string;
-  modifiedDate: string;
+  createdDate: Date;
+  modifiedDate: Date;
 }
 
 interface DocumentModel extends IDocumentModel {}
-class DocumentModel extends Model {
+class DocumentModel extends BaseModel {
   static get tableName(): string {
     return 'documents';
   }
@@ -27,8 +28,8 @@ class DocumentModel extends Model {
         title: { type: 'string' },
         content: { type: 'string' },
         userId: { type: 'string' },
-        createdDate: { type: 'string' },
-        modifiedDate: { type: 'string' },
+        createdDate: { type: 'date' },
+        modifiedDate: { type: 'date' },
       },
     };
   }
@@ -48,6 +49,15 @@ class DocumentModel extends Model {
         },
       },
     };
+  }
+
+  $beforeInsert() {
+    this.createdDate = new Date();
+    this.modifiedDate = new Date();
+  }
+
+  $beforeUpdate(): void {
+    this.modifiedDate = new Date();
   }
 }
 
