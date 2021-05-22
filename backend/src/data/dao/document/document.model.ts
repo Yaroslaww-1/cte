@@ -51,7 +51,7 @@ class DocumentModel extends BaseModel {
     };
   }
 
-  $beforeInsert() {
+  $beforeInsert(): void {
     this.createdDate = new Date();
     this.modifiedDate = new Date();
   }

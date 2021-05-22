@@ -6,11 +6,12 @@ class BaseModel extends Model {
 
   $parseDatabaseJson(json: Pojo): Pojo {
     json = super.$parseDatabaseJson(json);
-    _.each(this.constructor.jsonSchema.properties, (schema: any, prop: string ) => {
+    // eslint-disable-next-line
+    _.each(this.constructor.jsonSchema.properties, (schema: any, prop: string) => {
       if (schema.type === 'date') {
         json[prop] = json[prop] && new Date(json[prop]);
       }
-    })
+    });
     return json;
   }
 }
