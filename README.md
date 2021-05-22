@@ -1,6 +1,9 @@
 # About
 CTE is a Collaborative Text Editor with changes history support.
 
+## Demo
+Demo is available here - http://cteapp.online/
+
 ## Progress
 Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 
