@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { UserMapper } from '../user/user.mapper';
+import { UserMapper } from '../../user/user.mapper';
 import { UserDao } from '@src/data/dao/user/user.dao';
 import { GoogleUserRequest } from '@shared/request-response/user/google-create-user.request';
-import { UserEntity } from '../user/entities/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from '@src/core/abstraction/base-entity';
-import { RefreshSessionService } from '../auth/services/refresh-session.service';
-import { AccessTokenService } from '../auth/services/access-token.service';
-import { REFRESH_TOKEN_LIFETIME_IN_SECONDS } from '../auth/constants';
+import { RefreshSessionService } from '../../auth/services/refresh-session.service';
+import { AccessTokenService } from '../../auth/services/access-token.service';
+import { REFRESH_TOKEN_LIFETIME_IN_SECONDS } from '../../auth/constants';
 import { NotFoundException } from '@src/core/exceptions/not-found.exception';
-import { RefreshSessionEntity } from '../auth/entities/refresh-session.entity';
-import { LoginSuccessDto } from '../auth/dto/login-success.dto';
+import { RefreshSessionEntity } from '../../auth/entities/refresh-session.entity';
+import { LoginSuccessDto } from '../../auth/dto/login-success.dto';
 
 @Injectable()
 export class GoogleCreateOrLoginUserUsecase {

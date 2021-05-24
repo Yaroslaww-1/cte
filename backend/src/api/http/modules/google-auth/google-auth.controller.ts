@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { LoginSuccessResponse } from '@shared/request-response';
 import { IBackendApplicationConfig } from '@src/config/backend-application.config';
 import { BACKEND_APPLICATION_CONFIG } from '@src/config/config';
-import { GoogleCreateOrLoginUserUsecase } from '@src/core/services/google-auth/google-create-or-login-user.usecase';
+import { GoogleCreateOrLoginUserUsecase } from '@src/core/services/google-auth/usecases/google-create-or-login-user.usecase';
 import { Response } from 'express';
 
 @Controller('google-auth')
