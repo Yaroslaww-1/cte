@@ -5,7 +5,7 @@
     <input type="password" id="password" placeholder="Your Password" v-model.trim="password" />
     <button @click="onLogin">Login</button>
     <br />
-    <button @click="onGoogleGetCode">Login with Google</button>
+    <GoogleButton @click="onGoogleGetCode"></GoogleButton>
   </Page>
 </template>
 
@@ -13,11 +13,13 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
+import GoogleButton from '@src/components/buttons/google-button.vue';
 import { authVuexModule } from '@src/vuex/store-accessor';
 
 export default defineComponent({
   components: {
     Page,
+    GoogleButton,
   },
 
   mounted: function () {
