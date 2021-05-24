@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserMapper } from '../../user/user.mapper';
 import { UserDao } from '@src/data/dao/user/user.dao';
-import { GoogleUserRequest } from '@shared/request-response/user/google-create-user.request';
+import { GoogleLoginDto } from '../dto/google-login.dto';
 import { UserEntity } from '../../user/entities/user.entity';
 import { BaseEntity } from '@src/core/abstraction/base-entity';
 import { RefreshSessionService } from '../../auth/services/refresh-session.service';
@@ -21,12 +21,12 @@ export class GoogleCreateOrLoginUserUsecase {
   ) {}
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async execute(request: any, googleUserRequest: GoogleUserRequest): Promise<LoginSuccessDto> {
-    let userModel = await this.userDao.findOne({ email: googleUserRequest.email });
+  async execute(request: any, googleLoginDto: GoogleLoginDto): Promise<LoginSuccessDto> {
+    let userModel = await this.userDao.findOne({ email: googleLoginDto.email });
     if (!userModel) {
       const user = await BaseEntity.new(UserEntity, {
-        name: googleUserRequest.name,
-        email: googleUserRequest.email,
+        name: googleLoginDto.name,
+        email: googleLoginDto.email,
       });
       await this.userDao.createOne(user);
     }
@@ -34,7 +34,7 @@ export class GoogleCreateOrLoginUserUsecase {
     const refTokenExpiresInMilliseconds = new Date().getTime() + REFRESH_TOKEN_LIFETIME_IN_SECONDS * 1000;
     const refTokenExpiresInSeconds = refTokenExpiresInMilliseconds / 1000;
 
-    userModel = await this.userDao.findOne({ email: googleUserRequest.email });
+    userModel = await this.userDao.findOne({ email: googleLoginDto.email });
     if (!userModel) {
       throw new NotFoundException('user');
     }
