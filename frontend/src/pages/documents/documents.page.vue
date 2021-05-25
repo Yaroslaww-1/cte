@@ -82,6 +82,8 @@ export default defineComponent({
         title: 'random title',
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         userId: authVuexModule.currentUser!.id,
+        createdDate: new Date(),
+        modifiedDate: new Date(),
       });
       const document = await documentsVuexModule.createDocument(createDocumentRequest);
       console.log(`Created document: ${JSON.stringify(document)}`);
