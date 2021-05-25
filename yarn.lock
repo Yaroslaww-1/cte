@@ -2228,10 +2228,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/oauth@npm:*":
+  version: 0.9.1
+  resolution: "@types/oauth@npm:0.9.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0fc44360d075ba2d4fdfe9831cd003bb6aa5da95f33e56063bf8b8b38e377ff9bbfcf9709db7ddac22112bc9ca6f7810201a964d2254cd8de23d61e6d6c22da5
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
   checksum: 4a8f720afac47b474d3f2eece312340e72bc31bc9561cda37b596ce2ed218c0099765d302625bb67d659a8452a1f93d514f4863c11c7ebaf65430428687dc426
+  languageName: node
+  linkType: hard
+
+"@types/passport-google-oauth20@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@types/passport-google-oauth20@npm:2.0.7"
+  dependencies:
+    "@types/express": "*"
+    "@types/passport": "*"
+    "@types/passport-oauth2": "*"
+  checksum: 5c1cb28979632d083b2548691e47d3b469ae83b86899fce7845894b6dc1a409a21198ecf09366c6ccbaad8857203d65e02ec56fbe1f4863c35c5bb12b5e7f436
+  languageName: node
+  linkType: hard
+
+"@types/passport-oauth2@npm:*":
+  version: 1.4.10
+  resolution: "@types/passport-oauth2@npm:1.4.10"
+  dependencies:
+    "@types/express": "*"
+    "@types/oauth": "*"
+    "@types/passport": "*"
+  checksum: 242af065a77d90f37ad1cb95d2882a4f75db3163a0e12e4f2b5a804f00924af743f92b0eaa5967e77929cfb30e5d3e7ca20d20e2ecff30d47fbee4bf408c054e
+  languageName: node
+  linkType: hard
+
+"@types/passport@npm:*":
+  version: 1.0.6
+  resolution: "@types/passport@npm:1.0.6"
+  dependencies:
+    "@types/express": "*"
+  checksum: 6d6a404e3ad0014f4724e0c48f213f3a2df6fc95d68ffabdbe619203e866e475cc0e76776a6833345bb0801dacf3ef1b6d29ef40c9da6ed1ea60a566ffbc4b2d
   languageName: node
   linkType: hard
 
@@ -4209,6 +4249,7 @@ __metadata:
     "@types/lodash": ^4.14.170
     "@types/node": ^14.14.6
     "@types/nodemailer": ^6.4.1
+    "@types/passport-google-oauth20": ^2.0.7
     "@types/pg": ^7.14.11
     "@types/pug": ^2.0.4
     "@types/supertest": ^2.0.10
