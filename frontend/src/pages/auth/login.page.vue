@@ -85,6 +85,12 @@ export default defineComponent({
       await authVuexModule.login({ email, password });
       this.clearInputs();
     },
+    async onGoogleGetCode() {
+      await authVuexModule.getGoogleCode();
+    },
+    async onGoogleLogin(code: string) {
+      await authVuexModule.loginWithGoogle(code);
+    },
     clearInputs() {
       this.email = '';
       this.password = '';
@@ -96,12 +102,6 @@ export default defineComponent({
   computed: {
     Route() {
       return Route;
-    },
-    async onGoogleGetCode() {
-      await authVuexModule.getGoogleCode();
-    },
-    async onGoogleLogin(code: string) {
-      await authVuexModule.loginWithGoogle(code);
     },
   },
 });
