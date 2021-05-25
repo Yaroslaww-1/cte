@@ -5,6 +5,7 @@ enum Route {
   ConfirmEmail = '/confirm-email',
   Documents = '/documents',
   DocumentEdit = '/documents/:documentId/edit',
+  NotFound = '/:notFound(.*)',
 }
 
 export { Route };
