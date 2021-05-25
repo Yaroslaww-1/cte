@@ -2,13 +2,15 @@
   <button v-if="!link" :class="mode">
     <slot></slot>
   </button>
-  <router-link v-else :to="to" :class="mode">
+  <button v-else @click="onClick" :class="mode">
     <slot></slot>
-  </router-link>
+  </button>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     mode: {
       type: String,
@@ -26,7 +28,13 @@ export default {
       default: '/',
     },
   },
-};
+
+  methods: {
+    onClick() {
+      this.$router.push(this.to);
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -53,7 +61,7 @@ a {
 .flat {
   background-color: transparent;
   color: #696969;
-  border: none;
+  border: 1px solid gray;
   &:hover,
   &:active {
     background-color: #e8e8e8;

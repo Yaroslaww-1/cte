@@ -1,5 +1,6 @@
 import { Model, RelationMappings } from 'objection';
 import { DocumentModel } from '../document/document.model';
+import BaseModel from '../base.model';
 
 interface IUserModel {
   id: string;
@@ -10,7 +11,7 @@ interface IUserModel {
 }
 
 interface UserModel extends IUserModel {}
-class UserModel extends Model {
+class UserModel extends BaseModel {
   static get tableName(): string {
     return 'users';
   }

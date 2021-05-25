@@ -18,6 +18,12 @@ class DocumentEntity extends BaseEntity {
   @Type(() => UserEntity)
   readonly user!: UserEntity;
 
+  @IsString()
+  readonly createdDate!: Date;
+
+  @IsString()
+  modifiedDate!: Date;
+
   static async newWithDefaults(props: { title: string; content?: string; user: UserEntity }): Promise<DocumentEntity> {
     props.content = '';
     return await super.new(DocumentEntity, props as DocumentEntity);

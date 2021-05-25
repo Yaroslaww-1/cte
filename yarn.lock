@@ -2170,6 +2170,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.14.170":
+  version: 4.14.170
+  resolution: "@types/lodash@npm:4.14.170"
+  checksum: 5ecc968649e764e3204435ba5125a3645e5e83963069a26b9307791698bf47ed9c2bd0f97488d9537eb4753d4bae596e5fa6187437a5b04bf47aba78fa553d50
+  languageName: node
+  linkType: hard
+
+"@types/luxon@npm:^1.26.5":
+  version: 1.26.5
+  resolution: "@types/luxon@npm:1.26.5"
+  checksum: d3c6bdac3c7adaa88f91db3699758ad938c7d05ffe12ab2824d0fd1b57d1e9eef6695ca64a7245cc6350c923064280357a27f8581d101201af1b7bbe1e504756
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:^1":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
@@ -4192,18 +4206,19 @@ __metadata:
     "@types/express": ^4.17.8
     "@types/jest": ^26.0.15
     "@types/jsonwebtoken": ^8.5.1
+    "@types/lodash": ^4.14.170
     "@types/node": ^14.14.6
     "@types/nodemailer": ^6.4.1
     "@types/pg": ^7.14.11
     "@types/pug": ^2.0.4
     "@types/supertest": ^2.0.10
-    "@types/uuid": ^8.3.0
     "@types/ws": ^7.4.0
     bcryptjs: ^2.4.3
     cookie-parser: ^1.4.5
     jest: ^26.6.3
     jsonwebtoken: ^8.5.1
     knex: ^0.21.18
+    lodash: ^4.17.21
     nodemailer: ^6.5.0
     objection: ^2.2.15
     passport: ^0.4.1
@@ -4216,7 +4231,6 @@ __metadata:
     ts-jest: ^26.4.3
     ts-loader: ^8.0.8
     ts-node: ^9.1.1
-    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 
@@ -6033,6 +6047,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cte@workspace:."
   dependencies:
+    "@types/uuid": ^8.3.0
     "@typescript-eslint/eslint-plugin": ^4.16.1
     "@typescript-eslint/parser": ^4.16.1
     eslint: ^7.21.0
@@ -6050,6 +6065,7 @@ __metadata:
     reflect-metadata: ^0.1.13
     sonarlint: ^1.1.0
     typescript: ^4.2.2
+    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 
@@ -7981,6 +7997,7 @@ __metadata:
   resolution: "frontend@workspace:frontend"
   dependencies:
     "@types/fingerprintjs2": ^2.0.0
+    "@types/luxon": ^1.26.5
     "@types/ua-parser-js": ^0.7.35
     "@vue/cli-plugin-babel": ~4.5.0
     "@vue/cli-plugin-eslint": ~4.5.0
@@ -7994,6 +8011,7 @@ __metadata:
     core-js: ^3.6.5
     eslint-plugin-vue: ^7.0.0-0
     fingerprintjs2: ^2.1.4
+    luxon: ^1.26.0
     node-sass: ^4.12.0
     primeicons: ^4.1.0
     primevue: ^3.3.5
@@ -11172,6 +11190,13 @@ fsevents@^1.2.7:
   dependencies:
     yallist: ^4.0.0
   checksum: b8b78353d2391c0f135cdc245c4744ad41c2efb1a6d98f31bc57a2cf48ebf02de96e4876657c3026673576bf1f1f61fc3fdd77ab00ad1ead737537bf17d8019d
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^1.26.0":
+  version: 1.26.0
+  resolution: "luxon@npm:1.26.0"
+  checksum: e12bb8bfdd69707f0f3e57b1b2ff39042c67904bdc437602064519f3eb87d3267497bc56cc0b7611faa40e22019991440a8e8e179d4c6a0440e9f226571fce46
   languageName: node
   linkType: hard
 

@@ -18,11 +18,33 @@ class DocumentMapper implements IBaseMapper<IDocumentModel, DocumentEntity, Docu
   }
 
   async mapToDto(entity: DocumentEntity): Promise<DocumentDto> {
-    return DocumentDto.new(DocumentDto, entity);
+    return DocumentDto.new(DocumentDto, {
+      id: entity.id,
+      title: entity.title,
+      user: entity.user,
+      content: entity.content,
+      createdDate: entity.createdDate.toISOString(),
+      modifiedDate: entity.modifiedDate.toISOString(),
+      // TODO: fix contributorsNames
+      contributorsNames: [],
+    });
   }
 
   async mapToDtoMultiple(entities: DocumentEntity[]): Promise<DocumentDto[]> {
-    return Promise.all(entities.map(entity => DocumentDto.new(DocumentDto, entity)));
+    return Promise.all(
+      entities.map(entity =>
+        DocumentDto.new(DocumentDto, {
+          id: entity.id,
+          title: entity.title,
+          user: entity.user,
+          content: entity.content,
+          createdDate: entity.createdDate.toISOString(),
+          modifiedDate: entity.modifiedDate.toISOString(),
+          // TODO: fix contributorsNames
+          contributorsNames: [],
+        }),
+      ),
+    );
   }
 }
 
