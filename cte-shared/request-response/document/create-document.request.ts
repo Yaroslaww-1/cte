@@ -1,5 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
-import { IsString, IsUUID, IsDate } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 import { BaseDto } from '../../abstraction/base-dto';
 
@@ -13,11 +13,13 @@ class CreateDocumentRequest extends BaseDto<CreateDocumentRequest> {
   @IsString()
   readonly title!: string;
 
-  @IsDate()
-  readonly createdDate!: Date;
+  @Expose()
+  @IsString()
+  readonly createdDate!: string;
 
-  @IsDate()
-  modifiedDate!: Date;
+  @Expose()
+  @IsString()
+  modifiedDate!: string;
 }
 
 export { CreateDocumentRequest };
