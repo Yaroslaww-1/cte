@@ -15,6 +15,8 @@ services:
       - BACKEND_MAILER_EMAIL_PASSWORD
       - BACKEND_FRONTEND_APP_URL
       - BACKEND_COOKIE_DOMAIN
+      - BACKEND_CLIENT_ID
+      - BACKEND_CLIENT_SECRET
     restart: always
     networks:
       - cte-network
