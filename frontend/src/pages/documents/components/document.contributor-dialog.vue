@@ -55,6 +55,7 @@ export default defineComponent({
         this.empty = true;
         return;
       }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const document = documentEditVuexModule.document!;
       documentEditVuexModule.addContributor([document, this.userName]);
       this.toggleContributorDialog();

@@ -25,7 +25,7 @@ export class CreateDocumentUsecase implements IBaseUsecase<CreateDocumentRequest
 
     const document = await DocumentEntity.newWithDefaults({
       title: createDocumentRequest.title,
-      createdDate: new Date(createDocumentRequest.createdDate), 
+      createdDate: new Date(createDocumentRequest.createdDate),
       modifiedDate: new Date(createDocumentRequest.modifiedDate),
       user,
     });

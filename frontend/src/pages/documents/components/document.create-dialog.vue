@@ -60,6 +60,7 @@ export default defineComponent({
         return;
       }
       const id = uuidv4();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const currentUser = authVuexModule.currentUser!;
       const date = new Date();
       const document = await DocumentDto.new(DocumentDto, {

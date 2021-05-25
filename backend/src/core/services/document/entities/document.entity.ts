@@ -24,7 +24,13 @@ class DocumentEntity extends BaseEntity {
   @IsDate()
   modifiedDate!: Date;
 
-  static async newWithDefaults(props: { title: string; content?: string; user: UserEntity, createdDate: Date, modifiedDate: Date }): Promise<DocumentEntity> {
+  static async newWithDefaults(props: {
+    title: string;
+    content?: string;
+    user: UserEntity;
+    createdDate: Date;
+    modifiedDate: Date;
+  }): Promise<DocumentEntity> {
     props.content = '';
     return await super.new(DocumentEntity, props as DocumentEntity);
   }
