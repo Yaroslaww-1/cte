@@ -33,7 +33,9 @@ class RefreshTokensUsecase implements IBaseUsecase<RefreshTokensDto, RefreshToke
       throw new NotFoundException('Refresh session with given refreshToken');
     }
 
-    await oldRefreshSession.verifyFingerprint(fingerprint);
+    if (oldRefreshSession.fingerprint !== 'google-fingerprint') {
+      await oldRefreshSession.verifyFingerprint(fingerprint);
+    }
 
     const user = await this.userDao.findOne({ id: oldRefreshSession.userId });
     if (!user) {

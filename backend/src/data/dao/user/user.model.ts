@@ -6,7 +6,7 @@ interface IUserModel {
   id: string;
   name: string;
   email: string;
-  passwordHash: string;
+  passwordHash?: string;
   confirmEmailToken?: string;
 }
 

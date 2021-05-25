@@ -30,6 +30,8 @@
         <link-button :to="Route.Register" type="button" :link="true" mode="flat" @click="clearInputs">
           Don't have an account? Sign up
         </link-button>
+        <br />
+        <GoogleButton @click="onGoogleGetCode"></GoogleButton>
       </form>
     </base-card>
   </Page>
@@ -39,6 +41,7 @@
 import { defineComponent } from 'vue';
 
 import Page from '@components/page/page.vue';
+import GoogleButton from '@src/components/buttons/google-button.vue';
 import { authVuexModule } from '@src/vuex/store-accessor';
 import { Route } from '@src/router/routes.enum';
 import BaseCard from '@components/cards/card.vue';
@@ -52,6 +55,15 @@ export default defineComponent({
     BaseCard,
     LinkButton,
     InputValidation,
+    GoogleButton,
+  },
+
+  mounted: function () {
+    this.$nextTick(() => {
+      if (this.$route.query.code) {
+        this.onGoogleLogin(String(this.$route.query.code));
+      }
+    });
   },
 
   data() {
@@ -72,6 +84,12 @@ export default defineComponent({
       }
       await authVuexModule.login({ email, password });
       this.clearInputs();
+    },
+    async onGoogleGetCode() {
+      await authVuexModule.getGoogleCode();
+    },
+    async onGoogleLogin(code: string) {
+      await authVuexModule.loginWithGoogle(code);
     },
     clearInputs() {
       this.email = '';

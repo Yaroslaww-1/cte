@@ -16,8 +16,9 @@ class UserEntity extends BaseEntity {
   @IsString()
   readonly email!: string;
 
+  @IsOptional()
   @IsString()
-  readonly passwordHash!: string;
+  readonly passwordHash?: string;
 
   @IsOptional()
   @IsString()
@@ -35,7 +36,7 @@ class UserEntity extends BaseEntity {
 
   isPasswordEqual(password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      bcrypt.compare(password, this.passwordHash, (error, result) => {
+      bcrypt.compare(password, this.passwordHash || '', (error, result) => {
         if (error) return reject(error);
         if (!result) return reject(new InvalidPasswordException());
         return resolve(result);

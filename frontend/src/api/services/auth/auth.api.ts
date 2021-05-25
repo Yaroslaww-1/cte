@@ -14,6 +14,10 @@ class AuthApi {
     return await api.post(`${endpoint}/login`, request);
   }
 
+  static async loginWithGoogle(code: string): Promise<LoginSuccessResponse> {
+    return await api.get(`google-auth/callback?code=${code}`);
+  }
+
   static async logout(): Promise<LogoutSuccessResponse> {
     return await apiWithAuth.post(`${endpoint}/logout`, {});
   }
