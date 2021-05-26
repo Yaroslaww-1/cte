@@ -35,7 +35,7 @@ export class GoogleAuthController {
     const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
     response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
       domain,
-      path: '/api/auth',
+      path: '/api',
       maxAge: loginSuccessResponse.refTokenExpiresInSeconds,
       secure: false,
     });
