@@ -51,9 +51,8 @@ export default defineComponent({
   computed: {
     update(): unknown {
       return debounce(event => {
-        console.log(this.textAfterLastUpdate, event.target.innerHTML);
         this.patchMakeWorker.postMessage({ oldText: this.textAfterLastUpdate, currentText: event.target.innerHTML });
-        this.textCurrent = event.target.innerHTML;
+        this.updateTextCurrent(event.target.innerHTML);
         this.textAfterLastUpdate = event.target.innerHTML;
       }, 100);
     },
@@ -80,6 +79,43 @@ export default defineComponent({
         documentId,
       );
     },
+
+    updateTextCurrent(newText: string) {
+      this.textCurrent = newText;
+      this.$nextTick(() => {
+        this.moveCursorToTheEndOfEditor();
+      });
+    },
+
+    isTextNodeAndContentNotEmpty(node: Node) {
+      const isTextNode = node.nodeType === Node.TEXT_NODE;
+      const nodeText = node.textContent?.trim() ?? '';
+      const isNotEmpty = nodeText.length > 0;
+      return isTextNode && isNotEmpty;
+    },
+
+    moveCursorToTheEndOfEditor() {
+      const editorElement = document.getElementById('editor')!;
+      const range = document.createRange();
+      const selection = window.getSelection()!;
+      let lastKnownIndex = -1;
+      for (let i = 0; i < editorElement.childNodes.length; i++) {
+        if (this.isTextNodeAndContentNotEmpty(editorElement.childNodes[i])) {
+          lastKnownIndex = i;
+        }
+      }
+      if (lastKnownIndex === -1) {
+        throw new Error('Could not find valid text content');
+      }
+      const row = editorElement.childNodes[lastKnownIndex];
+      const col = row.textContent?.length || 0;
+      console.log('col', col);
+      range.setStart(row, col);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      editorElement.focus();
+    },
   },
 
   async mounted(): Promise<void> {
@@ -103,7 +139,7 @@ export default defineComponent({
     });
 
     this.patchApplyWorker.addEventListener('message', async e => {
-      this.textCurrent = e.data;
+      this.updateTextCurrent(e.data);
       this.textAfterLastUpdate = e.data;
     });
   },
