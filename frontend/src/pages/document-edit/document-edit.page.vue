@@ -8,7 +8,7 @@
       :onClickAction="module.onClickAction"
     />
   </div>
-  <div id="editor" contenteditable spellcheck="false" @input="this.update">{{ document?.content }}</div>
+  <div id="editor" contenteditable spellcheck="false" @input="this.update" v-html="textCurrent"></div>
 </template>
 
 <script lang="ts">
@@ -43,15 +43,18 @@ export default defineComponent({
       patchApplyWorker: new PatchApplyWorker(),
       modules: [bold, italic],
       ws: new Ws('documents'),
-      textAfterLastUpdate: document.getElementById('editor')?.innerHTML || '',
+      textCurrent: '',
+      textAfterLastUpdate: '',
     };
   },
 
   computed: {
     update(): unknown {
       return debounce(event => {
+        console.log(this.textAfterLastUpdate, event.target.innerHTML);
         this.patchMakeWorker.postMessage({ oldText: this.textAfterLastUpdate, currentText: event.target.innerHTML });
-        this.textAfterLastUpdate = document.getElementById('editor')?.innerHTML || '';
+        this.textCurrent = event.target.innerHTML;
+        this.textAfterLastUpdate = event.target.innerHTML;
       }, 100);
     },
     document() {
@@ -87,6 +90,7 @@ export default defineComponent({
 
     this.initializeWebsocket({ userId, documentId });
 
+    this.textCurrent = this.document?.content || '';
     this.textAfterLastUpdate = this.document?.content || '';
 
     this.patchMakeWorker.addEventListener('message', async e => {
@@ -99,10 +103,7 @@ export default defineComponent({
     });
 
     this.patchApplyWorker.addEventListener('message', async e => {
-      const editor = document.getElementById('editor');
-      if (editor) {
-        editor.innerHTML = e.data;
-      }
+      this.textCurrent = e.data;
       this.textAfterLastUpdate = e.data;
     });
   },
