@@ -50,7 +50,7 @@ export class DocumentDao extends BaseDao<DocumentModel> {
   async saveOne(createDocument: DocumentEntity): Promise<DocumentEntity> {
     const document = await this.documentModel
       .query()
-      .upsertGraph(createDocument, { insertMissing: true, relate: true })
+      .insertGraph(createDocument, { relate: ['user'] })
       .returning('*');
     return await this.documentMapper.mapToEntity(document);
   }
