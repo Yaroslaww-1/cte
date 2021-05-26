@@ -7,6 +7,8 @@ import router from './router/router';
 
 const app = createApp(App);
 
+console.log(process.env);
+
 app.use(router);
 app.use(store);
 app.use(PrimeVue);
