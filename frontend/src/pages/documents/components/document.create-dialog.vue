@@ -24,11 +24,11 @@ import { defineComponent } from 'vue';
 import { authVuexModule, documentsVuexModule, documentEditVuexModule } from '@src/vuex/store-accessor';
 import CreateDialog from '@components/dialogs/create-dialog.vue';
 import LinkButton from '@components/buttons/link-button.vue';
-import getDateAndTime from '@src/date-time/dateAndTime';
+import getDateAndTime from '@src/shared-frontend/helpers/date-time/dateAndTime';
 import { DocumentDto } from '@shared/dto';
 import { v4 as uuidv4 } from 'uuid';
 import InputValidation from '@src/components/inputs/input-validation.vue';
-import validator from '@src/validation/titleValidator';
+import validator from '@src/shared-frontend/validation/titleValidator';
 import { CreateDocumentRequest } from '@shared/request-response';
 
 export default defineComponent({

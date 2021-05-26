@@ -2,7 +2,7 @@ import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 
 import { DocumentDto } from '@shared/dto';
 import { DocumentApi } from '@src/api/services/document/document.api';
-import getDateAndTime from '@src/date-time/dateAndTime';
+import getDateAndTime from '@src/shared-frontend/helpers/date-time/dateAndTime';
 
 @Module({ namespaced: true, name: 'documentEdit' })
 class DocumentEditVuexModule extends VuexModule {

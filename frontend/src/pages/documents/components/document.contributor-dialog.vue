@@ -25,7 +25,7 @@ import { documentEditVuexModule } from '@src/vuex/store-accessor';
 import ContributorDialog from '@components/dialogs/contributor-dialog.vue';
 import LinkButton from '@components/buttons/link-button.vue';
 import InputValidation from '@src/components/inputs/input-validation.vue';
-import validator from '@src/validation/userNameValidator';
+import validator from '@src/shared-frontend/validation/userNameValidator';
 
 export default defineComponent({
   props: {

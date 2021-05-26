@@ -76,18 +76,7 @@ export default defineComponent({
 
   setup() {
     onMounted(async () => {
-      // await documentsVuexModule.fetchDocuments();
-      // Code below is only for testing purposes
-      const date = new Date();
-      const createDocumentRequest = await CreateDocumentRequest.new(CreateDocumentRequest, {
-        title: 'random title',
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        userId: authVuexModule.currentUser!.id,
-        createdDate: date.toISOString(),
-        modifiedDate: date.toISOString(),
-      });
-      const document = await documentsVuexModule.createDocument(createDocumentRequest);
-      console.log(`Created document: ${JSON.stringify(document)}`);
+      await documentsVuexModule.fetchDocuments();
     });
   },
 });

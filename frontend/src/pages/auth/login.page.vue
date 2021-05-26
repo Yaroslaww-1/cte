@@ -46,7 +46,7 @@ import { authVuexModule } from '@src/vuex/store-accessor';
 import { Route } from '@src/router/routes.enum';
 import BaseCard from '@components/cards/card.vue';
 import LinkButton from '@components/buttons/link-button.vue';
-import { emailValidator, passwordValidator } from '@src/validation/loginValidation';
+import { emailValidator, passwordValidator } from '@src/shared-frontend/validation/loginValidation';
 import InputValidation from '@src/components/inputs/input-validation.vue';
 
 export default defineComponent({

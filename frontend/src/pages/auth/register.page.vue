@@ -68,7 +68,7 @@ import {
   emailValidator,
   passwordValidator,
   confirmPasswordValidator,
-} from '@src/validation/registerValidation';
+} from '@src/shared-frontend/validation/registerValidation';
 import InputValidation from '@components/inputs/input-validation.vue';
 
 export default defineComponent({
