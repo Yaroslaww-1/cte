@@ -23,8 +23,8 @@ class UserModel extends BaseModel {
         id: { type: 'string' },
         name: { type: 'string' },
         email: { type: 'string' },
-        passwordHash: { type: 'string' },
-        confirmEmailToken: { type: 'string' },
+        passwordHash: { type: ['string', 'null'] },
+        confirmEmailToken: { type: ['string', 'null'] },
       },
     };
   }
