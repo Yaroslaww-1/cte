@@ -53,12 +53,14 @@ header {
   height: 5rem;
   background-color: #3f3f3f;
   @include flexCenter(center);
-  a {
+  a,
+  p {
     text-decoration: none;
     color: #cecece;
     display: inline-block;
     padding: 0.75rem 1.5rem;
     border: 1px solid transparent;
+    cursor: pointer;
   }
   nav {
     width: 90%;
@@ -75,6 +77,11 @@ header {
 a:active,
 a:hover,
 a.router-link-active {
+  border: 1px solid #cecece;
+}
+p:active,
+p:hover,
+p.router-link-active {
   border: 1px solid #cecece;
 }
 .logo {

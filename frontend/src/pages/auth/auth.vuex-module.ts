@@ -82,12 +82,15 @@ class AuthVuexModule extends VuexModule {
     const loginResponse = await AuthApi.login(loginDto);
 
     this.updateAuthData(loginResponse);
+    redirectTo(Route.Documents);
   }
 
   @Action({ rawError: true })
   async loginWithGoogle(code: string): Promise<void> {
     const loginResponse = await AuthApi.loginWithGoogle(code);
+
     this.updateAuthData(loginResponse);
+    redirectTo(Route.Documents);
   }
 
   @Action({ rawError: true })
@@ -98,6 +101,7 @@ class AuthVuexModule extends VuexModule {
   @Action({ rawError: true })
   async logout(): Promise<void> {
     await AuthApi.logout();
+
     this.resetAuthData();
     redirectTo(Route.Login);
   }
