@@ -14,7 +14,7 @@ import { UpdateDocumentUsecase } from '@src/core/services/document/usecases/upda
 import { StartEditingDocumentUsecase } from '@src/core/services/document/usecases/start-editing-document.usecase';
 import { StartEditingDocumentDto } from '@src/core/services/document/dto/start-editing-document.dto';
 
-@WebSocketGateway(8080, { path: '/documents' })
+@WebSocketGateway({ path: '/documents' })
 @UsePipes(ConfiguredValidationPipe.new())
 @UseFilters(new WsExceptionsFilter())
 class DocumentsGateway {
