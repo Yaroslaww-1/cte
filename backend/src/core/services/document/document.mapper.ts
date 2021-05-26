@@ -8,7 +8,11 @@ class DocumentMapper implements IBaseMapper<IDocumentModel, DocumentEntity, Docu
   async mapToEntity(model: IDocumentModel): Promise<DocumentEntity> {
     const user = await UserEntity.new(UserEntity, model.user);
     return DocumentEntity.new(DocumentEntity, {
-      ...model,
+      title: model.title,
+      id: model.id,
+      createdDate: new Date(model.createdDate),
+      modifiedDate: new Date(model.modifiedDate),
+      content: model.content,
       user,
     });
   }
@@ -18,11 +22,33 @@ class DocumentMapper implements IBaseMapper<IDocumentModel, DocumentEntity, Docu
   }
 
   async mapToDto(entity: DocumentEntity): Promise<DocumentDto> {
-    return DocumentDto.new(DocumentDto, entity);
+    return DocumentDto.new(DocumentDto, {
+      id: entity.id,
+      title: entity.title,
+      user: entity.user,
+      content: entity.content,
+      createdDate: entity.createdDate.toISOString(),
+      modifiedDate: entity.modifiedDate.toISOString(),
+      // TODO: fix contributorsNames
+      contributorsNames: [],
+    });
   }
 
   async mapToDtoMultiple(entities: DocumentEntity[]): Promise<DocumentDto[]> {
-    return Promise.all(entities.map(entity => DocumentDto.new(DocumentDto, entity)));
+    return Promise.all(
+      entities.map(entity =>
+        DocumentDto.new(DocumentDto, {
+          id: entity.id,
+          title: entity.title,
+          user: entity.user,
+          content: entity.content,
+          createdDate: entity.createdDate.toISOString(),
+          modifiedDate: entity.modifiedDate.toISOString(),
+          // TODO: fix contributorsNames
+          contributorsNames: [],
+        }),
+      ),
+    );
   }
 }
 

@@ -14,6 +14,8 @@ env:
   BACKEND_MAILER_EMAIL_ADDRESS: ${{ secrets.BACKEND_MAILER_EMAIL_ADDRESS }}
   BACKEND_MAILER_EMAIL_PASSWORD: ${{ secrets.BACKEND_MAILER_EMAIL_PASSWORD }}
   BACKEND_COOKIE_DOMAIN: ${{ secrets.BACKEND_COOKIE_DOMAIN }}
+  BACKEND_CLIENT_ID: ${{ secrets.BACKEND_CLIENT_ID }}
+  BACKEND_CLIENT_SECRET: ${{ secrets.BACKEND_CLIENT_SECRET }}
 
 jobs:
   setup-node-modules:
@@ -69,7 +71,7 @@ jobs:
         registry: docker.pkg.github.com
         dockerfile: ./frontend/Dockerfile
         image_tag: latest
-        build_extra_args: "--build-arg VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}"
+        build_extra_args: "--build-arg VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }} --build-arg VUE_APP_API_WS_URL=${{ secrets.VUE_APP_API_WS_URL }}"
 
   deploy:
     needs: [build-backend, build-frontend]
@@ -97,7 +99,7 @@ jobs:
         key: ${{ secrets.DEPLOYMENT_KEY }}
         port: ${{ secrets.DEPLOYMENT_PORT }}
         passphrase: ${{ secrets.DEPLOYMENT_PASSPHRASE }}
-        envs: GITHUB_USERNAME,GITHUB_TOKEN,BACKEND_DATABASE_URL,BACKEND_HOST,BACKEND_PORT,BACKEND_JWT_SECRET,BACKEND_MAILER_EMAIL_ADDRESS,BACKEND_MAILER_EMAIL_PASSWORD,BACKEND_FRONTEND_APP_URL,BACKEND_COOKIE_DOMAIN,VUE_APP_API_URL
+        envs: GITHUB_USERNAME,GITHUB_TOKEN,BACKEND_DATABASE_URL,BACKEND_HOST,BACKEND_PORT,BACKEND_JWT_SECRET,BACKEND_MAILER_EMAIL_ADDRESS,BACKEND_MAILER_EMAIL_PASSWORD,BACKEND_FRONTEND_APP_URL,BACKEND_COOKIE_DOMAIN,VUE_APP_API_URL,BACKEND_CLIENT_ID,BACKEND_CLIENT_SECRET
         script: |
           export GITHUB_USERNAME=$GITHUB_USERNAME
           export GITHUB_TOKEN=$GITHUB_TOKEN
@@ -110,6 +112,8 @@ jobs:
           export BACKEND_MAILER_EMAIL_PASSWORD=$BACKEND_MAILER_EMAIL_PASSWORD
           export BACKEND_FRONTEND_APP_URL=$BACKEND_FRONTEND_APP_URL
           export BACKEND_COOKIE_DOMAIN=$BACKEND_COOKIE_DOMAIN
+          export BACKEND_CLIENT_ID=$BACKEND_CLIENT_ID
+          export BACKEND_CLIENT_SECRET=$BACKEND_CLIENT_SECRET
           export VUE_APP_API_URL=$VUE_APP_API_URL
           cd app
           docker-compose -f docker-compose.prod.yml pull

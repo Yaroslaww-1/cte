@@ -8,10 +8,6 @@ export const parseUrlParams = <T>(params: string): T => {
     comma: true,
     ignoreQueryPrefix: true,
     decoder(value) {
-      if (/^(\d+|\d*\.\d+)$/.test(value)) {
-        return parseFloat(value);
-      }
-
       const keywords = {
         true: true,
         false: false,

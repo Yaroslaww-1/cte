@@ -1,9 +1,9 @@
 <template>
   <header>
     <nav>
-      <h1>
-        <router-link :to="Route.Base">CTE</router-link>
-      </h1>
+      <div class="logo">
+        <router-link :to="Route.Base"><img src="@src/assets/logo.jpg" /></router-link>
+      </div>
       <ul>
         <li>
           <router-link :to="Route.Login">Log In</router-link>
@@ -53,12 +53,14 @@ header {
   height: 5rem;
   background-color: #3f3f3f;
   @include flexCenter(center);
-  a {
+  a,
+  p {
     text-decoration: none;
     color: #cecece;
     display: inline-block;
     padding: 0.75rem 1.5rem;
     border: 1px solid transparent;
+    cursor: pointer;
   }
   nav {
     width: 90%;
@@ -77,7 +79,12 @@ a:hover,
 a.router-link-active {
   border: 1px solid #cecece;
 }
-h1 {
+p:active,
+p:hover,
+p.router-link-active {
+  border: 1px solid #cecece;
+}
+.logo {
   margin: 0;
   a {
     color: white;
@@ -91,5 +98,8 @@ h1 {
 }
 li {
   margin: 0 0.5rem;
+}
+img {
+  height: 55px;
 }
 </style>

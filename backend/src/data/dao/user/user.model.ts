@@ -1,16 +1,17 @@
 import { Model, RelationMappings } from 'objection';
 import { DocumentModel } from '../document/document.model';
+import BaseModel from '../base.model';
 
 interface IUserModel {
   id: string;
   name: string;
   email: string;
-  passwordHash: string;
+  passwordHash?: string;
   confirmEmailToken?: string;
 }
 
 interface UserModel extends IUserModel {}
-class UserModel extends Model {
+class UserModel extends BaseModel {
   static get tableName(): string {
     return 'users';
   }
@@ -22,8 +23,8 @@ class UserModel extends Model {
         id: { type: 'string' },
         name: { type: 'string' },
         email: { type: 'string' },
-        passwordHash: { type: 'string' },
-        confirmEmailToken: { type: 'string' },
+        passwordHash: { type: ['string', 'null'] },
+        confirmEmailToken: { type: ['string', 'null'] },
       },
     };
   }

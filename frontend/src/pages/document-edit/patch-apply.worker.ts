@@ -6,7 +6,7 @@ const patchApply: Worker = self as any;
 const dmp = new DMP();
 
 patchApply.addEventListener('message', event => {
-  const oldText = event.data.oldText;
-  const newText = dmp.patchApply(event.data.patch, oldText)[0];
+  const { currentText, patchOperations } = event.data;
+  const newText = dmp.patchApply(patchOperations, currentText)[0];
   patchApply.postMessage(newText);
 });

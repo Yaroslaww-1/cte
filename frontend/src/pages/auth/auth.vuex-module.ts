@@ -18,6 +18,8 @@ import {
 } from '@shared/request-response';
 import { redirectTo } from '@src/router/helpers';
 
+const API_URL = process.env.VUE_APP_API_URL;
+
 @Module({ namespaced: true, name: 'auth' })
 class AuthVuexModule extends VuexModule {
   currentUser: UserDto | null = null;
@@ -80,11 +82,26 @@ class AuthVuexModule extends VuexModule {
     const loginResponse = await AuthApi.login(loginDto);
 
     this.updateAuthData(loginResponse);
+    redirectTo(Route.Documents);
+  }
+
+  @Action({ rawError: true })
+  async loginWithGoogle(code: string): Promise<void> {
+    const loginResponse = await AuthApi.loginWithGoogle(code);
+
+    this.updateAuthData(loginResponse);
+    redirectTo(Route.Documents);
+  }
+
+  @Action({ rawError: true })
+  async getGoogleCode(): Promise<void> {
+    window.location.href = `${API_URL}google-auth`;
   }
 
   @Action({ rawError: true })
   async logout(): Promise<void> {
     await AuthApi.logout();
+
     this.resetAuthData();
     redirectTo(Route.Login);
   }

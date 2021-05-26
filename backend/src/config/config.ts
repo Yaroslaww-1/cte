@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { IBackendApplicationConfig } from './backend-application.config';
 import { IDatabaseConfig } from './database.config';
+import { IGoogleAuthConfig } from './google-auth.config';
 import { IJwtConfig } from './jwt.config';
 import { IMailerConfig } from './mailer.config';
 
@@ -9,6 +10,7 @@ export const BACKEND_APPLICATION_CONFIG = 'BACKEND_APPLICATION';
 export const DATABASE_CONFIG = 'DATABASE';
 export const JWT_CONFIG = 'JWT';
 export const MAILER_CONFIG = 'MAILER';
+export const GOOGLE_AUTH_CONFIG = 'GOOGLE_AUTH';
 
 export const configFactory = () => ({
   [BACKEND_APPLICATION_CONFIG]: {
@@ -27,4 +29,8 @@ export const configFactory = () => ({
     EMAIL_ADDRESS: process.env.BACKEND_MAILER_EMAIL_ADDRESS,
     EMAIL_PASSWORD: process.env.BACKEND_MAILER_EMAIL_PASSWORD,
   } as IMailerConfig,
+  [GOOGLE_AUTH_CONFIG]: {
+    CLIENT_ID: process.env.BACKEND_CLIENT_ID,
+    CLIENT_SECRET: process.env.BACKEND_CLIENT_SECRET,
+  } as IGoogleAuthConfig,
 });

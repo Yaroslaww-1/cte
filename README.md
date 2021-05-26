@@ -8,6 +8,8 @@ Demo is available here - http://cteapp.online/
 Progress can be tracked [here](https://github.com/Yaroslaww-1/cte/projects/1)
 
 ## MVP (the end of March (lab3 - lab4))
+### Main flow
+![Main flow](https://user-images.githubusercontent.com/40521835/109047657-d008ff80-76de-11eb-89a1-23968d973268.png)
 ### Main flow & Mesurable goals
 1. User logs in by entering his email and password. If user is new to editor, he is able to sign up:
 - by email & password or by Google (MVP+)

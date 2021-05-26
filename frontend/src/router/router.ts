@@ -8,6 +8,7 @@ import RegisterPage from '@pages/auth/register.page.vue';
 import ConfirmEmailPage from '@pages/auth/confirm-email.page.vue';
 import DocumentsPage from '@pages/documents/documents.page.vue';
 import DocumentEditPage from '@pages/document-edit/document-edit.page.vue';
+import NotFoundPage from '@pages/not-found/NotFoundPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -39,6 +40,11 @@ const routes: Array<RouteRecordRaw> = [
     path: Route.DocumentEdit,
     component: DocumentEditPage,
     meta: { isAuth: true },
+  },
+  {
+    path: Route.NotFound,
+    component: NotFoundPage,
+    meta: {},
   },
 ];
 

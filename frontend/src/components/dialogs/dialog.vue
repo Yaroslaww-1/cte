@@ -1,6 +1,6 @@
 <template>
   <teleport to="body">
-    <div v-if="show" @click="tryClose" class="backdrop"></div>
+    <div v-if="show" class="backdrop"></div>
     <transition name="dialog">
       <dialog open v-if="show">
         <header>
@@ -12,9 +12,7 @@
           <slot></slot>
         </section>
         <menu v-if="!fixed">
-          <slot name="actions">
-            <LinkButton @click="tryClose">Close</LinkButton>
-          </slot>
+          <slot name="actions"></slot>
         </menu>
       </dialog>
     </transition>
@@ -22,9 +20,9 @@
 </template>
 
 <script lang="ts">
-import LinkButton from '../buttons/link-button.vue';
-export default {
-  components: { LinkButton },
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     show: {
       type: Boolean,
@@ -40,16 +38,7 @@ export default {
       default: false,
     },
   },
-  emits: ['close'],
-  methods: {
-    tryClose(): void {
-      if (this.fixed) {
-        return;
-      }
-      this.$emit('close');
-    },
-  },
-};
+});
 </script>
 
 <style lang="scss" scoped>

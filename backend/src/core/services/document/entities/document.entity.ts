@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsString, IsUUID, IsObject } from 'class-validator';
+import { IsString, IsUUID, IsObject, IsDate } from 'class-validator';
 
 import { BaseEntity } from '@src/core/abstraction/base-entity';
 import { UserEntity } from '../../user/entities/user.entity';
@@ -18,7 +18,19 @@ class DocumentEntity extends BaseEntity {
   @Type(() => UserEntity)
   readonly user!: UserEntity;
 
-  static async newWithDefaults(props: { title: string; content?: string; user: UserEntity }): Promise<DocumentEntity> {
+  @IsDate()
+  readonly createdDate!: Date;
+
+  @IsDate()
+  modifiedDate!: Date;
+
+  static async newWithDefaults(props: {
+    title: string;
+    content?: string;
+    user: UserEntity;
+    createdDate: Date;
+    modifiedDate: Date;
+  }): Promise<DocumentEntity> {
     props.content = '';
     return await super.new(DocumentEntity, props as DocumentEntity);
   }
