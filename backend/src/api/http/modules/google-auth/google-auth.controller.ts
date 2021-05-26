@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Req, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginSuccessResponse } from '@shared/request-response';
@@ -19,12 +19,12 @@ export class GoogleAuthController {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async googleAuth(@Req() req: unknown): Promise<void> {}
 
-  @Get('callback')
+  @Post('callback')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    @Req() req: any,
+    @Req() req: Request & { user: any },
     @Res({ passthrough: true }) response: Response,
   ): Promise<LoginSuccessResponse> {
     const loginSuccessResponse = await this.googleCreateUserUsecase.execute(req, {
@@ -33,6 +33,7 @@ export class GoogleAuthController {
     });
 
     const domain = this.configService.get<IBackendApplicationConfig>(BACKEND_APPLICATION_CONFIG)?.BACKEND_COOKIE_DOMAIN;
+    console.log(loginSuccessResponse.refreshTokenId);
     response.cookie('refreshTokenId', loginSuccessResponse.refreshTokenId, {
       domain,
       path: '/api',

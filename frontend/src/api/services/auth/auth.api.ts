@@ -15,7 +15,7 @@ class AuthApi {
   }
 
   static async loginWithGoogle(code: string): Promise<LoginSuccessResponse> {
-    return await api.get(`google-auth/callback?code=${code}`);
+    return await api.post(`google-auth/callback?code=${code}`, {});
   }
 
   static async logout(): Promise<LogoutSuccessResponse> {
