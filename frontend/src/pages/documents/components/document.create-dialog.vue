@@ -29,6 +29,7 @@ import { DocumentDto } from '@shared/dto';
 import { v4 as uuidv4 } from 'uuid';
 import InputValidation from '@src/components/inputs/input-validation.vue';
 import validator from '@src/validation/titleValidator';
+import { CreateDocumentRequest } from '@shared/request-response';
 
 export default defineComponent({
   props: {
@@ -59,7 +60,9 @@ export default defineComponent({
         return;
       }
       const id = uuidv4();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const currentUser = authVuexModule.currentUser!;
+      const date = new Date();
       const document = await DocumentDto.new(DocumentDto, {
         id: id,
         title: this.title,
@@ -70,6 +73,14 @@ export default defineComponent({
         modifiedDate: getDateAndTime(),
       });
       documentsVuexModule.addDocument(document);
+      const createDocumentRequest = await CreateDocumentRequest.new(CreateDocumentRequest, {
+        title: this.title,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        userId: authVuexModule.currentUser!.id,
+        createdDate: date.toISOString(),
+        modifiedDate: date.toISOString(),
+      });
+      await documentsVuexModule.createDocument(createDocumentRequest);
       this.toggleCreateDialog();
     },
     toggleCreateDialog(): void {

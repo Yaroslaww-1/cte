@@ -8,7 +8,11 @@ class DocumentMapper implements IBaseMapper<IDocumentModel, DocumentEntity, Docu
   async mapToEntity(model: IDocumentModel): Promise<DocumentEntity> {
     const user = await UserEntity.new(UserEntity, model.user);
     return DocumentEntity.new(DocumentEntity, {
-      ...model,
+      title: model.title,
+      id: model.id,
+      createdDate: new Date(model.createdDate),
+      modifiedDate: new Date(model.modifiedDate),
+      content: model.content,
       user,
     });
   }

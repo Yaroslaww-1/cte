@@ -31,6 +31,7 @@ export default defineComponent({
   methods: {
     deleteDocument(): void {
       this.toggleDeleteDialog();
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const document = documentEditVuexModule.document!;
       const index = documentsVuexModule.documents.findIndex((value: DocumentDto) => value.id === document.id);
       documentsVuexModule.deleteDocument(index);

@@ -12,6 +12,14 @@ class CreateDocumentRequest extends BaseDto<CreateDocumentRequest> {
   @Expose()
   @IsString()
   readonly title!: string;
+
+  @Expose()
+  @IsString()
+  readonly createdDate!: string;
+
+  @Expose()
+  @IsString()
+  modifiedDate!: string;
 }
 
 export { CreateDocumentRequest };

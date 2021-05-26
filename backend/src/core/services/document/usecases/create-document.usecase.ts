@@ -23,7 +23,12 @@ export class CreateDocumentUsecase implements IBaseUsecase<CreateDocumentRequest
       throw new NotFoundException('user');
     }
 
-    const document = await DocumentEntity.newWithDefaults({ ...createDocumentRequest, user });
+    const document = await DocumentEntity.newWithDefaults({
+      title: createDocumentRequest.title,
+      createdDate: new Date(createDocumentRequest.createdDate),
+      modifiedDate: new Date(createDocumentRequest.modifiedDate),
+      user,
+    });
 
     await this.documentDao.saveOne(document);
 
