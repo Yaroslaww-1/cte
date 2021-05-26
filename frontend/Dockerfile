@@ -3,6 +3,9 @@ FROM node:12-alpine as builder
 ARG VUE_APP_API_URL="http://localhost:5001/api"
 ENV VUE_APP_API_URL=${VUE_APP_API_URL}
 
+ARG VUE_APP_API_WS_URL="ws://localhost:8080"
+ENV VUE_APP_API_WS_URL=${VUE_APP_API_WS_URL}
+
 WORKDIR /usr/src/app
 
 # Copy yarn
